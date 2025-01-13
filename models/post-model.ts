@@ -14,7 +14,6 @@ if (!admin.apps.length) {
         ),
         databaseURL: "https://marknotes-f903b-default-rtdb.firebaseio.com/",
     });
-    console.log("Firebase Admin Initialized");
 }
 
 const db = admin.database();
