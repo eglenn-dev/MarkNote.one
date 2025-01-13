@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -8,9 +8,30 @@ import MarkdownPreview from "@/components/markdown-preview";
 export default function Home() {
     const [note, setNote] = useState("");
     const [showPreview, setShowPreview] = useState(false);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+        const adjustTextareaHeight = () => {
+            const textarea = textareaRef.current;
+            if (textarea) {
+                textarea.style.height = "auto";
+                textarea.style.height = `${Math.min(
+                    textarea.scrollHeight,
+                    window.innerHeight * 0.8
+                )}px`;
+            }
+        };
+
+        adjustTextareaHeight();
+        window.addEventListener("resize", adjustTextareaHeight);
+
+        return () => {
+            window.removeEventListener("resize", adjustTextareaHeight);
+        };
+    }, [note]);
 
     return (
-        <div>
+        <div className="flex flex-col flex-grow h-full">
             <div className="flex items-center space-x-2 mb-4">
                 <Switch
                     id="preview-mode"
@@ -33,9 +54,10 @@ export default function Home() {
                 <div
                     className={`${
                         showPreview ? "w-1/2" : "w-full"
-                    } flex flex-col gap-5`}
+                    } flex flex-col gap-5 h-full`}
                 >
                     <textarea
+                        ref={textareaRef}
                         className="w-full h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground"
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
