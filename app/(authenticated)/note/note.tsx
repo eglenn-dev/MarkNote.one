@@ -2,31 +2,14 @@
 import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import MarkdownPreview from "@/components/markdown-preview";
-import { ThemeToggle } from "@/components/theme-toggle";
-import Link from "next/link";
-import { logoutAction } from "./action";
 
 export default function Home() {
     const [note, setNote] = useState("");
     const [showPreview, setShowPreview] = useState(false);
 
     return (
-        <div className="container mx-auto p-4 min-h-screen flex flex-col">
-            <div className="flex justify-between items-center mb-4">
-                <Link href="/" className="text-2xl font-bold">
-                    MarkNote
-                </Link>
-                <form
-                    className="flex items-center space-x-4"
-                    action={logoutAction}
-                >
-                    <Button variant="ghost">Logout</Button>
-                    <ThemeToggle />
-                </form>
-            </div>
-
+        <div>
             <div className="flex items-center space-x-2 mb-4">
                 <Switch
                     id="preview-mode"
@@ -35,7 +18,6 @@ export default function Home() {
                 />
                 <Label htmlFor="preview-mode">Show Preview</Label>
             </div>
-
             <div className={`flex flex-grow ${showPreview ? "space-x-4" : ""}`}>
                 <div className={`${showPreview ? "w-1/2" : "w-full"}`}>
                     <textarea

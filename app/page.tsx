@@ -1,19 +1,36 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { getSession } from "@/lib/session";
+import { logoutAction } from "./action";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+    const session = await getSession();
+
     return (
         <div className="min-h-screen flex flex-col">
             <header className="p-4 flex justify-between items-center">
                 <h1 className="text-2xl font-bold">MarkNote</h1>
                 <div className="flex items-center space-x-4">
-                    <Link href="/login">
-                        <Button variant="ghost">Login</Button>
-                    </Link>
-                    <Link href="/signup">
-                        <Button>Sign Up</Button>
-                    </Link>
+                    {session ? (
+                        <div className="flex items-center space-x-4">
+                            <Link href="/home">
+                                <Button>Dashboard</Button>
+                            </Link>
+                            <form action={logoutAction}>
+                                <Button variant="ghost">Logout</Button>
+                            </form>
+                        </div>
+                    ) : (
+                        <div className="flex items-center space-x-4">
+                            <Link href="/login">
+                                <Button variant="ghost">Login</Button>
+                            </Link>
+                            <Link href="/signup">
+                                <Button>Sign Up</Button>
+                            </Link>
+                        </div>
+                    )}
                     <ThemeToggle />
                 </div>
             </header>
