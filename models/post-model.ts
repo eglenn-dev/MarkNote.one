@@ -23,6 +23,7 @@ interface Post {
     title: string;
     content: string;
     userId: string;
+    lastUpdated: string;
 }
 
 export async function createPost(post: Post) {
@@ -31,7 +32,16 @@ export async function createPost(post: Post) {
     return newPostRef.key;
 }
 
+export async function updatePost(key: string, post: Post) {
+    await postsRef.child(key).update(post);
+}
+
 export async function getPostByKey(key: string) {
+    if (!key || /[.#$[\]]/.test(key)) {
+        throw new Error(
+            'Invalid key. Paths must be non-empty strings and cannot contain ".", "#", "$", "[", or "]"'
+        );
+    }
     const postSnapshot = await postsRef.child(key).once("value");
     return postSnapshot.val();
 }

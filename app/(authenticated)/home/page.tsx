@@ -1,5 +1,7 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default async function homePage() {
     const session = await getSession();
@@ -7,5 +9,12 @@ export default async function homePage() {
 
     // const userId = session.user.userId;
 
-    return <div>You have to be authenticated to view this page.</div>;
+    return (
+        <div>
+            <p>You are authenticated and so you are able to view this page.</p>
+            <Link href="/new-note">
+                <Button>New Note</Button>
+            </Link>
+        </div>
+    );
 }

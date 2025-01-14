@@ -6,6 +6,7 @@ interface Post {
     title: string;
     content: string;
     userId: string;
+    lastUpdated: string;
 }
 
 export async function createUserPost(post: Post) {

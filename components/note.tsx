@@ -1,14 +1,35 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import MarkdownPreview from "@/components/markdown-preview";
+import { createPostAction, updatePostAction } from "./action";
 
-export default function Home() {
+interface NoteEditorProps {
+    userId: string;
+    postKey?: string;
+    post?: {
+        title: string;
+        content: string;
+        userId: string;
+    };
+}
+
+export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
+    const [noteTitle, setNoteTitle] = useState("");
     const [note, setNote] = useState("");
     const [showPreview, setShowPreview] = useState(false);
+    const [postId, setPostId] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+        if (post) {
+            setNoteTitle(post.title);
+            setNote(post.content);
+            setPostId(postKey ? postKey : "");
+        }
+    }, [postKey, post]);
 
     useEffect(() => {
         const adjustTextareaHeight = () => {
@@ -28,7 +49,61 @@ export default function Home() {
         return () => {
             window.removeEventListener("resize", adjustTextareaHeight);
         };
-    }, [note]);
+    }, [note, noteTitle]);
+
+    useEffect(() => {
+        const newNote = async () => {
+            const response = await createPostAction({
+                title: noteTitle,
+                content: note,
+                userId: userId,
+                lastUpdated: new Date().toISOString(),
+            });
+            if (response) {
+                setPostId(response);
+            }
+        };
+
+        if (window.location.pathname === "/new-note" && noteTitle && note) {
+            newNote();
+            if (postId) {
+                window.history.pushState(null, "", `/note/${postId}`);
+            }
+        }
+    }, [noteTitle, note, postId, userId]);
+
+    const handleKeyDown = useCallback(
+        (e: KeyboardEvent) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+                e.preventDefault();
+                setPostId((prevPostId) => {
+                    const post = {
+                        title: noteTitle,
+                        content: note,
+                        userId: userId,
+                        lastUpdated: new Date().toISOString(),
+                    };
+                    updatePostAction(prevPostId, post);
+                    return prevPostId;
+                });
+            } else if (
+                e.key === "Tab" &&
+                document.activeElement === textareaRef.current
+            ) {
+                e.preventDefault();
+                setNote(note + "    ");
+            }
+        },
+        [noteTitle, note, userId, textareaRef]
+    );
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [handleKeyDown]);
 
     return (
         <div className="flex flex-col flex-grow h-full">
@@ -47,7 +122,9 @@ export default function Home() {
                     type="title"
                     required
                     placeholder="Enter note title"
-                    className="mt-1 p-4"
+                    className="mt-1 p-4 h-fit md:text-2xl font-bold"
+                    value={noteTitle}
+                    onChange={(e) => setNoteTitle(e.target.value)}
                 />
             </div>
             <div className={`flex flex-grow ${showPreview ? "space-x-4" : ""}`}>

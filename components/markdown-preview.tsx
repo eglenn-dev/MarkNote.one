@@ -7,6 +7,7 @@ interface MarkdownPreviewProps {
 export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
     return (
         <ReactMarkdown
+            className="whitespace-pre-wrap overflow-x-auto"
             components={{
                 h1: ({ ...props }) => (
                     <h1 className="text-3xl font-bold my-4" {...props} />

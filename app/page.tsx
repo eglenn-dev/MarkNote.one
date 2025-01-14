@@ -15,7 +15,7 @@ export default async function LandingPage() {
                     {session ? (
                         <div className="flex items-center space-x-4">
                             <Link href="/home">
-                                <Button>Dashboard</Button>
+                                <Button>Home</Button>
                             </Link>
                             <form action={logoutAction}>
                                 <Button variant="ghost">Logout</Button>
