@@ -13,8 +13,11 @@ export default function Header() {
                 <Link href="/home">
                     <Button>Home</Button>
                 </Link>
+                <Link href="/new-note">
+                    <Button variant="outline">Note Note</Button>
+                </Link>
                 <form action={logoutAction}>
-                    <Button variant="ghost">Logout</Button>
+                    <Button variant="outline">Logout</Button>
                 </form>
                 <ThemeToggle />
             </div>
