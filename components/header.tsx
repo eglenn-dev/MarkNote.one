@@ -6,13 +6,18 @@ import { ThemeToggle } from "./theme-toggle";
 export default function Header() {
     return (
         <div className="flex justify-between items-center mb-4">
-            <Link href="/" className="text-2xl font-bold">
+            <Link href="/home" className="text-2xl font-bold">
                 MarkNote
             </Link>
-            <form className="flex items-center space-x-4" action={logoutAction}>
-                <Button variant="ghost">Logout</Button>
+            <div className="flex items-center space-x-4">
+                <Link href="/home">
+                    <Button>Home</Button>
+                </Link>
+                <form action={logoutAction}>
+                    <Button variant="ghost">Logout</Button>
+                </form>
                 <ThemeToggle />
-            </form>
+            </div>
         </div>
     );
 }
