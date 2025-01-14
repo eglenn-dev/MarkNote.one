@@ -1,20 +1,34 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
+import { getPostsByUser } from "@/models/post-model";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+
+interface Post {
+    title: string;
+    content: string;
+    userId: string;
+    lastUpdated: string;
+}
 
 export default async function homePage() {
     const session = await getSession();
     if (!session) redirect("/login");
 
-    // const userId = session.user.userId;
+    const userId = session.user.userId;
+    const posts = (await getPostsByUser(userId)) as Record<string, Post>;
 
     return (
         <div>
-            <p>You are authenticated and so you are able to view this page.</p>
-            <Link href="/new-note">
-                <Button>New Note</Button>
-            </Link>
+            <ul>
+                {posts &&
+                    Object.entries(posts).map(([key, post]) => (
+                        <li key={key}>
+                            <Link href={`/note/${key}`}>
+                                <p>{post.title}</p>
+                            </Link>
+                        </li>
+                    ))}
+            </ul>
         </div>
     );
 }
