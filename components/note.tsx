@@ -3,8 +3,10 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import MarkdownPreview from "@/components/markdown-preview";
 import { createPostAction, updatePostAction } from "./action";
+import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
 interface NoteEditorProps {
     userId: string;
@@ -16,11 +18,14 @@ interface NoteEditorProps {
     };
 }
 
+type SaveStatus = "unsaved" | "saving" | "saved" | "error";
+
 export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
     const [noteTitle, setNoteTitle] = useState("");
     const [note, setNote] = useState("");
     const [showPreview, setShowPreview] = useState(false);
     const [postId, setPostId] = useState(postKey || "");
+    const [saveStatus, setSaveStatus] = useState<SaveStatus>("saved");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
@@ -53,34 +58,43 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
     const saveNote = useCallback(async () => {
         if (!noteTitle || !note) return;
 
-        if (!postId) {
-            const response = await createPostAction({
-                title: noteTitle,
-                content: note,
-                userId: userId,
-                lastUpdated: new Date().toISOString(),
-            });
-            if (response) {
-                setPostId(response);
-                history.pushState(null, "", `/note/${response}`);
+        setSaveStatus("saving");
+        try {
+            if (!postId) {
+                const response = await createPostAction({
+                    title: noteTitle,
+                    content: note,
+                    userId: userId,
+                    lastUpdated: new Date().toISOString(),
+                });
+                if (response) {
+                    setPostId(response);
+                    history.pushState(null, "", `/note/${response}`);
+                }
+            } else {
+                await updatePostAction(postId, {
+                    title: noteTitle,
+                    content: note,
+                    userId: userId,
+                    lastUpdated: new Date().toISOString(),
+                });
             }
-        } else {
-            await updatePostAction(postId, {
-                title: noteTitle,
-                content: note,
-                userId: userId,
-                lastUpdated: new Date().toISOString(),
-            });
+            setSaveStatus("saved");
+        } catch (error) {
+            console.error("Error saving note:", error);
+            setSaveStatus("error");
         }
     }, [noteTitle, note, userId, postId]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            saveNote();
+            if (saveStatus !== "saved") {
+                saveNote();
+            }
         }, 2000);
 
         return () => clearTimeout(timer);
-    }, [noteTitle, note, saveNote]);
+    }, [noteTitle, note, saveNote, saveStatus]);
 
     const handleKeyDown = useCallback(
         (e: KeyboardEvent) => {
@@ -114,16 +128,60 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
         };
     }, [handleKeyDown]);
 
+    useEffect(() => {
+        document.title = `${noteTitle || "Untitled Note"} | MarkNote`;
+    }, [noteTitle]);
+
+    useEffect(() => {
+        if (saveStatus === "saved") {
+            setSaveStatus("unsaved");
+        }
+    }, [noteTitle, note]);
+
     return (
         <div className="flex flex-col flex-grow h-full">
-            <div className="flex items-center space-x-2 mb-4">
-                <Switch
-                    id="preview-mode"
-                    checked={showPreview}
-                    onCheckedChange={setShowPreview}
-                />
-                <Label htmlFor="preview-mode">Show Preview</Label>
+            <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                    <Switch
+                        id="preview-mode"
+                        checked={showPreview}
+                        onCheckedChange={setShowPreview}
+                    />
+                    <Label htmlFor="preview-mode">Show Preview</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    {saveStatus === "unsaved" && (
+                        <span className="text-yellow-500">Unsaved changes</span>
+                    )}
+                    {saveStatus === "saving" && (
+                        <span className="text-blue-500 flex items-center">
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Saving...
+                        </span>
+                    )}
+                    {saveStatus === "saved" && (
+                        <span className="text-green-500 flex items-center">
+                            <CheckCircle className="mr-2 h-4 w-4" />
+                            Changes saved
+                        </span>
+                    )}
+                    {saveStatus === "error" && (
+                        <span className="text-red-500 flex items-center">
+                            <AlertCircle className="mr-2 h-4 w-4" />
+                            Error saving changes
+                        </span>
+                    )}
+                </div>
             </div>
+            {saveStatus === "error" && (
+                <Alert variant="destructive" className="mb-4">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                        There was an error saving your changes. Please try
+                        again.
+                    </AlertDescription>
+                </Alert>
+            )}
             <div className="mb-4">
                 <Input
                     id="title"
