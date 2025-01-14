@@ -20,16 +20,15 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
     const [noteTitle, setNoteTitle] = useState("");
     const [note, setNote] = useState("");
     const [showPreview, setShowPreview] = useState(false);
-    const [postId, setPostId] = useState("");
+    const [postId, setPostId] = useState(postKey || "");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
         if (post) {
             setNoteTitle(post.title);
             setNote(post.content);
-            setPostId(postKey ? postKey : "");
         }
-    }, [postKey, post]);
+    }, [post]);
 
     useEffect(() => {
         const adjustTextareaHeight = () => {
@@ -51,8 +50,10 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
         };
     }, [note, noteTitle]);
 
-    useEffect(() => {
-        const newNote = async () => {
+    const saveNote = useCallback(async () => {
+        if (!noteTitle || !note) return;
+
+        if (!postId) {
             const response = await createPostAction({
                 title: noteTitle,
                 content: note,
@@ -61,40 +62,48 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
             });
             if (response) {
                 setPostId(response);
+                history.pushState(null, "", `/note/${response}`);
             }
-        };
-
-        if (window.location.pathname === "/new-note" && noteTitle && note) {
-            newNote();
-            if (postId) {
-                window.history.pushState(null, "", `/note/${postId}`);
-            }
+        } else {
+            await updatePostAction(postId, {
+                title: noteTitle,
+                content: note,
+                userId: userId,
+                lastUpdated: new Date().toISOString(),
+            });
         }
-    }, [noteTitle, note, postId, userId]);
+    }, [noteTitle, note, userId, postId]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            saveNote();
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }, [noteTitle, note, saveNote]);
 
     const handleKeyDown = useCallback(
         (e: KeyboardEvent) => {
             if ((e.ctrlKey || e.metaKey) && e.key === "s") {
                 e.preventDefault();
-                setPostId((prevPostId) => {
-                    const post = {
-                        title: noteTitle,
-                        content: note,
-                        userId: userId,
-                        lastUpdated: new Date().toISOString(),
-                    };
-                    updatePostAction(prevPostId, post);
-                    return prevPostId;
-                });
+                saveNote();
             } else if (
                 e.key === "Tab" &&
                 document.activeElement === textareaRef.current
             ) {
                 e.preventDefault();
-                setNote(note + "    ");
+                const start = textareaRef.current!.selectionStart;
+                const end = textareaRef.current!.selectionEnd;
+                setNote(
+                    note.substring(0, start) + "    " + note.substring(end)
+                );
+                setTimeout(() => {
+                    textareaRef.current!.selectionStart =
+                        textareaRef.current!.selectionEnd = start + 4;
+                }, 0);
             }
         },
-        [noteTitle, note, userId, textareaRef]
+        [note, saveNote]
     );
 
     useEffect(() => {
@@ -121,7 +130,7 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
                     name="title"
                     type="title"
                     required
-                    placeholder="Enter note title"
+                    placeholder={post?.title || "Enter note title"}
                     className="mt-1 p-4 h-fit md:text-2xl font-bold"
                     value={noteTitle}
                     onChange={(e) => setNoteTitle(e.target.value)}
@@ -138,7 +147,9 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
                         className="w-full h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground"
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
-                        placeholder="Write your Markdown here..."
+                        placeholder={
+                            post?.content || "Write your Markdown here..."
+                        }
                     />
                 </div>
                 {showPreview && (
