@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 import Note from "@/components/note";
 
 export const metadata = {
-    title: "New Note | MarkNote"
-}
+    title: "New Note | MarkNote.one",
+};
 
 export default async function NotePage() {
     const session = await getSession();

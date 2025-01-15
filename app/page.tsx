@@ -23,7 +23,7 @@ export default async function LandingPage() {
                             d="m5.41 21l.71-4h-4l.35-2h4l1.06-6h-4l.35-2h4l.71-4h2l-.71 4h6l.71-4h2l-.71 4h4l-.35 2h-4l-1.06 6h4l-.35 2h-4l-.71 4h-2l.71-4h-6l-.71 4zM9.53 9l-1.06 6h6l1.06-6z"
                         ></path>
                     </svg>
-                    <span>MarkNote</span>
+                    <span>MarkNote.one</span>
                 </h1>
                 <div className="flex items-center space-x-4">
                     {session ? (
@@ -50,7 +50,7 @@ export default async function LandingPage() {
             </header>
             <main className="flex-grow flex flex-col items-center justify-center p-4 text-center">
                 <h2 className="text-4xl font-bold mb-4 flex items-center">
-                    Welcome to MarkNote
+                    Welcome to marknote.one
                 </h2>
                 <div className="text-xl mb-8">
                     <HomeMdPreview text="A _powerful_ Markdown **note-taking** app with [live]() `previews`" />
@@ -64,7 +64,8 @@ export default async function LandingPage() {
                 </Link>
             </main>
             <footer className="p-4 text-center text-sm text-muted-foreground">
-                &copy; {new Date().getFullYear()} MarkNote. All rights reserved.
+                &copy; {new Date().getFullYear()} marknote.one. All rights
+                reserved.
             </footer>
         </div>
     );

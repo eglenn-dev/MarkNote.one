@@ -26,7 +26,7 @@ export default function SignupPage() {
         <div className="min-h-screen flex flex-col">
             <header className="p-4 flex justify-between items-center">
                 <Link href="/" className="text-2xl font-bold">
-                    MarkNote
+                    MarkNote.one
                 </Link>
                 <ThemeToggle />
             </header>

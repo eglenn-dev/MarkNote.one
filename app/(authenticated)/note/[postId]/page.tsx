@@ -4,7 +4,7 @@ import { getPostByKey } from "@/models/post-model";
 import Note from "@/components/note";
 
 export const metadata = {
-    title: "Edit Note | MarkNote",
+    title: "Edit Note | MarkNote.one",
 };
 
 export default async function Page({

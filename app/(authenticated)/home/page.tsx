@@ -11,7 +11,7 @@ interface Post {
 }
 
 export const metadata = {
-    title: "Home | MarkNote",
+    title: "Home | MarkNote.one",
     description: "View and manage all your markdown notes",
 };
 
