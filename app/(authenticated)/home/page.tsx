@@ -12,8 +12,8 @@ interface Post {
 
 export const metadata = {
     title: "Home | MarkNote",
-    description: "View and manage all your markdown notes"
-}
+    description: "View and manage all your markdown notes",
+};
 
 export default async function homePage() {
     const session = await getSession();
@@ -31,9 +31,5 @@ export default async function homePage() {
         };
     });
 
-    return (
-        <div>
-            <PostList initialPosts={postsArray} />
-        </div>
-    );
+    return <PostList initialPosts={postsArray} />;
 }

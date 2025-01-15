@@ -10,7 +10,20 @@ export default async function LandingPage() {
     return (
         <div className="min-h-screen flex flex-col">
             <header className="p-4 flex justify-between items-center">
-                <h1 className="text-2xl font-bold">MarkNote</h1>
+                <h1 className="text-2xl font-bold flex items-center space-x-1">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={30}
+                        height={30}
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="m5.41 21l.71-4h-4l.35-2h4l1.06-6h-4l.35-2h4l.71-4h2l-.71 4h6l.71-4h2l-.71 4h4l-.35 2h-4l-1.06 6h4l-.35 2h-4l-.71 4h-2l.71-4h-6l-.71 4zM9.53 9l-1.06 6h6l1.06-6z"
+                        ></path>
+                    </svg>
+                    <span>MarkNote</span>
+                </h1>
                 <div className="flex items-center space-x-4">
                     {session ? (
                         <div className="flex items-center space-x-4">
@@ -35,7 +48,9 @@ export default async function LandingPage() {
                 </div>
             </header>
             <main className="flex-grow flex flex-col items-center justify-center p-4 text-center">
-                <h2 className="text-4xl font-bold mb-4">Welcome to MarkNote</h2>
+                <h2 className="text-4xl font-bold mb-4 flex items-center">
+                    Welcome to MarkNote
+                </h2>
                 <p className="text-xl mb-8">
                     A powerful Markdown note-taking app with live preview
                 </p>
