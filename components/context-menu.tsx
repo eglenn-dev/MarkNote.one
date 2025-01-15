@@ -51,7 +51,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, post, postClick }) => {
                 </Button>
             </Link>
             <Button
-                className="w-full justify-start px-2 py-1.5 h-auto text-destructive hover:text-destructive"
+                className="w-full justify-start px-2 py-1.5 h-auto text-red-500 hover:text-destructive"
                 onClick={handleDelete}
                 variant="ghost"
             >

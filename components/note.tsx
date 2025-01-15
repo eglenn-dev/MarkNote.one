@@ -132,7 +132,10 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
     return (
         <div className="flex flex-col flex-grow h-full">
             <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-2">
+                <div
+                    title="Alt + P to toggle preview mode"
+                    className="flex items-center space-x-2 select-none"
+                >
                     <Switch
                         id="preview-mode"
                         checked={showPreview}
@@ -140,7 +143,7 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
                     />
                     <Label htmlFor="preview-mode">Show Preview</Label>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 select-none">
                     <div className="hidden md:flex items-center space-x-2 text-gray-500">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -208,7 +211,7 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
                     <textarea
                         ref={textareaRef}
                         className="w-full min-h-96 h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground"
-                        defaultValue={post?.content || ""}
+                        value={note}
                         onChange={(e) => setNote(e.target.value)}
                         placeholder={
                             post?.content || "Write your Markdown here..."
