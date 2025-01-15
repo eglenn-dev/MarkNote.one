@@ -18,13 +18,13 @@ export default async function LandingPage() {
                                 <Button>Home</Button>
                             </Link>
                             <form action={logoutAction}>
-                                <Button variant="ghost">Logout</Button>
+                                <Button variant="outline">Logout</Button>
                             </form>
                         </div>
                     ) : (
                         <div className="flex items-center space-x-4">
                             <Link href="/login">
-                                <Button variant="ghost">Login</Button>
+                                <Button variant="outline">Login</Button>
                             </Link>
                             <Link href="/signup">
                                 <Button>Sign Up</Button>
