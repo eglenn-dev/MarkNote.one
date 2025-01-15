@@ -37,7 +37,7 @@ export async function login(formData: FormData) {
         return new NextResponse("Invalid credentials", { status: 401 });
 
     formUserData.name = dbUser.name;
-    const expires = new Date(Date.now() + 60 * 60 * 1000 * 24);
+    const expires = new Date(Date.now() + 60 * 60 * 1000 * 168);
     const userKey = await getKeyByEmail(formUserData.email);
     if (!userKey)
         return new NextResponse("Invalid credentials", { status: 401 });
