@@ -7,7 +7,7 @@ import Analytics from "@/components/analytics";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "MarkNote - Markdown Note Taking App",
+    title: "MarkNote - Markdown Note Taking",
     description: "A powerful Markdown note-taking app with live preview",
 };
 
