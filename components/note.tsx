@@ -21,19 +21,12 @@ interface NoteEditorProps {
 type SaveStatus = "unsaved" | "saving" | "saved" | "error";
 
 export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
-    const [noteTitle, setNoteTitle] = useState("");
-    const [note, setNote] = useState("");
+    const [noteTitle, setNoteTitle] = useState(post?.title || "");
+    const [note, setNote] = useState(post?.content || "");
     const [showPreview, setShowPreview] = useState(false);
     const [postId, setPostId] = useState(postKey || "");
     const [saveStatus, setSaveStatus] = useState<SaveStatus>("saved");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-    useEffect(() => {
-        if (post) {
-            setNoteTitle(post.title);
-            setNote(post.content);
-        }
-    }, [post]);
 
     useEffect(() => {
         const adjustTextareaHeight = () => {
@@ -41,7 +34,7 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
             if (textarea) {
                 textarea.style.height = "auto";
                 textarea.style.height = `${Math.min(
-                    textarea.scrollHeight,
+                    textarea.scrollHeight + 100,
                     window.innerHeight * 0.8
                 )}px`;
             }
@@ -84,7 +77,7 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
             console.error("Error saving note:", error);
             setSaveStatus("error");
         }
-    }, [noteTitle, note, userId, postId]);
+    }, [noteTitle, note, postId, userId]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -92,7 +85,6 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
                 saveNote();
             }
         }, 2000);
-
         return () => clearTimeout(timer);
     }, [noteTitle, note, saveNote, saveStatus]);
 
@@ -115,9 +107,12 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
                     textareaRef.current!.selectionStart =
                         textareaRef.current!.selectionEnd = start + 4;
                 }, 0);
+            } else if (e.altKey && e.key === "p") {
+                e.preventDefault();
+                setShowPreview(!showPreview);
             }
         },
-        [note, saveNote]
+        [note, showPreview, saveNote]
     );
 
     useEffect(() => {
@@ -127,10 +122,6 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
             document.removeEventListener("keydown", handleKeyDown);
         };
     }, [handleKeyDown]);
-
-    useEffect(() => {
-        document.title = `${noteTitle || "Untitled Note"} | MarkNote`;
-    }, [noteTitle]);
 
     useEffect(() => {
         if (saveStatus === "saved") {
@@ -190,7 +181,7 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
                     required
                     placeholder={post?.title || "Enter note title"}
                     className="mt-1 p-4 h-fit md:text-2xl font-bold"
-                    value={noteTitle}
+                    defaultValue={post?.title || ""}
                     onChange={(e) => setNoteTitle(e.target.value)}
                 />
             </div>
@@ -202,8 +193,8 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
                 >
                     <textarea
                         ref={textareaRef}
-                        className="w-full h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground"
-                        value={note}
+                        className="w-full min-h-96 h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground"
+                        defaultValue={post?.content || ""}
                         onChange={(e) => setNote(e.target.value)}
                         placeholder={
                             post?.content || "Write your Markdown here..."

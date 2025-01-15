@@ -3,6 +3,10 @@ import { redirect } from "next/navigation";
 import { getPostByKey } from "@/models/post-model";
 import Note from "@/components/note";
 
+export const metadata = {
+    title: "Edit Note | MarkNote",
+};
+
 export default async function Page({
     params,
 }: {

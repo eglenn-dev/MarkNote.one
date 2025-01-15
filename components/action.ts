@@ -1,6 +1,11 @@
 "use server";
 import { logout } from "@/lib/auth";
-import { createPost, updatePost, getPostByKey } from "@/models/post-model";
+import {
+    createPost,
+    updatePost,
+    getPostByKey,
+    deletePost,
+} from "@/models/post-model";
 import { getSession } from "@/lib/session";
 
 interface Post {
@@ -31,4 +36,14 @@ export async function updatePostAction(postId: string, post: Post) {
     if (!existingPost) return;
     if (session.user.userId !== existingPost.userId) return;
     await updatePost(postId, post);
+}
+
+export async function deletePostAction(postId: string) {
+    if (!postId) return;
+    const session = await getSession();
+    if (!session) return;
+    const existingPost = await getPostByKey(postId);
+    if (!existingPost) return;
+    if (session.user.userId !== existingPost.userId) return;
+    await deletePost(postId);
 }

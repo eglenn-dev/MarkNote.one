@@ -53,3 +53,7 @@ export async function getPostsByUser(userId: string) {
         .once("value");
     return postsSnapshot.val();
 }
+
+export async function deletePost(key: string) {
+    await postsRef.child(key).remove();
+}

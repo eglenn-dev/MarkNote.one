@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
@@ -28,7 +27,13 @@ interface PostListProps {
 }
 
 export default function PostList({ initialPosts }: PostListProps) {
-    const posts = initialPosts;
+    const sortedPosts = [...initialPosts].sort((a, b) => {
+        return (
+            new Date(b.lastUpdated).getTime() -
+            new Date(a.lastUpdated).getTime()
+        );
+    });
+
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedPost, setSelectedPost] = useState<Post | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,7 +43,7 @@ export default function PostList({ initialPosts }: PostListProps) {
         postId: string;
     } | null>(null);
 
-    const filteredPosts = posts.filter(
+    const filteredPosts = sortedPosts.filter(
         (post) =>
             post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             post.content.toLowerCase().includes(searchTerm.toLowerCase())
