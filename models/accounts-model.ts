@@ -25,6 +25,8 @@ interface User {
     name: string;
     role: string;
     joinDate: string;
+    oauth: boolean;
+    username?: string;
 }
 
 export async function getUserByEmail(email: string) {
@@ -135,6 +137,20 @@ export async function createUser(
         password: hashedPassword,
         role: "user",
         joinDate: new Date().toISOString(),
+        oauth: false,
+    };
+    await db.ref("users").push(user);
+}
+
+export async function createOauthUser(username: string) {
+    const user: User = {
+        email: "",
+        name: username,
+        password: "",
+        role: "user",
+        joinDate: new Date().toISOString(),
+        username: username,
+        oauth: true,
     };
     await db.ref("users").push(user);
 }
