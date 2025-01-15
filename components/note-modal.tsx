@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import MarkdownPreview from './markdown-preview';
 import Link from 'next/link';
 
@@ -18,15 +17,6 @@ interface NoteModalProps {
 }
 
 export default function NoteModal({ post, isOpen, onClose }: NoteModalProps) {
-    const [title, setTitle] = useState(post?.title || '')
-    const [content, setContent] = useState(post?.content || '')
-
-    useEffect(() => {
-        if (post) {
-            setTitle(post.title)
-            setContent(post.content)
-        }
-    }, [post])
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>

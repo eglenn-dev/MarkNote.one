@@ -22,7 +22,7 @@ interface PostListProps {
 }
 
 export default function PostList({ initialPosts }: PostListProps) {
-  const [posts, setPosts] = useState(initialPosts)
+  const posts = initialPosts;
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
