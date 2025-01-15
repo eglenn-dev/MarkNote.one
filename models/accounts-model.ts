@@ -54,6 +54,23 @@ export async function getEmailByKey(uid: string) {
     return user.email;
 }
 
+export async function updateUserEmail(uid: string, email: string) {
+    const user = await getUserByKey(uid);
+    if (!user) return false;
+    user.email = email;
+    await db.ref(`users/${uid}`).update(user);
+    return true;
+}
+
+export async function updateUserPassword(uid: string, password: string) {
+    const user = await getUserByKey(uid);
+    if (!user) return false;
+    const hashedPassword = await hashPassword(password);
+    user.password = hashedPassword;
+    await db.ref(`users/${uid}`).update(user);
+    return true;
+}
+
 export async function getKeyByEmail(email: string) {
     const userSnapshot = await db
         .ref("users")

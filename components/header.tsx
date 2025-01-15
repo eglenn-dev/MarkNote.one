@@ -27,6 +27,9 @@ export default function Header() {
                 <Link href="/home">
                     <Button>Home</Button>
                 </Link>
+                <Link href="/account">
+                    <Button variant="outline">Account</Button>
+                </Link>
                 <form action={logoutAction}>
                     <Button variant="outline">Logout</Button>
                 </form>
