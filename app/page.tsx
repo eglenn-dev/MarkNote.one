@@ -3,6 +3,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { getSession } from "@/lib/session";
 import { logoutAction } from "./action";
+import HomeMdPreview from "@/components/home-md-preview";
 
 export default async function LandingPage() {
     const session = await getSession();
@@ -51,9 +52,10 @@ export default async function LandingPage() {
                 <h2 className="text-4xl font-bold mb-4 flex items-center">
                     Welcome to MarkNote
                 </h2>
-                <p className="text-xl mb-8">
-                    A powerful Markdown note-taking app with live preview
-                </p>
+                <div className="text-xl mb-8">
+                    <HomeMdPreview text="A _powerful_ Markdown **note-taking** app with [live]() `previews`" />
+                </div>
+                <div></div>
                 <Link
                     href="/home"
                     className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-md text-lg font-semibold transition-colors"
