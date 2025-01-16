@@ -50,21 +50,21 @@ export default async function LandingPage() {
             </header>
             <main className="flex-grow flex flex-col items-center justify-center p-4 text-center">
                 <h2 className="text-4xl font-bold mb-4 flex items-center">
-                    Welcome to marknote.one
+                    Welcome to MarkNote.one
                 </h2>
                 <div className="text-xl mb-8">
                     <HomeMdPreview text="A _powerful_ Markdown **note-taking** app with [live]() `previews`" />
                 </div>
                 <div></div>
                 <Link
-                    href="/home"
+                    href="/login"
                     className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-md text-lg font-semibold transition-colors"
                 >
                     Start Taking Notes
                 </Link>
             </main>
             <footer className="p-4 text-center text-sm text-muted-foreground">
-                &copy; {new Date().getFullYear()} marknote.one. All rights
+                &copy; {new Date().getFullYear()} MarkNote.one. All rights
                 reserved.
             </footer>
         </div>
