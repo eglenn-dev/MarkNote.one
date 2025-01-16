@@ -205,12 +205,14 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
             <div className={`flex flex-grow ${showPreview ? "space-x-4" : ""}`}>
                 <div
                     className={`${
-                        showPreview ? "w-1/2" : "w-full"
+                        showPreview ? "hidden sm:w-1/2" : "w-full"
                     } flex flex-col gap-5 h-full`}
                 >
                     <textarea
                         ref={textareaRef}
-                        className="w-full min-h-96 h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground"
+                        className={`${
+                            showPreview ? "hidden sm:inline-block" : null
+                        } w-full min-h-96 h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground`}
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
                         placeholder={
@@ -219,7 +221,11 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
                     />
                 </div>
                 {showPreview && (
-                    <div className="w-1/2 h-full p-4 border rounded-md overflow-auto bg-background text-foreground">
+                    <div
+                        className={`${
+                            showPreview ? "w-full sm:w-1/2" : ""
+                        } h-full p-4 border rounded-md overflow-auto bg-background text-foreground`}
+                    >
                         <MarkdownPreview content={note} />
                     </div>
                 )}

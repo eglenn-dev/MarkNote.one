@@ -53,7 +53,7 @@ export default function AccountManagement({
 
     return (
         <div className="min-h-screen flex flex-col">
-            <main className="flex-grow flex flex-col items-center justify-center p-4">
+            <main className="flex-grow flex flex-col items-center p-4">
                 <div className="w-full max-w-md space-y-8">
                     <div className="text-center">
                         <h2 className="text-3xl font-bold">
