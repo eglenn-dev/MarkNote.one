@@ -1,3 +1,11 @@
+import {
+    checkOauthUser,
+    createOauthUser,
+    getKeyByUsername,
+} from "@/models/accounts-model";
+import { cookies } from "next/headers";
+import { encrypt } from "@/lib/session";
+
 export async function GET(request: Request) {
     const body = {
         client_id: process.env.GITHUB_CLIENT_ID,
@@ -49,7 +57,28 @@ export async function GET(request: Request) {
         }
 
         const user = await userResponse.json();
-        console.log("User Data:", user);
+        const githubUsername = user.login;
+
+        if (!(await checkOauthUser(githubUsername)))
+            await createOauthUser(githubUsername);
+
+        const key = await getKeyByUsername(githubUsername);
+
+        if (!key) throw new Error("Failed to get key by username");
+
+        const expires = new Date(Date.now() + 60 * 60 * 1000 * 168);
+        const session = await encrypt({
+            user: { userId: key, role: "user" },
+            expires,
+        });
+
+        (await cookies()).set("session", session, { expires, httpOnly: true });
+        return new Response(null, {
+            status: 302,
+            headers: {
+                Location: "/home",
+            },
+        });
     } catch (e) {
         if (e instanceof Error) {
             return new Response(e.message, { status: 500 });

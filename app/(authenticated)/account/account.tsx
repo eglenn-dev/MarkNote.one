@@ -8,11 +8,13 @@ import { updateEmailAction, updatePasswordAction } from "./action";
 interface AccountManagementProps {
     userId: string;
     userEmail?: string;
+    isOauth?: boolean;
 }
 
 export default function AccountManagement({
     userId,
     userEmail,
+    isOauth,
 }: AccountManagementProps) {
     const [email, setEmail] = useState(userEmail || "");
     const [currentPassword, setCurrentPassword] = useState("");
@@ -37,7 +39,10 @@ export default function AccountManagement({
             alert("New passwords don't match!");
             return;
         }
-        if (!currentPassword) return;
+        if (!currentPassword && !isOauth) {
+            alert("Current password cannot be empty!");
+            return;
+        }
         updatePasswordAction(
             userId,
             currentPassword,
@@ -89,7 +94,7 @@ export default function AccountManagement({
                                 name="current-password"
                                 type="password"
                                 autoComplete="current-password"
-                                required
+                                required={!isOauth}
                                 value={currentPassword}
                                 onChange={(e) =>
                                     setCurrentPassword(e.target.value)

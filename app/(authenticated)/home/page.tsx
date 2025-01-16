@@ -21,6 +21,7 @@ export default async function homePage() {
 
     const userId = session.user.userId;
     const posts = (await getPostsByUser(userId)) as Post[];
+    if (!posts) return <PostList initialPosts={[]} />;
     const postsArray = Object.entries(posts).map(([key, post]) => {
         return {
             id: key,

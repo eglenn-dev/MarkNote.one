@@ -23,11 +23,11 @@ interface Post {
 }
 
 interface PostListProps {
-    initialPosts: Post[];
+    initialPosts?: Post[] | undefined;
 }
 
 export default function PostList({ initialPosts }: PostListProps) {
-    const sortedPosts = [...initialPosts].sort((a, b) => {
+    const sortedPosts = [...(initialPosts || [])].sort((a, b) => {
         return (
             new Date(b.lastUpdated).getTime() -
             new Date(a.lastUpdated).getTime()
@@ -148,9 +148,13 @@ export default function PostList({ initialPosts }: PostListProps) {
                 <ContextMenu
                     x={contextMenu.x}
                     y={contextMenu.y}
-                    post={initialPosts.find(
-                        (post) => post.id === contextMenu.postId
-                    )}
+                    post={
+                        initialPosts
+                            ? initialPosts.find(
+                                  (post) => post.id === contextMenu.postId
+                              )
+                            : undefined
+                    }
                     postClick={handlePostClick}
                 />
             )}

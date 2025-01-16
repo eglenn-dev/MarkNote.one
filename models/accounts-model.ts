@@ -155,6 +155,41 @@ export async function createOauthUser(username: string) {
     await db.ref("users").push(user);
 }
 
+export async function checkOauthUser(username: string) {
+    try {
+        const userSnapshot = await db
+            .ref("users")
+            .orderByChild("username")
+            .equalTo(username)
+            .once("value");
+        const user = userSnapshot.val();
+        return user !== null;
+    } catch (e) {
+        console.error("Error checking oauth user: ", e);
+        return false;
+    }
+}
+
+export async function getKeyByUsername(username: string) {
+    const userSnapshot = await db
+        .ref("users")
+        .orderByChild("username")
+        .equalTo(username)
+        .once("value");
+    const user = userSnapshot.val();
+    if (!user) return null;
+    for (const key in user) {
+        return key;
+    }
+}
+
+export async function getUsernameByKey(uid: string) {
+    const userSnapshot = await db.ref(`users/${uid}`).once("value");
+    const user = userSnapshot.val();
+    if (!user) return null;
+    return user.username;
+}
+
 export async function checkUniqueEmail(email: string) {
     if (email === "") return false;
     const user = await getUserByEmail(email);
