@@ -59,9 +59,16 @@ export async function getEmailByKey(uid: string) {
 export async function updateUserEmail(uid: string, email: string) {
     const user = await getUserByKey(uid);
     if (!user) return false;
+    if (!(await checkUniqueEmailForUser(email))) return false;
     user.email = email;
     await db.ref(`users/${uid}`).update(user);
     return true;
+}
+
+export async function checkUniqueEmailForUser(email: string) {
+    if (email === "") return false;
+    const user = await getUserByEmail(email);
+    return !user || user.email === email;
 }
 
 export async function updateUserPassword(uid: string, password: string) {
