@@ -1,6 +1,7 @@
 {
     "name": "MarkNote.one",
     "short_name": "MarkNote",
+    "start_url": "/home",
     "icons": [
         {
             "src": "/web-app-manifest-192x192.png",
