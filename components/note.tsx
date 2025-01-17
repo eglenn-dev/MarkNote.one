@@ -205,7 +205,7 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
             <div className={`flex flex-grow ${showPreview ? "space-x-4" : ""}`}>
                 <div
                     className={`${
-                        showPreview ? "hidden sm:w-1/2" : "w-full"
+                        showPreview ? "sm:w-1/2" : "w-full"
                     } flex flex-col gap-5 h-full`}
                 >
                     <textarea
