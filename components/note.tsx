@@ -23,7 +23,7 @@ type SaveStatus = "unsaved" | "saving" | "saved" | "error";
 export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
     const [noteTitle, setNoteTitle] = useState(post?.title || "");
     const [note, setNote] = useState(post?.content || "");
-    const [showPreview, setShowPreview] = useState(false);
+    const [showPreview, setShowPreview] = useState(true);
     const [postId, setPostId] = useState(postKey || "");
     const [saveStatus, setSaveStatus] = useState<SaveStatus>("saved");
     const textareaRef = useRef<HTMLTextAreaElement>(null);

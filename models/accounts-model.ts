@@ -1,4 +1,5 @@
 import { hashPassword } from "@/lib/hashing";
+import { createDemoPost } from "./post-model";
 import admin from "firebase-admin";
 
 const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
@@ -147,6 +148,9 @@ export async function createUser(
         oauth: false,
     };
     await db.ref("users").push(user);
+    const userId = await getKeyByEmail(email);
+    if (!userId) return;
+    await createDemoPost(userId);
 }
 
 export async function createOauthUser(username: string) {
@@ -160,6 +164,9 @@ export async function createOauthUser(username: string) {
         oauth: true,
     };
     await db.ref("users").push(user);
+    const userId = await getKeyByUsername(username);
+    if (!userId) return;
+    await createDemoPost(userId);
 }
 
 export async function checkOauthUser(username: string) {
