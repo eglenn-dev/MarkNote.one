@@ -7,6 +7,10 @@ import {
 } from "@/models/accounts-model";
 import AccountManagement from "./account";
 
+export const metadata = {
+    title: "Account | MarkNote.one",
+};
+
 export default async function AccountPage() {
     const session = await getSession();
     if (!session) redirect("/login");

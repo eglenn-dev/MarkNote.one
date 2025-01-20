@@ -3,10 +3,12 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { getSession } from "@/lib/session";
 import { logoutAction } from "./action";
+import { redirect } from "next/navigation";
 import HomeMdPreview from "@/components/home-md-preview";
 
 export default async function LandingPage() {
     const session = await getSession();
+    if (session) redirect("/home");
 
     return (
         <div className="min-h-screen flex flex-col">
