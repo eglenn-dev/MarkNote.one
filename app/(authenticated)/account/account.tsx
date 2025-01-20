@@ -20,11 +20,15 @@ export default function AccountManagement({
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleUpdateEmail = (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         if (!email) {
-            alert("Email cannot be empty!");
+            setError("Email cannot be empty!");
+            setLoading(false);
             return;
         }
         updateEmailAction(userId, email);
@@ -35,12 +39,15 @@ export default function AccountManagement({
 
     const handleUpdatePassword = (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         if (newPassword !== confirmNewPassword) {
-            alert("New passwords don't match!");
+            setError("New passwords don't match!");
+            setLoading(false);
             return;
         }
         if (!currentPassword && !isOauth) {
-            alert("Current password cannot be empty!");
+            setError("Current password cannot be empty!");
+            setLoading(false);
             return;
         }
         updatePasswordAction(
@@ -60,6 +67,11 @@ export default function AccountManagement({
                             Account Management
                         </h2>
                     </div>
+                    {error && (
+                        <div>
+                            <p className="text-red-500">{error}</p>
+                        </div>
+                    )}
                     <form
                         className="mt-8 space-y-6"
                         onSubmit={handleUpdateEmail}
@@ -72,13 +84,17 @@ export default function AccountManagement({
                                 type="email"
                                 autoComplete="email"
                                 required
-                                value={email}
+                                placeholder={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="mt-1"
                             />
                         </div>
-                        <Button type="submit" className="w-full">
-                            Update Email
+                        <Button
+                            type="submit"
+                            className="w-full"
+                            disabled={loading}
+                        >
+                            {loading ? "Updating..." : "Update Email"}
                         </Button>
                     </form>
                     <form
@@ -132,8 +148,12 @@ export default function AccountManagement({
                                 className="mt-1"
                             />
                         </div>
-                        <Button type="submit" className="w-full">
-                            Update Password
+                        <Button
+                            type="submit"
+                            className="w-full"
+                            disabled={loading}
+                        >
+                            {loading ? "Updating..." : "Update Password"}
                         </Button>
                     </form>
                 </div>
