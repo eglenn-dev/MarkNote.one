@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, Search } from "lucide-react";
+import { PlusCircle, Search, UploadCloud } from "lucide-react";
 import NoteModal from "./note-modal";
 import ContextMenu from "./context-menu";
 
@@ -104,6 +104,11 @@ export default function PostList({ initialPosts }: PostListProps) {
                     <Link href="/new-note">
                         <Button>
                             <PlusCircle className="mr-2 h-4 w-4" /> New Note
+                        </Button>
+                    </Link>
+                    <Link href="/upload" className="hidden md:block">
+                        <Button>
+                            <UploadCloud /> Upload File
                         </Button>
                     </Link>
                 </div>
