@@ -7,6 +7,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import MarkdownPreview from "@/components/markdown-preview";
 import { createPostAction, updatePostAction } from "./action";
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import DownloadButton from "./download-button";
 
 interface NoteEditorProps {
     userId: string;
@@ -134,14 +135,23 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
             <div className="flex items-center justify-between mb-4">
                 <div
                     title="Alt + P to toggle preview mode"
-                    className="flex items-center space-x-2 select-none"
+                    className="flex flex-row items-center space-x-2 select-none"
                 >
-                    <Switch
-                        id="preview-mode"
-                        checked={showPreview}
-                        onCheckedChange={setShowPreview}
-                    />
-                    <Label htmlFor="preview-mode">Show Preview</Label>
+                    <div className="flex items-center space-x-2 select-none">
+                        <Switch
+                            id="preview-mode"
+                            checked={showPreview}
+                            onCheckedChange={setShowPreview}
+                        />
+                        <Label htmlFor="preview-mode">Show Preview</Label>
+                    </div>
+                    <div>
+                        <DownloadButton
+                            note={{ title: noteTitle, content: note }}
+                        >
+                            Download
+                        </DownloadButton>
+                    </div>
                 </div>
                 <div className="flex items-center space-x-2 select-none">
                     <div className="hidden md:flex items-center space-x-2 text-gray-500">
