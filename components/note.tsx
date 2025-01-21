@@ -145,7 +145,7 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
                         />
                         <Label htmlFor="preview-mode">Show Preview</Label>
                     </div>
-                    <div>
+                    <div className="hidden sm:block">
                         <DownloadButton
                             note={{ title: noteTitle, content: note }}
                         >
