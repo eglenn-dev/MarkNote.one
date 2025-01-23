@@ -13,7 +13,6 @@ interface User {
 }
 
 export async function login(formData: FormData) {
-    // Get the email and password from the form data
     const formUserData: User = {
         email: formData.get("email")?.toString() || "",
         password: formData.get("password")?.toString() || "",
@@ -21,16 +20,13 @@ export async function login(formData: FormData) {
         role: "",
     };
 
-    // Check if the password is empty
     if (formUserData.password === "")
         return new NextResponse("Missing password", { status: 400 });
 
-    // Get the user from the database
     const dbUser: User = await getUserByEmail(formUserData.email);
     if (!dbUser)
         return new NextResponse("Invalid credentials", { status: 401 });
 
-    // Check if the password is correct
     if (
         (await verifyPassword(formUserData.password, dbUser.password)) === false
     )
