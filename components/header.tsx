@@ -9,6 +9,56 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+
+const shortcuts = [
+    {
+        shortcut: "Alt + N",
+        action: "New note",
+        pages: "/home",
+    },
+    {
+        shortcut: "Alt + U",
+        action: "Upload note",
+        pages: "/home",
+    },
+    {
+        shortcut: "Crtl + S",
+        action: "Save current note",
+        pages: "/note/[id]",
+    },
+    {
+        shortcut: "Alt + P",
+        action: "Toggle live preview",
+        pages: "/note/[id]",
+    },
+    {
+        shortcut: "Alt + M",
+        action: "Toggle menu bar",
+        pages: "/note/[id]",
+    },
+    {
+        shortcut: "Esc",
+        action: "Close note",
+        pages: "/note/[id]",
+    },
+];
 
 export default function Header() {
     return (
@@ -37,12 +87,58 @@ export default function Header() {
                 <Link href="/settings">
                     <Button variant="outline">Settings</Button>
                 </Link>
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Button variant="outline">Docs</Button>
+                    </SheetTrigger>
+                    <SheetContent>
+                        <SheetHeader>
+                            <SheetTitle>Documentation</SheetTitle>
+                            <SheetDescription>
+                                Learn all the tips and tricks to get the most
+                                out of MarkNote.one
+                            </SheetDescription>
+                        </SheetHeader>
+                        <div className="mt-4 flex flex-col">
+                            <Link href="/release-notes">
+                                <Button>View Release Notes</Button>
+                            </Link>
+                            <Table>
+                                <TableCaption>
+                                    Shortcuts available and when you can use
+                                    them.
+                                </TableCaption>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead className="w-[100px]">
+                                            Shortcut
+                                        </TableHead>
+                                        <TableHead>Action</TableHead>
+                                        <TableHead>Pages</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {shortcuts.map((shortcut, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell className="font-medium">
+                                                {shortcut.shortcut}
+                                            </TableCell>
+                                            <TableCell>
+                                                {shortcut.action}
+                                            </TableCell>
+                                            <TableCell>
+                                                {shortcut.pages}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    </SheetContent>
+                </Sheet>
                 <form action={logoutAction}>
                     <Button variant="outline">Logout</Button>
                 </form>
-                <Link href="/release-notes">
-                    <Button variant="outline">Release Notes</Button>
-                </Link>
                 <ThemeToggle />
             </div>
             <div className="md:hidden">
