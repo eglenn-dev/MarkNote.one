@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
     Card,
     CardHeader,
@@ -48,6 +49,24 @@ export default function PostList({ initialPosts }: PostListProps) {
             post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             post.content.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        if (e.altKey && e.key === "n") {
+            e.preventDefault();
+            redirect("/new-note");
+        } else if (e.altKey && e.key === "u") {
+            e.preventDefault();
+            redirect("/upload");
+        }
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [handleKeyDown]);
 
     const handlePostClick = (post: Post) => {
         setSelectedPost(post);

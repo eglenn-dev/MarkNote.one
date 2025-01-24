@@ -40,6 +40,9 @@ export default function Header() {
                 <form action={logoutAction}>
                     <Button variant="outline">Logout</Button>
                 </form>
+                <Link href="/release-notes">
+                    <Button variant="outline">Release Notes</Button>
+                </Link>
                 <ThemeToggle />
             </div>
             <div className="md:hidden">

@@ -11,7 +11,7 @@ export default async function LandingPage() {
     if (session) redirect("/home");
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="container mx-auto min-h-screen flex flex-col">
             <header className="p-4 flex justify-between items-center">
                 <h1 className="text-2xl font-bold flex items-center space-x-1">
                     <svg

@@ -15,9 +15,23 @@ export default function Login() {
     const [gitHubLoading, setGitHubLoading] = useState(false);
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="container mx-auto min-h-screen flex flex-col">
             <header className="p-4 flex justify-between items-center">
-                <Link href="/" className="text-2xl font-bold">
+                <Link
+                    href="/"
+                    className="text-2xl font-bold flex items-center space-x-1"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={30}
+                        height={30}
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="m5.41 21l.71-4h-4l.35-2h4l1.06-6h-4l.35-2h4l.71-4h2l-.71 4h6l.71-4h2l-.71 4h4l-.35 2h-4l-1.06 6h4l-.35 2h-4l-.71 4h-2l.71-4h-6l-.71 4zM9.53 9l-1.06 6h6l1.06-6z"
+                        ></path>
+                    </svg>
                     MarkNote.one
                 </Link>
                 <ThemeToggle />
