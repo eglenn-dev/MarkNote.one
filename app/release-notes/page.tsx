@@ -10,10 +10,11 @@ type Release = {
 const releases: Release[] = [
     {
         version: "1.2.0",
-        date: "2025-01-23",
+        date: "2025-01-25",
         changes: [
             "Added sidebar file list for easier navigation between notes",
             "Implemented file selection and editing functionality",
+            "Added docs popup with list of available shortcuts",
             "Added release notes page to track changes",
         ],
     },
