@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Button } from "./ui/button";
 import { File } from "lucide-react";
 
@@ -20,6 +21,27 @@ interface EditorSidebarProps {
 export default function NoteSidebar({ posts, preference }: EditorSidebarProps) {
     const [menuOpen, setMenuOpen] = useState(preference);
 
+    const handleKeyDown = useCallback(
+        (e: KeyboardEvent) => {
+            if (e.altKey && e.key === "m") {
+                e.preventDefault();
+                setMenuOpen(!menuOpen);
+            } else if (e.key === "Escape") {
+                e.preventDefault();
+                redirect("/home");
+            }
+        },
+        [menuOpen]
+    );
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [handleKeyDown]);
+
     if (posts.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center w-56 h-full gap-3">
@@ -33,7 +55,7 @@ export default function NoteSidebar({ posts, preference }: EditorSidebarProps) {
         <div
             className={`hidden sm:block ${
                 menuOpen ? "w-56" : "w-11"
-            } h-full border-gray-200 select-none transition-all duration-300`}
+            } h-full border-gray-200 select-none transition-all duration-300 overflow-hidden`}
         >
             <div className="flex items-center p-2 gap-2">
                 <div onClick={() => setMenuOpen(!menuOpen)}>
