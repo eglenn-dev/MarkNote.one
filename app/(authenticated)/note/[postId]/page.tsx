@@ -41,6 +41,12 @@ export default async function Page({
         };
     }) as Post[];
 
+    postsArray.sort(
+        (a, b) =>
+            new Date(b.lastUpdated).getTime() -
+            new Date(a.lastUpdated).getTime()
+    );
+
     return (
         <div className="flex flex-row h-full gap-3">
             <NoteSidebar
