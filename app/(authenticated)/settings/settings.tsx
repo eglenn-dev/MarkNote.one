@@ -6,6 +6,15 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
     updateEmailAction,
     updatePasswordAction,
     updateUsernameAction,
@@ -42,6 +51,9 @@ export default function Settings({ userAccount }: AccountManagementProps) {
         e.preventDefault();
         setLoading(true);
         updatePreferencesAction(userAccount.userId, mdPreview, menuOpen);
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     };
 
     const handleUpdateEmail = (e: React.FormEvent) => {
@@ -119,50 +131,76 @@ export default function Settings({ userAccount }: AccountManagementProps) {
                                 onSubmit={handleUpdatePreferences}
                             >
                                 <div className="flex flex-col">
-                                    <Label htmlFor="mdPreview">
-                                        Default Markdown Preview
-                                    </Label>
-                                    <select
-                                        id="mdPreview"
-                                        name="mdPreview"
-                                        className="mt-1 p-1 w-full border border-gray-300 rounded-md"
-                                        onChange={(e) =>
-                                            setMdPreview(
-                                                e.target.value === "true"
-                                            )
-                                        }
-                                        defaultValue={mdPreview.toString()}
+                                    <Label>Default Markdown Preview</Label>
+                                    <Select
+                                        onValueChange={(e) => {
+                                            setMdPreview(e === "true");
+                                        }}
                                     >
-                                        <option value="true">
-                                            Show Preview
-                                        </option>
-                                        <option value="false">
-                                            Hide Preview
-                                        </option>
-                                    </select>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue
+                                                placeholder={
+                                                    mdPreview
+                                                        ? "Show Preview"
+                                                        : "Hide Preview"
+                                                }
+                                            />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>
+                                                    Default MarkDown Preview
+                                                </SelectLabel>
+                                                <SelectItem value="true">
+                                                    Show Preview
+                                                </SelectItem>
+                                                <SelectItem value="false">
+                                                    Hide Preview
+                                                </SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
                                 </div>
                                 <Separator />
                                 <div className="flex flex-col">
-                                    <Label htmlFor="mdPreview">
-                                        Default Menu Preference
-                                    </Label>
-                                    <select
-                                        id="menuOpen"
-                                        name="menuOpen"
-                                        className="mt-1 p-1 w-full border border-gray-300 rounded-md"
-                                        onChange={(e) =>
-                                            setMenuOpen(
-                                                e.target.value === "true"
-                                            )
-                                        }
-                                        defaultValue={menuOpen.toString()}
+                                    <Label>Default Menu Preference</Label>
+                                    <Select
+                                        onValueChange={(e) => {
+                                            setMenuOpen(e === "true");
+                                        }}
                                     >
-                                        <option value="true">Show Menu</option>
-                                        <option value="false">Hide Menu</option>
-                                    </select>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue
+                                                placeholder={
+                                                    menuOpen
+                                                        ? "Show Menu"
+                                                        : "Hide Menu"
+                                                }
+                                            />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>
+                                                    Default Menu Preference
+                                                </SelectLabel>
+                                                <SelectItem value="true">
+                                                    Show Menu
+                                                </SelectItem>
+                                                <SelectItem value="false">
+                                                    Hide Menu
+                                                </SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
                                 </div>
-                                <Button type="submit" className="w-full">
-                                    Update Preferences
+                                <Button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full"
+                                >
+                                    {loading
+                                        ? "Updating..."
+                                        : "Update Preferences"}
                                 </Button>
                             </form>
                         </TabsContent>
