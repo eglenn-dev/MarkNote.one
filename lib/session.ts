@@ -10,15 +10,14 @@ interface UserSession {
     user: {
         userId: string;
         role: string;
+        menuOpen: boolean;
+        mdPreview: boolean;
     };
     expires: Date;
 }
 
-export async function encrypt(payload: {
-    user: { userId: string; role: string };
-    expires: Date;
-}) {
-    return await new SignJWT(payload)
+export async function encrypt(payload: UserSession) {
+    return await new SignJWT({ ...payload })
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
         .setExpirationTime(payload.expires)
@@ -34,6 +33,8 @@ export async function decrypt(input: string): Promise<UserSession | null> {
             user: {
                 userId: string;
                 role: string;
+                menuOpen: boolean;
+                mdPreview: boolean;
             };
             expires: Date;
         };
@@ -67,6 +68,8 @@ export async function updateSession(request: NextRequest) {
         user: {
             userId: parsed.user.userId,
             role: parsed.user.role,
+            menuOpen: parsed.user.menuOpen,
+            mdPreview: parsed.user.mdPreview,
         },
         expires: parsed.expires,
     };

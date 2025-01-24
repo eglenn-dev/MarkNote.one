@@ -10,10 +10,14 @@ interface User {
     password: string;
     name: string;
     role: string;
+    preferences: {
+        mdPreview: boolean;
+        menuOpen: boolean;
+    };
 }
 
 export async function login(formData: FormData) {
-    const formUserData: User = {
+    const formUserData = {
         email: formData.get("email")?.toString() || "",
         password: formData.get("password")?.toString() || "",
         name: formData.get("name")?.toString() || "",
@@ -41,6 +45,8 @@ export async function login(formData: FormData) {
         user: {
             userId: userKey,
             role: dbUser.role,
+            menuOpen: dbUser.preferences.menuOpen ? true : false,
+            mdPreview: dbUser.preferences.mdPreview ? true : false,
         },
         expires,
     });

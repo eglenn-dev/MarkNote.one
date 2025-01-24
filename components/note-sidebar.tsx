@@ -14,10 +14,11 @@ interface Post {
 
 interface EditorSidebarProps {
     posts: Post[];
+    preference: boolean;
 }
 
-export default function NoteSidebar({ posts }: EditorSidebarProps) {
-    const [menuOpen, setMenuOpen] = useState(true);
+export default function NoteSidebar({ posts, preference }: EditorSidebarProps) {
+    const [menuOpen, setMenuOpen] = useState(preference);
 
     if (posts.length === 0) {
         return (
@@ -30,11 +31,11 @@ export default function NoteSidebar({ posts }: EditorSidebarProps) {
 
     return (
         <div
-            className={`${
+            className={`hidden sm:block ${
                 menuOpen ? "w-56" : "w-11"
             } h-full border-gray-200 select-none transition-all duration-300`}
         >
-            <div className="flex items-center p-2 gap-2s">
+            <div className="flex items-center p-2 gap-2">
                 <div onClick={() => setMenuOpen(!menuOpen)}>
                     {menuOpen ? <OpenedMenu /> : <ClosedMenu />}
                 </div>

@@ -34,8 +34,8 @@ export default function Header() {
                 <Link href="/home">
                     <Button>Home</Button>
                 </Link>
-                <Link href="/account">
-                    <Button variant="outline">Account</Button>
+                <Link href="/settings">
+                    <Button variant="outline">Settings</Button>
                 </Link>
                 <form action={logoutAction}>
                     <Button variant="outline">Logout</Button>
@@ -60,8 +60,8 @@ export default function Header() {
                             className="text-lg font-semibold"
                             asChild
                         >
-                            <Link className="h-11" href="/account">
-                                Account
+                            <Link className="h-11" href="/settings">
+                                Settings
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem className="text-lg font-semibold">

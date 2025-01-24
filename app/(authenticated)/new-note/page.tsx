@@ -10,5 +10,10 @@ export default async function NotePage() {
     const session = await getSession();
     if (!session) redirect("/login");
 
-    return <Note userId={session.user.userId} />;
+    return (
+        <Note
+            userId={session.user.userId}
+            preference={session.user.mdPreview}
+        />
+    );
 }

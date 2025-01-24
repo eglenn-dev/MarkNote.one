@@ -43,9 +43,13 @@ export default async function Page({
 
     return (
         <div className="flex flex-row h-full gap-3">
-            <NoteSidebar posts={postsArray} />
+            <NoteSidebar
+                posts={postsArray}
+                preference={session.user.menuOpen}
+            />
             <Note
                 userId={session.user.userId}
+                preference={session.user.mdPreview}
                 postKey={(await params).postId}
                 post={post}
             />

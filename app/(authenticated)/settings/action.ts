@@ -1,7 +1,8 @@
 "use server";
-import { getSession } from "@/lib/session";
+import { getSession, encrypt } from "@/lib/session";
 import { verifyPassword } from "@/lib/hashing";
 import { logout } from "@/lib/auth";
+import { cookies } from "next/headers";
 import {
     updateUserEmail,
     getEmailByKey,
@@ -9,6 +10,8 @@ import {
     getUserByKey,
     checkOauthUser,
     getUsernameByKey,
+    updateUserUsername,
+    updateUserPreferences,
 } from "@/models/accounts-model";
 
 export async function updateEmailAction(userId: string, email: string) {
@@ -55,4 +58,30 @@ export async function updatePasswordAction(
     if (newPassword !== confirmNewPassword) return null;
     await updateUserPassword(userId, newPassword);
     await logout();
+}
+
+export async function updateUsernameAction(userId: string, username: string) {
+    const session = await getSession();
+    if (!session) return null;
+    if (session.user.userId !== userId) return null;
+    const dbUsername = await getUsernameByKey(userId);
+    if (dbUsername === username) return null;
+    return await updateUserUsername(userId, username);
+}
+
+export async function updatePreferencesAction(
+    userId: string,
+    mdPreview: boolean,
+    menuOpen: boolean
+) {
+    const session = await getSession();
+    if (!session) return null;
+    if (session.user.userId !== userId) return null;
+    await updateUserPreferences(userId, mdPreview, menuOpen);
+    session.user.mdPreview = mdPreview;
+    session.user.menuOpen = menuOpen;
+    const expires = new Date(Date.now() + 60 * 60 * 1000 * 168);
+    session.expires = expires;
+    const newSession = await encrypt(session);
+    (await cookies()).set("session", newSession, { expires, httpOnly: true });
 }

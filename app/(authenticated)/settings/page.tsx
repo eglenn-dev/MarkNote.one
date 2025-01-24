@@ -5,10 +5,10 @@ import {
     checkOauthUser,
     getUsernameByKey,
 } from "@/models/accounts-model";
-import AccountManagement from "./account";
+import Settings from "./settings";
 
 export const metadata = {
-    title: "Account | MarkNote.one",
+    title: "Settings | MarkNote.one",
 };
 
 export default async function AccountPage() {
@@ -19,11 +19,16 @@ export default async function AccountPage() {
     const username = await getUsernameByKey(session.user.userId);
     const isOauth = await checkOauthUser(username);
 
-    return (
-        <AccountManagement
-            userId={session.user.userId}
-            userEmail={userEmail}
-            isOauth={isOauth}
-        />
-    );
+    const userAccount = {
+        userId: session.user.userId,
+        preferences: {
+            mdPreview: session.user.mdPreview,
+            menuOpen: session.user.menuOpen,
+        },
+        username: username,
+        userEmail: userEmail,
+        isOauth: isOauth,
+    };
+
+    return <Settings userAccount={userAccount} />;
 }

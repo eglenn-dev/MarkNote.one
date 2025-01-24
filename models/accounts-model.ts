@@ -28,6 +28,10 @@ interface User {
     joinDate: string;
     oauth: boolean;
     username?: string;
+    preferences: {
+        mdPreview: boolean;
+        menuOpen: boolean;
+    };
 }
 
 export async function getUserByEmail(email: string) {
@@ -62,6 +66,14 @@ export async function updateUserEmail(uid: string, email: string) {
     if (!user) return false;
     if (!(await checkUniqueEmailForUser(email))) return false;
     user.email = email;
+    await db.ref(`users/${uid}`).update(user);
+    return true;
+}
+
+export async function updateUserUsername(uid: string, username: string) {
+    const user = await getUserByKey(uid);
+    if (!user) return false;
+    user.username = username;
     await db.ref(`users/${uid}`).update(user);
     return true;
 }
@@ -146,6 +158,10 @@ export async function createUser(
         role: "user",
         joinDate: new Date().toISOString(),
         oauth: false,
+        preferences: {
+            mdPreview: true,
+            menuOpen: true,
+        },
     };
     await db.ref("users").push(user);
     const userId = await getKeyByEmail(email);
@@ -162,11 +178,28 @@ export async function createOauthUser(username: string) {
         joinDate: new Date().toISOString(),
         username: username,
         oauth: true,
+        preferences: {
+            mdPreview: true,
+            menuOpen: true,
+        },
     };
     await db.ref("users").push(user);
     const userId = await getKeyByUsername(username);
     if (!userId) return;
     await createDemoPost(userId);
+}
+
+export async function updateUserPreferences(
+    uid: string,
+    mdPreview: boolean,
+    menuOpen: boolean
+) {
+    const user = await getUserByKey(uid);
+    if (!user) return false;
+    user.preferences.mdPreview = mdPreview;
+    user.preferences.menuOpen = menuOpen;
+    await db.ref(`users/${uid}`).update(user);
+    return true;
 }
 
 export async function checkOauthUser(username: string) {

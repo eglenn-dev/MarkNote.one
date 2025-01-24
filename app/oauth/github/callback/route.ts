@@ -2,6 +2,7 @@ import {
     checkOauthUser,
     createOauthUser,
     getKeyByUsername,
+    getUserByKey,
 } from "@/models/accounts-model";
 import { cookies } from "next/headers";
 import { encrypt } from "@/lib/session";
@@ -63,12 +64,18 @@ export async function GET(request: Request) {
             await createOauthUser(githubUsername);
 
         const key = await getKeyByUsername(githubUsername);
-
         if (!key) throw new Error("Failed to get key by username");
 
+        const dbUser = await getUserByKey(key);
+        if (!user) throw new Error("Failed to get user by key");
         const expires = new Date(Date.now() + 60 * 60 * 1000 * 168);
         const session = await encrypt({
-            user: { userId: key, role: "user" },
+            user: {
+                userId: key,
+                role: "user",
+                menuOpen: dbUser.preferences.menuOpen || true,
+                mdPreview: dbUser.preferences.mdPreview || true,
+            },
             expires,
         });
 

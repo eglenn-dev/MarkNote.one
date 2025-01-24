@@ -11,6 +11,7 @@ import DownloadButton from "./download-button";
 
 interface NoteEditorProps {
     userId: string;
+    preference: boolean;
     postKey?: string;
     post?: {
         title: string;
@@ -21,10 +22,15 @@ interface NoteEditorProps {
 
 type SaveStatus = "unsaved" | "saving" | "saved" | "error";
 
-export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
+export default function NoteEditor({
+    userId,
+    preference,
+    postKey,
+    post,
+}: NoteEditorProps) {
     const [noteTitle, setNoteTitle] = useState(post?.title || "");
     const [note, setNote] = useState(post?.content || "");
-    const [showPreview, setShowPreview] = useState(true);
+    const [showPreview, setShowPreview] = useState(preference);
     const [postId, setPostId] = useState(postKey || "");
     const [saveStatus, setSaveStatus] = useState<SaveStatus>("saved");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -212,7 +218,11 @@ export default function NoteEditor({ userId, postKey, post }: NoteEditorProps) {
                     onChange={(e) => setNoteTitle(e.target.value)}
                 />
             </div>
-            <div className={`flex flex-grow ${showPreview ? "space-x-4" : ""}`}>
+            <div
+                className={`flex flex-grow ${
+                    showPreview ? " sm:space-x-4" : ""
+                }`}
+            >
                 <div
                     className={`${
                         showPreview ? "sm:w-1/2" : "w-full"
