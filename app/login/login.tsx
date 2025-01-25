@@ -118,6 +118,7 @@ export default function Login() {
                                 variant="outline"
                                 className="w-full"
                                 onClick={() => setGitHubLoading(true)}
+                                disabled={gitHubLoading}
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
