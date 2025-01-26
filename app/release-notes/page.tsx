@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 
+export const metadata = {
+    title: "Release Notes | MarkNote.one",
+    description: "Release notes for MarkNote.one",
+};
+
 type Release = {
     version: string;
     date: string;
