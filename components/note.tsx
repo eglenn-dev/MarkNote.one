@@ -137,7 +137,7 @@ export default function NoteEditor({
     }, [noteTitle, note]);
 
     return (
-        <div className="flex flex-col flex-grow h-full">
+        <div className="flex flex-col w-full h-full">
             <div className="flex items-center justify-between mb-4">
                 <div
                     title="Alt + P to toggle preview mode"
@@ -219,7 +219,7 @@ export default function NoteEditor({
                 />
             </div>
             <div
-                className={`flex flex-grow ${
+                className={`flex flex-grow transition-all duration-300 ease-in-out ${
                     showPreview ? " sm:space-x-4" : ""
                 }`}
             >
@@ -235,20 +235,29 @@ export default function NoteEditor({
                         } w-full min-h-96 h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground`}
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
+                        spellCheck={false}
                         placeholder={
                             post?.content || "Write your Markdown here..."
                         }
                     />
                 </div>
-                {showPreview && (
+                <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out  ${
+                        showPreview
+                            ? "w-full sm:w-1/2 h-full opacity-100"
+                            : "w-0 h-0 opacity-0"
+                    }`}
+                >
                     <div
                         className={`${
-                            showPreview ? "w-full sm:w-1/2" : ""
-                        } h-full p-4 border rounded-md overflow-auto bg-background text-foreground`}
+                            showPreview
+                                ? "h-full p-4 border rounded-md overflow-auto bg-background text-foreground"
+                                : "hidden"
+                        }`}
                     >
                         <MarkdownPreview content={note} />
                     </div>
-                )}
+                </div>
             </div>
         </div>
     );

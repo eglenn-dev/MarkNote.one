@@ -53,23 +53,33 @@ export default function NoteSidebar({ posts, preference }: EditorSidebarProps) {
 
     return (
         <div
-            className={`hidden sm:block ${
-                menuOpen ? "w-56" : "w-11"
-            } h-full border-gray-200 select-none transition-all duration-300 overflow-hidden`}
+            className={`hidden sm:block transition-all duration-300 ease-in-out ${
+                menuOpen ? "w-60" : "w-12"
+            } h-full border-gray-200 select-none overflow-hidden`}
         >
             <div className="flex items-center p-2 gap-2">
                 <div onClick={() => setMenuOpen(!menuOpen)}>
-                    {menuOpen ? <OpenedMenu /> : <ClosedMenu />}
+                    {menuOpen ? (
+                        <OpenedMenu size={30} />
+                    ) : (
+                        <ClosedMenu size={30} />
+                    )}
                 </div>
                 <h3
-                    className={
-                        menuOpen ? "text-lg font-bold text-center" : "hidden"
-                    }
+                    className={`transition-opacity duration-300 ${
+                        menuOpen
+                            ? "text-lg font-bold text-center opacity-100"
+                            : "hidden"
+                    }`}
                 >
                     Files
                 </h3>
             </div>
-            <div className={menuOpen ? "h-full" : "hidden"}>
+            <div
+                className={`transition-all duration-300 overflow-hidden ${
+                    menuOpen ? "h-full opacity-100" : "hidden"
+                } flex flex-col`}
+            >
                 {posts.map((post) => (
                     <Link key={post.title} href={`/note/${post.id}`}>
                         <Button variant="ghost" className="text-xs">
@@ -84,12 +94,16 @@ export default function NoteSidebar({ posts, preference }: EditorSidebarProps) {
     );
 }
 
-function ClosedMenu() {
+interface IconProps {
+    size?: number;
+}
+
+function ClosedMenu({ size = 24 }: IconProps) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={24}
-            height={24}
+            width={size}
+            height={size}
             viewBox="0 0 24 24"
         >
             <path
@@ -100,12 +114,12 @@ function ClosedMenu() {
     );
 }
 
-function OpenedMenu() {
+function OpenedMenu({ size = 24 }: IconProps) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={24}
-            height={24}
+            width={size}
+            height={size}
             viewBox="0 0 24 24"
         >
             <path

@@ -7,10 +7,13 @@ interface MarkdownPreviewProps {
 export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
     return (
         <ReactMarkdown
-            className="whitespace-pre-wrap overflow-x-auto h-fit overflow-y-hidden"
+            className="overflow-x-auto h-fit overflow-y-hidden leading-7 flex flex-col gap-1"
             components={{
                 h1: ({ ...props }) => (
-                    <h1 className="text-3xl font-bold my-4" {...props} />
+                    <h1
+                        className="text-3xl font-bold my-4 p-2 border-b"
+                        {...props}
+                    />
                 ),
                 h2: ({ ...props }) => (
                     <h2 className="text-2xl font-bold my-3" {...props} />
@@ -29,12 +32,12 @@ export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
                 ),
                 p: ({ ...props }) => <p className="my-2" {...props} />,
                 ul: ({ ...props }) => (
-                    <ul className="list-disc list-inside my-2" {...props} />
+                    <ul className="list-disc my-2" {...props} />
                 ),
                 ol: ({ ...props }) => (
-                    <ol className="list-decimal list-inside my-2" {...props} />
+                    <ol className="list-decimal my-2" {...props} />
                 ),
-                li: ({ ...props }) => <li className="ml-4" {...props} />,
+                li: ({ ...props }) => <li className="ml-6" {...props} />,
                 a: ({ ...props }) => (
                     <a
                         className="text-blue-500 dark:text-blue-400 hover:underline"
