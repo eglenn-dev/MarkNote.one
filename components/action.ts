@@ -5,6 +5,7 @@ import {
     updatePost,
     getPostByKey,
     deletePost,
+    createDemoPost,
 } from "@/models/post-model";
 import { getSession } from "@/lib/session";
 
@@ -46,4 +47,10 @@ export async function deletePostAction(postId: string) {
     if (!existingPost) return;
     if (session.user.userId !== existingPost.userId) return;
     await deletePost(postId);
+}
+
+export async function createDemoPostAction() {
+    const session = await getSession();
+    if (!session) return;
+    await createDemoPost(session.user.userId);
 }

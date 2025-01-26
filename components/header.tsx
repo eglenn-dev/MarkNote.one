@@ -3,6 +3,7 @@ import { logoutAction } from "./action";
 import { Button } from "./ui/button";
 import { ThemeToggle } from "./theme-toggle";
 import { Menu } from "lucide-react";
+import { createDemoPostAction } from "./action";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -134,6 +135,15 @@ export default function Header() {
                                 </TableBody>
                             </Table>
                         </div>
+                        <form action={createDemoPostAction}>
+                            <Button
+                                type="submit"
+                                variant="outline"
+                                className="mt-4"
+                            >
+                                Create Demo Post
+                            </Button>
+                        </form>
                     </SheetContent>
                 </Sheet>
                 <form action={logoutAction}>
