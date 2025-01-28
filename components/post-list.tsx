@@ -90,9 +90,9 @@ export default function PostList({ initialPosts }: PostListProps) {
     }, []);
 
     return (
-        <div>
-            <div className="flex justify-between items-center mb-6">
-                <div className="relative w-full max-w-sm">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+                <div className="relative w-full sm:max-w-sm">
                     <Input
                         type="text"
                         placeholder="Search notes..."
@@ -105,7 +105,7 @@ export default function PostList({ initialPosts }: PostListProps) {
                         size={18}
                     />
                 </div>
-                <div className="flex items-center space-x-4 flex-row">
+                <div className="flex items-center space-x-4 w-full sm:w-auto justify-between sm:justify-end">
                     <div className="hidden md:flex items-center space-x-2 text-gray-500">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -127,22 +127,24 @@ export default function PostList({ initialPosts }: PostListProps) {
                     </Link>
                     <Link href="/upload" className="hidden md:block">
                         <Button>
-                            <UploadCloud /> Upload File
+                            <UploadCloud className="mr-2 h-4 w-4" /> Upload File
                         </Button>
                     </Link>
                 </div>
             </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredPosts.map((post) => (
                     <Link
                         href={`/note/${post.id}`}
                         key={post.id}
                         onContextMenu={(e) => handleContextMenu(e, post.id)}
                     >
-                        <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+                        <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer overflow-hidden">
                             <CardHeader className="pb-2">
-                                <CardTitle>{post.title}</CardTitle>
-                                <CardDescription>
+                                <CardTitle className="text-lg truncate">
+                                    {post.title}
+                                </CardTitle>
+                                <CardDescription className="text-sm">
                                     Last updated:{" "}
                                     {new Date(
                                         post.lastUpdated
@@ -150,7 +152,7 @@ export default function PostList({ initialPosts }: PostListProps) {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-gray-600 line-clamp-3">
+                                <p className="text-sm text-gray-600 line-clamp-3 break-words overflow-hidden">
                                     {post.content}
                                 </p>
                             </CardContent>
