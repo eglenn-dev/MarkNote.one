@@ -39,6 +39,7 @@ export default async function Page({
             content: post.content,
             userId: post.userId,
             lastUpdated: post.lastUpdated,
+            pinned: post.pinned || false,
         };
     }) as Post[];
 

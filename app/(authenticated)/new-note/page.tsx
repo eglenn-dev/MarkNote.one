@@ -29,6 +29,7 @@ export default async function NewNotePage() {
             content: post.content,
             userId: post.userId,
             lastUpdated: post.lastUpdated,
+            pinned: post.pinned || false,
         };
     }) as Post[];
 

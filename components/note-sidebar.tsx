@@ -3,7 +3,12 @@ import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Button } from "./ui/button";
-import { File } from "lucide-react";
+import { File, Pin } from "lucide-react";
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 interface Post {
     id: string;
@@ -11,6 +16,7 @@ interface Post {
     content: string;
     userId: string;
     lastUpdated: string;
+    pinned?: boolean;
 }
 
 interface EditorSidebarProps {
@@ -81,13 +87,33 @@ export default function NoteSidebar({ posts, preference }: EditorSidebarProps) {
                 } flex flex-col`}
             >
                 {posts.map((post) => (
-                    <Link key={post.title} href={`/note/${post.id}`}>
-                        <Button variant="ghost" className="text-xs">
-                            <span>{">"}</span>
-                            <File size={16} />
-                            {post.title}
-                        </Button>
-                    </Link>
+                    <HoverCard key={post.title}>
+                        <HoverCardTrigger asChild>
+                            <Link href={`/note/${post.id}`}>
+                                <Button variant="ghost" className="text-xs">
+                                    <span>{">"}</span>
+                                    <File size={16} />
+                                    {post.title}
+                                </Button>
+                            </Link>
+                        </HoverCardTrigger>
+                        <HoverCardContent>
+                            <div className="flex flex-col gap-2 p-2">
+                                <div className="flex flex-row justify-between items-center">
+                                    <h3>{post.title}</h3>
+                                    {post.pinned && (
+                                        <Pin className="h-4 w-4 text-yellow-500" />
+                                    )}
+                                </div>
+                                <p className="text-xs text-gray-500 line-clamp-3">
+                                    {post.content}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                    Last updated: {post.lastUpdated}
+                                </p>
+                            </div>
+                        </HoverCardContent>
+                    </HoverCard>
                 ))}
             </div>
         </div>
