@@ -90,11 +90,11 @@ export default function Header() {
                 </Link>
                 <Sheet>
                     <SheetTrigger asChild>
-                        <Button variant="outline">Docs</Button>
+                        <Button variant="outline">Tips</Button>
                     </SheetTrigger>
                     <SheetContent>
                         <SheetHeader>
-                            <SheetTitle>Documentation</SheetTitle>
+                            <SheetTitle>Tips and Tricks</SheetTitle>
                             <SheetDescription>
                                 Learn all the tips and tricks to get the most
                                 out of MarkNote.one

@@ -8,6 +8,7 @@ interface Post {
     content: string;
     userId: string;
     lastUpdated: string;
+    pinned?: boolean;
 }
 
 export const metadata = {
@@ -29,6 +30,7 @@ export default async function homePage() {
             content: post.content,
             userId: post.userId,
             lastUpdated: post.lastUpdated,
+            pinned: post.pinned || false,
         };
     });
 

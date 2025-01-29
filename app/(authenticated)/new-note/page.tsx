@@ -14,6 +14,7 @@ interface Post {
     content: string;
     userId: string;
     lastUpdated: string;
+    pinned?: boolean;
 }
 
 export default async function NewNotePage() {

@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Trash2, Download } from "lucide-react";
-import { deletePostAction } from "./action";
+import { Eye, Edit, Trash2, Download, Pin } from "lucide-react";
+import { deletePostAction, pinPostAction } from "./action";
 import DownloadButton from "./download-button";
 
 interface Post {
@@ -11,6 +11,7 @@ interface Post {
     content: string;
     userId: string;
     lastUpdated: string;
+    pinned: boolean;
 }
 
 interface ContextMenuProps {
@@ -26,11 +27,24 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, post, postClick }) => {
         deletePostAction(post.id);
     };
 
+    const pinClick = () => {
+        if (!post) return;
+        pinPostAction(post.id);
+    };
+
     return (
         <div
             className="user-none absolute w-[125px] bg-background border border-border rounded-md shadow-md py-1 text-foreground"
             style={{ top: `${y}px`, left: `${x}px` }}
         >
+            <Button
+                className="w-full justify-start px-2 py-1.5 h-auto"
+                variant="ghost"
+                onClick={() => pinClick()}
+            >
+                <Pin className="mr-2 h-4 w-4" />
+                <span>{post?.pinned ? "Unpin" : "Pin"}</span>
+            </Button>
             <Button
                 className="w-full justify-start px-2 py-1.5 h-auto"
                 onClick={() => {

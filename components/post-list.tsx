@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, Search, UploadCloud } from "lucide-react";
+import { PlusCircle, Search, UploadCloud, Pin } from "lucide-react";
 import NoteModal from "./note-modal";
 import ContextMenu from "./context-menu";
 
@@ -21,6 +21,7 @@ interface Post {
     content: string;
     userId: string;
     lastUpdated: string;
+    pinned: boolean;
 }
 
 interface PostListProps {
@@ -28,13 +29,24 @@ interface PostListProps {
 }
 
 export default function PostList({ initialPosts }: PostListProps) {
-    const sortedPosts = [...(initialPosts || [])].sort((a, b) => {
+    const pinnedPosts = (initialPosts || []).filter((post) => post.pinned);
+    const unpinnedPosts = (initialPosts || []).filter((post) => !post.pinned);
+
+    const sortedPinnedPosts = [...pinnedPosts].sort((a, b) => {
         return (
             new Date(b.lastUpdated).getTime() -
             new Date(a.lastUpdated).getTime()
         );
     });
 
+    const sortedUnpinnedPosts = [...unpinnedPosts].sort((a, b) => {
+        return (
+            new Date(b.lastUpdated).getTime() -
+            new Date(a.lastUpdated).getTime()
+        );
+    });
+
+    const sortedPosts = [...sortedPinnedPosts, ...sortedUnpinnedPosts];
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedPost, setSelectedPost] = useState<Post | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -141,8 +153,11 @@ export default function PostList({ initialPosts }: PostListProps) {
                     >
                         <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer overflow-hidden">
                             <CardHeader className="pb-2">
-                                <CardTitle className="text-lg truncate">
-                                    {post.title}
+                                <CardTitle className="text-lg truncate flex flex-row justify-between items-center">
+                                    <span>{post.title}</span>
+                                    {post.pinned && (
+                                        <Pin className="h-4 w-4 text-yellow-500" />
+                                    )}
                                 </CardTitle>
                                 <CardDescription className="text-sm">
                                     Last updated:{" "}

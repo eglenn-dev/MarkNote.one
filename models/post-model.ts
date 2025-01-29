@@ -24,6 +24,7 @@ interface Post {
     content: string;
     userId: string;
     lastUpdated: string;
+    pinned?: boolean;
 }
 
 export async function createPost(post: Post) {
