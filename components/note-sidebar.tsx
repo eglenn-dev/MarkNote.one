@@ -27,6 +27,25 @@ interface EditorSidebarProps {
 export default function NoteSidebar({ posts, preference }: EditorSidebarProps) {
     const [menuOpen, setMenuOpen] = useState(preference);
 
+    const pinnedPosts = posts.filter((post) => post.pinned);
+    const unpinnedPosts = posts.filter((post) => !post.pinned);
+
+    const sortedPinnedPosts = [...pinnedPosts].sort((a, b) => {
+        return (
+            new Date(b.lastUpdated).getTime() -
+            new Date(a.lastUpdated).getTime()
+        );
+    });
+
+    const sortedUnpinnedPosts = [...unpinnedPosts].sort((a, b) => {
+        return (
+            new Date(b.lastUpdated).getTime() -
+            new Date(a.lastUpdated).getTime()
+        );
+    });
+
+    const sortedPosts = [...sortedPinnedPosts, ...sortedUnpinnedPosts];
+
     const handleKeyDown = useCallback(
         (e: KeyboardEvent) => {
             if (e.altKey && e.key === "m") {
@@ -86,14 +105,19 @@ export default function NoteSidebar({ posts, preference }: EditorSidebarProps) {
                     menuOpen ? "h-full opacity-100" : "hidden"
                 } flex flex-col`}
             >
-                {posts.map((post) => (
+                {sortedPosts.map((post) => (
                     <HoverCard key={post.title}>
                         <HoverCardTrigger asChild>
                             <Link href={`/note/${post.id}`}>
                                 <Button variant="ghost" className="text-xs">
                                     <span>{">"}</span>
                                     <File size={16} />
-                                    {post.title}
+                                    <span className="flex flex-row items-center justify-between gap-1">
+                                        {post.pinned && (
+                                            <Pin className="h-4 w-4 text-yellow-500" />
+                                        )}
+                                        {post.title}
+                                    </span>
                                 </Button>
                             </Link>
                         </HoverCardTrigger>
