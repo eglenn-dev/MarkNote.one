@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { getPostsByUser } from "@/models/post-model";
+import { getUserCategories } from "@/models/accounts-model";
 import Note from "@/components/note";
 import NoteSidebar from "@/components/note-sidebar";
 
@@ -21,6 +22,7 @@ export default async function NewNotePage() {
     const session = await getSession();
     if (!session) redirect("/login");
     const posts = (await getPostsByUser(session.user.userId)) as Post[];
+    const categoriesList = await getUserCategories(session.user.userId);
     if (!posts) return [];
     const postsArray = Object.entries(posts).map(([key, post]) => {
         return {
@@ -47,6 +49,7 @@ export default async function NewNotePage() {
             />
             <Note
                 userId={session.user.userId}
+                categoriesList={categoriesList}
                 preference={session.user.mdPreview}
             />
         </div>

@@ -1,9 +1,9 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
-import { getPostByKey } from "@/models/post-model";
+import { getPostByKey, getPostsByUser } from "@/models/post-model";
+import { getUserCategories } from "@/models/accounts-model";
 import Note from "@/components/note";
 import NoteSidebar from "@/components/note-sidebar";
-import { getPostsByUser } from "@/models/post-model";
 
 export const metadata = {
     title: "Edit Note | MarkNote.one",
@@ -30,6 +30,7 @@ export default async function Page({
     if (!post) redirect("/");
     if (session.user.userId !== post.userId) redirect("/");
 
+    const categoriesList = await getUserCategories(session.user.userId);
     const posts = (await getPostsByUser(session.user.userId)) as Post[];
     if (!posts) return [];
     const postsArray = Object.entries(posts).map(([key, post]) => {
@@ -59,6 +60,7 @@ export default async function Page({
                 userId={session.user.userId}
                 preference={session.user.mdPreview}
                 postKey={(await params).postId}
+                categoriesList={categoriesList}
                 post={post}
             />
         </div>

@@ -8,15 +8,18 @@ import MarkdownPreview from "@/components/markdown-preview";
 import { createPostAction, updatePostAction } from "./action";
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import DownloadButton from "./download-button";
+import NoteCategory from "./note-category";
 
 interface NoteEditorProps {
     userId: string;
     preference: boolean;
+    categoriesList: string[];
     postKey?: string;
     post?: {
         title: string;
         content: string;
         userId: string;
+        category?: string;
     };
 }
 
@@ -25,11 +28,13 @@ type SaveStatus = "unsaved" | "saving" | "saved" | "error";
 export default function NoteEditor({
     userId,
     preference,
+    categoriesList,
     postKey,
     post,
 }: NoteEditorProps) {
     const [noteTitle, setNoteTitle] = useState(post?.title || "");
     const [note, setNote] = useState(post?.content || "");
+    const [category, setCategory] = useState(post?.category || "");
     const [showPreview, setShowPreview] = useState(preference);
     const [postId, setPostId] = useState(postKey || "");
     const [saveStatus, setSaveStatus] = useState<SaveStatus>("saved");
@@ -76,6 +81,7 @@ export default function NoteEditor({
                     title: noteTitle,
                     content: note,
                     userId: userId,
+                    category: category === "remove" ? "" : category,
                     lastUpdated: new Date().toISOString(),
                 });
             }
@@ -84,7 +90,7 @@ export default function NoteEditor({
             console.error("Error saving note:", error);
             setSaveStatus("error");
         }
-    }, [noteTitle, note, postId, userId]);
+    }, [noteTitle, note, postId, category, userId]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -93,7 +99,7 @@ export default function NoteEditor({
             }
         }, 2000);
         return () => clearTimeout(timer);
-    }, [noteTitle, note, saveNote, saveStatus]);
+    }, [noteTitle, note, category, saveStatus, saveNote]);
 
     const handleKeyDown = useCallback(
         (e: KeyboardEvent) => {
@@ -134,7 +140,7 @@ export default function NoteEditor({
         if (saveStatus === "saved") {
             setSaveStatus("unsaved");
         }
-    }, [noteTitle, note]);
+    }, [noteTitle, note, category]);
 
     return (
         <div className="flex flex-col w-full h-full">
@@ -157,6 +163,13 @@ export default function NoteEditor({
                         >
                             Download
                         </DownloadButton>
+                    </div>
+                    <div className="hidden sm:block">
+                        <NoteCategory
+                            category={category}
+                            categoriesList={categoriesList}
+                            setCategory={setCategory}
+                        />
                     </div>
                 </div>
                 <div className="flex items-center space-x-2 select-none">

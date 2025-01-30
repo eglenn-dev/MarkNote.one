@@ -10,6 +10,7 @@ interface Post {
     title: string;
     content: string;
     userId: string;
+    category: string;
     lastUpdated: string;
     pinned: boolean;
 }

@@ -72,12 +72,13 @@ export async function updateUsernameAction(userId: string, username: string) {
 export async function updatePreferencesAction(
     userId: string,
     mdPreview: boolean,
-    menuOpen: boolean
+    menuOpen: boolean,
+    categories: string[]
 ) {
     const session = await getSession();
     if (!session) return null;
     if (session.user.userId !== userId) return null;
-    await updateUserPreferences(userId, mdPreview, menuOpen);
+    await updateUserPreferences(userId, mdPreview, menuOpen, categories);
     session.user.mdPreview = mdPreview;
     session.user.menuOpen = menuOpen;
     const expires = new Date(Date.now() + 60 * 60 * 1000 * 168);

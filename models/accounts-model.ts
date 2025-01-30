@@ -31,6 +31,7 @@ interface User {
     preferences: {
         mdPreview: boolean;
         menuOpen: boolean;
+        categories: string[];
     };
 }
 
@@ -161,6 +162,7 @@ export async function createUser(
         preferences: {
             mdPreview: true,
             menuOpen: true,
+            categories: ["Home", "Work"],
         },
     };
     await db.ref("users").push(user);
@@ -181,6 +183,7 @@ export async function createOauthUser(username: string) {
         preferences: {
             mdPreview: true,
             menuOpen: true,
+            categories: ["Home", "Work"],
         },
     };
     await db.ref("users").push(user);
@@ -192,14 +195,22 @@ export async function createOauthUser(username: string) {
 export async function updateUserPreferences(
     uid: string,
     mdPreview: boolean,
-    menuOpen: boolean
+    menuOpen: boolean,
+    categories: string[]
 ) {
     const user = await getUserByKey(uid);
     if (!user) return false;
     user.preferences.mdPreview = mdPreview;
     user.preferences.menuOpen = menuOpen;
+    user.preferences.categories = categories;
     await db.ref(`users/${uid}`).update(user);
     return true;
+}
+
+export async function getUserCategories(uid: string) {
+    const user = await getUserByKey(uid);
+    if (!user) return [];
+    return user.preferences.categories || [];
 }
 
 export async function checkOauthUser(username: string) {

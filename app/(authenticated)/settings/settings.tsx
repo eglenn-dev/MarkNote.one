@@ -20,6 +20,9 @@ import {
     updateUsernameAction,
     updatePreferencesAction,
 } from "./action";
+import { Card, CardContent } from "@/components/ui/card";
+import { PlusCircle } from "lucide-react";
+import { X } from "lucide-react";
 
 interface AccountManagementProps {
     userAccount: {
@@ -27,6 +30,7 @@ interface AccountManagementProps {
         preferences: {
             mdPreview: boolean;
             menuOpen: boolean;
+            categories: string[];
         };
         username?: string;
         userEmail?: string;
@@ -46,13 +50,41 @@ export default function Settings({ userAccount }: AccountManagementProps) {
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [categories, setCategories] = useState(
+        userAccount.preferences.categories
+    );
+    const [newCategory, setNewCategory] = useState("");
+    const [editingIndex, setEditingIndex] = useState(-1);
+
+    const handleAddCategory = () => {
+        if (newCategory.trim() !== "") {
+            setCategories([...categories, newCategory]);
+            setNewCategory("");
+        }
+    };
+
+    const handleDeleteCategory = (index: number) => {
+        const updatedCategories = categories.filter((_, i) => i !== index);
+        setCategories(updatedCategories);
+    };
+
+    const handleEditCategory = (index: number, value: string) => {
+        const updatedCategories = [...categories];
+        updatedCategories[index] = value;
+        setCategories(updatedCategories);
+    };
 
     const handleUpdatePreferences = (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        updatePreferencesAction(userAccount.userId, mdPreview, menuOpen);
+        updatePreferencesAction(
+            userAccount.userId,
+            mdPreview,
+            menuOpen,
+            categories
+        );
         setTimeout(() => {
-            window.location.reload();
+            setLoading(false);
         }, 1000);
     };
 
@@ -192,6 +224,106 @@ export default function Settings({ userAccount }: AccountManagementProps) {
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
+                                </div>
+                                <Separator className="my-4" />
+                                <div className="flex flex-col gap-4">
+                                    <Label>Categories</Label>
+                                    <Card>
+                                        <CardContent className="p-4">
+                                            <div className="flex flex-wrap gap-2">
+                                                {categories.map(
+                                                    (category, index) => (
+                                                        <div
+                                                            key={index}
+                                                            className="flex items-center bg-secondary text-secondary-foreground rounded-full px-3 py-1"
+                                                        >
+                                                            {editingIndex ===
+                                                            index ? (
+                                                                <Input
+                                                                    value={
+                                                                        category
+                                                                    }
+                                                                    onChange={(
+                                                                        e
+                                                                    ) =>
+                                                                        handleEditCategory(
+                                                                            index,
+                                                                            e
+                                                                                .target
+                                                                                .value
+                                                                        )
+                                                                    }
+                                                                    onBlur={() =>
+                                                                        setEditingIndex(
+                                                                            -1
+                                                                        )
+                                                                    }
+                                                                    onKeyPress={(
+                                                                        e
+                                                                    ) => {
+                                                                        if (
+                                                                            e.key ===
+                                                                            "Enter"
+                                                                        ) {
+                                                                            setEditingIndex(
+                                                                                -1
+                                                                            );
+                                                                        }
+                                                                    }}
+                                                                    className="w-24 h-6 p-1 text-sm"
+                                                                />
+                                                            ) : (
+                                                                <>
+                                                                    <span
+                                                                        onClick={() =>
+                                                                            setEditingIndex(
+                                                                                index
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            category
+                                                                        }
+                                                                    </span>
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="sm"
+                                                                        className="ml-2 h-4 w-4 p-0"
+                                                                        onClick={() =>
+                                                                            handleDeleteCategory(
+                                                                                index
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        <X className="h-3 w-3" />
+                                                                    </Button>
+                                                                </>
+                                                            )}
+                                                        </div>
+                                                    )
+                                                )}
+                                            </div>
+                                            <div className="flex items-center mt-4">
+                                                <Input
+                                                    value={newCategory}
+                                                    onChange={(e) =>
+                                                        setNewCategory(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="New category"
+                                                    className="mr-2"
+                                                />
+                                                <Button
+                                                    onClick={handleAddCategory}
+                                                    size="sm"
+                                                >
+                                                    <PlusCircle className="mr-2 h-4 w-4" />
+                                                    Add
+                                                </Button>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
                                 </div>
                                 <Button
                                     type="submit"

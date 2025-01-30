@@ -9,6 +9,7 @@ import {
     CardDescription,
     CardContent,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlusCircle, Search, UploadCloud, Pin } from "lucide-react";
@@ -20,6 +21,7 @@ interface Post {
     title: string;
     content: string;
     userId: string;
+    category: string;
     lastUpdated: string;
     pinned: boolean;
 }
@@ -59,7 +61,8 @@ export default function PostList({ initialPosts }: PostListProps) {
     const filteredPosts = sortedPosts.filter(
         (post) =>
             post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            post.content.toLowerCase().includes(searchTerm.toLowerCase())
+            post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            post.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -159,8 +162,13 @@ export default function PostList({ initialPosts }: PostListProps) {
                                         <Pin className="h-4 w-4 text-yellow-500" />
                                     )}
                                 </CardTitle>
-                                <CardDescription className="text-sm">
-                                    Last updated:{" "}
+                                <CardDescription className="text-sm flex flex-row gap-2 items-center">
+                                    {post.category && (
+                                        <Badge className="max-w-20">
+                                            {post.category}
+                                        </Badge>
+                                    )}
+                                    Updated:{" "}
                                     {new Date(
                                         post.lastUpdated
                                     ).toLocaleString()}

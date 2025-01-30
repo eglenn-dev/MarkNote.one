@@ -15,6 +15,7 @@ interface Post {
     userId: string;
     lastUpdated: string;
     pinned?: boolean;
+    category?: string;
 }
 
 export async function logoutAction() {
@@ -64,4 +65,16 @@ export async function pinPostAction(postId: string) {
     if (!existingPost) return;
     if (session.user.userId !== existingPost.userId) return;
     await updatePost(postId, { ...existingPost, pinned: !existingPost.pinned });
+}
+
+export async function updatePostCategoryAction(
+    postId: string,
+    category: string
+) {
+    const session = await getSession();
+    if (!session) return;
+    const existingPost = await getPostByKey(postId);
+    if (!existingPost) return;
+    if (session.user.userId !== existingPost.userId) return;
+    await updatePost(postId, { ...existingPost, category });
 }

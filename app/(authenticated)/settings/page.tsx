@@ -4,6 +4,7 @@ import {
     getEmailByKey,
     checkOauthUser,
     getUsernameByKey,
+    getUserCategories,
 } from "@/models/accounts-model";
 import Settings from "./settings";
 
@@ -17,6 +18,7 @@ export default async function AccountPage() {
 
     const userEmail = await getEmailByKey(session.user.userId);
     const username = await getUsernameByKey(session.user.userId);
+    const userCategories = await getUserCategories(session.user.userId);
     const isOauth = await checkOauthUser(username);
 
     const userAccount = {
@@ -24,6 +26,7 @@ export default async function AccountPage() {
         preferences: {
             mdPreview: session.user.mdPreview,
             menuOpen: session.user.menuOpen,
+            categories: userCategories,
         },
         username: username,
         userEmail: userEmail,

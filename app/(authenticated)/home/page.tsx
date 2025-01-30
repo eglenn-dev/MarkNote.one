@@ -7,6 +7,7 @@ interface Post {
     title: string;
     content: string;
     userId: string;
+    category?: string;
     lastUpdated: string;
     pinned?: boolean;
 }
@@ -29,6 +30,7 @@ export default async function homePage() {
             title: post.title,
             content: post.content,
             userId: post.userId,
+            category: post.category || "",
             lastUpdated: post.lastUpdated,
             pinned: post.pinned || false,
         };

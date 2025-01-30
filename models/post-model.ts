@@ -25,6 +25,7 @@ interface Post {
     userId: string;
     lastUpdated: string;
     pinned?: boolean;
+    category?: string;
 }
 
 export async function createPost(post: Post) {
@@ -57,6 +58,10 @@ export async function getPostsByUser(userId: string) {
 
 export async function deletePost(key: string) {
     await postsRef.child(key).remove();
+}
+
+export async function updatePostCategory(key: string, category: string) {
+    await postsRef.child(key).update({ category });
 }
 
 export async function createDemoPost(userId: string) {
