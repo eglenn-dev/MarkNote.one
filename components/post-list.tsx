@@ -110,7 +110,7 @@ export default function PostList({ initialPosts }: PostListProps) {
                 <div className="relative w-full sm:max-w-sm">
                     <Input
                         type="text"
-                        placeholder="Search notes..."
+                        placeholder="Search by category, title, or note content..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="pl-10"
