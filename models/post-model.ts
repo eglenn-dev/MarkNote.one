@@ -109,6 +109,7 @@ All your notes are set to auto save! Once you are done typing, after a few secon
         title: "Welcome to MarkNote.one",
         content: noteContent,
         userId: userId,
+        category: "Home",
         lastUpdated: new Date().toISOString(),
     };
     return createPost(demoPost);
