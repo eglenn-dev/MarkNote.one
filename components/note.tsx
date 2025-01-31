@@ -205,6 +205,7 @@ export default function NoteEditor({
                     name="title"
                     type="title"
                     required
+                    spellCheck={false}
                     placeholder={post?.title || "Enter note title"}
                     className="mt-1 p-4 h-fit md:text-2xl font-bold"
                     defaultValue={post?.title || ""}
