@@ -40,26 +40,6 @@ export default function NoteEditor({
     const [saveStatus, setSaveStatus] = useState<SaveStatus>("saved");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    useEffect(() => {
-        const adjustTextareaHeight = () => {
-            const textarea = textareaRef.current;
-            if (textarea) {
-                textarea.style.height = "auto";
-                textarea.style.height = `${Math.min(
-                    textarea.scrollHeight + 100,
-                    window.innerHeight * 0.8
-                )}px`;
-            }
-        };
-
-        adjustTextareaHeight();
-        window.addEventListener("resize", adjustTextareaHeight);
-
-        return () => {
-            window.removeEventListener("resize", adjustTextareaHeight);
-        };
-    }, [note, noteTitle]);
-
     const saveNote = useCallback(async () => {
         if (!noteTitle || !note) return;
 
@@ -232,20 +212,21 @@ export default function NoteEditor({
                 />
             </div>
             <div
-                className={`flex flex-grow transition-all duration-300 ease-in-out ${
-                    showPreview ? " sm:space-x-4" : ""
+                className={`flex flex-grow transition-all duration-300 ease-in-out overflow-hidden ${
+                    showPreview ? "sm:space-x-4" : ""
                 }`}
+                style={{ height: "calc(100vh - 200px)" }}
             >
                 <div
                     className={`${
                         showPreview ? "sm:w-1/2" : "w-full"
-                    } flex flex-col gap-5 h-full`}
+                    } flex flex-col gap-5 h-full overflow-auto hide-scrollbar`}
                 >
                     <textarea
                         ref={textareaRef}
                         className={`${
                             showPreview ? "hidden sm:inline-block" : null
-                        } w-full min-h-96 h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground`}
+                        } w-full h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground`}
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
                         spellCheck={false}
@@ -264,7 +245,7 @@ export default function NoteEditor({
                     <div
                         className={`${
                             showPreview
-                                ? "h-full p-4 border rounded-md overflow-auto bg-background text-foreground"
+                                ? "h-full p-4 border rounded-md overflow-auto bg-background text-foreground hide-scrollbar"
                                 : "hidden"
                         }`}
                     >

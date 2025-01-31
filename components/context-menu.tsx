@@ -1,9 +1,19 @@
-import React from "react";
+import type React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Trash2, Download, Pin } from "lucide-react";
-import { deletePostAction, pinPostAction } from "./action";
+import { Eye, Edit, Trash2, Download, Pin, FolderEdit } from "lucide-react";
+import {
+    deletePostAction,
+    pinPostAction,
+    updatePostCategoryAction,
+} from "./action";
 import DownloadButton from "./download-button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface Post {
     id: string;
@@ -20,12 +30,25 @@ interface ContextMenuProps {
     y: number;
     post: Post | undefined;
     postClick: (post: Post) => void;
+    categories: string[];
 }
 
-const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, post, postClick }) => {
+const ContextMenu: React.FC<ContextMenuProps> = ({
+    x,
+    y,
+    post,
+    postClick,
+    categories,
+}) => {
     const handleDelete = () => {
         if (!post) return;
         deletePostAction(post.id);
+    };
+
+    const handleCategoryChange = (category: string) => {
+        console.log("category", category);
+        if (!post) return;
+        updatePostCategoryAction(post.id, category);
     };
 
     const pinClick = () => {
@@ -35,7 +58,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, post, postClick }) => {
 
     return (
         <div
-            className="user-none absolute w-[125px] bg-background border border-border rounded-md shadow-md py-1 text-foreground"
+            className="absolute w-[200px] bg-background border border-border rounded-md shadow-md p-2 user-none text-foreground flex flex-col gap-1"
             style={{ top: `${y}px`, left: `${x}px` }}
         >
             <Button
@@ -44,7 +67,9 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, post, postClick }) => {
                 onClick={() => pinClick()}
             >
                 <Pin className="mr-2 h-4 w-4" />
-                <span>{post?.pinned ? "Unpin" : "Pin"}</span>
+                <span className="text-md">
+                    {post?.pinned ? "Unpin" : "Pin"}
+                </span>
             </Button>
             <Button
                 className="w-full justify-start px-2 py-1.5 h-auto"
@@ -55,7 +80,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, post, postClick }) => {
                 variant="ghost"
             >
                 <Eye className="mr-2 h-4 w-4" />
-                <span>Preview</span>
+                <span className="text-md">Preview</span>
             </Button>
             <Link href={`/note/${post?.id}`} className="w-full">
                 <Button
@@ -63,7 +88,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, post, postClick }) => {
                     variant="ghost"
                 >
                     <Edit className="mr-2 h-4 w-4" />
-                    <span>Edit</span>
+                    <span className="text-md">Edit</span>
                 </Button>
             </Link>
             <DownloadButton
@@ -72,15 +97,36 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, post, postClick }) => {
                 variant="ghost"
             >
                 <Download className="mr-2 h-4 w-4" />
-                <span>Download</span>
+                <span className="text-md">Download</span>
             </DownloadButton>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        className="w-full justify-start px-2 py-1.5 h-auto"
+                        variant="ghost"
+                    >
+                        <FolderEdit className="mr-2 h-4 w-4" />
+                        <span className="text-md">Change Category</span>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                    {categories.map((category) => (
+                        <DropdownMenuItem
+                            key={category}
+                            onClick={() => handleCategoryChange(category)}
+                        >
+                            {category}
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
             <Button
                 className="w-full justify-start px-2 py-1.5 h-auto text-red-500 hover:text-destructive"
                 onClick={handleDelete}
                 variant="ghost"
             >
                 <Trash2 className="mr-2 h-4 w-4" />
-                <span>Delete</span>
+                <span className="text-md">Delete</span>
             </Button>
         </div>
     );

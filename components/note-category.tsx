@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import {
     Select,
     SelectContent,
@@ -27,7 +28,7 @@ export default function NoteCategory({
                 onValueChange={(value) => setCategory(value)}
                 defaultValue={category}
             >
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[125px] border border-gray-300 rounded-md">
                     <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -42,6 +43,9 @@ export default function NoteCategory({
                                 {category}
                             </SelectItem>
                         ))}
+                        <Link className="text-sm pl-1" href="/settings">
+                            Add Category
+                        </Link>
                         <SelectItem value="remove" className="text-red-500">
                             Remove
                         </SelectItem>

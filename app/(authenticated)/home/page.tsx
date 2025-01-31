@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { getPostsByUser } from "@/models/post-model";
+import { getUserCategories } from "@/models/accounts-model";
 import PostList from "@/components/post-list";
 
 interface Post {
@@ -20,10 +21,10 @@ export const metadata = {
 export default async function homePage() {
     const session = await getSession();
     if (!session) redirect("/login");
-
     const userId = session.user.userId;
+    const categories = await getUserCategories(userId);
     const posts = (await getPostsByUser(userId)) as Post[];
-    if (!posts) return <PostList initialPosts={[]} />;
+    if (!posts) return <PostList categories={categories} initialPosts={[]} />;
     const postsArray = Object.entries(posts).map(([key, post]) => {
         return {
             id: key,
@@ -36,5 +37,5 @@ export default async function homePage() {
         };
     });
 
-    return <PostList initialPosts={postsArray} />;
+    return <PostList categories={categories} initialPosts={postsArray} />;
 }

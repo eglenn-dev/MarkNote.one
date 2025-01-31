@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
@@ -27,10 +27,11 @@ interface Post {
 }
 
 interface PostListProps {
+    categories: string[];
     initialPosts?: Post[] | undefined;
 }
 
-export default function PostList({ initialPosts }: PostListProps) {
+export default function PostList({ categories, initialPosts }: PostListProps) {
     const pinnedPosts = (initialPosts || []).filter((post) => post.pinned);
     const unpinnedPosts = (initialPosts || []).filter((post) => !post.pinned);
 
@@ -57,6 +58,8 @@ export default function PostList({ initialPosts }: PostListProps) {
         y: number;
         postId: string;
     } | null>(null);
+
+    const contextMenuRef = useRef<HTMLDivElement>(null);
 
     const filteredPosts = sortedPosts.filter(
         (post) =>
@@ -99,10 +102,24 @@ export default function PostList({ initialPosts }: PostListProps) {
     };
 
     useEffect(() => {
-        const handleClickOutside = () => setContextMenu(null);
-        document.addEventListener("click", handleClickOutside);
-        return () => document.removeEventListener("click", handleClickOutside);
-    }, []);
+        const handleClickOutside = (e: MouseEvent) => {
+            setTimeout(() => {
+                if (
+                    contextMenu &&
+                    contextMenuRef.current &&
+                    !contextMenuRef.current.contains(e.target as Node)
+                ) {
+                    setContextMenu(null);
+                }
+            }, 100);
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [contextMenu]);
 
     return (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -194,18 +211,22 @@ export default function PostList({ initialPosts }: PostListProps) {
                 onClose={handleCloseModal}
             />
             {contextMenu && (
-                <ContextMenu
-                    x={contextMenu.x}
-                    y={contextMenu.y}
-                    post={
-                        initialPosts
-                            ? initialPosts.find(
-                                  (post) => post.id === contextMenu.postId
-                              )
-                            : undefined
-                    }
-                    postClick={handlePostClick}
-                />
+                <div ref={contextMenuRef}>
+                    {" "}
+                    <ContextMenu
+                        x={contextMenu.x}
+                        y={contextMenu.y}
+                        categories={categories}
+                        post={
+                            initialPosts
+                                ? initialPosts.find(
+                                      (post) => post.id === contextMenu.postId
+                                  )
+                                : undefined
+                        }
+                        postClick={handlePostClick}
+                    />
+                </div>
             )}
         </div>
     );
