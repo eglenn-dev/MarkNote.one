@@ -29,31 +29,36 @@ interface ContextMenuProps {
     x: number;
     y: number;
     post: Post | undefined;
-    postClick: (post: Post) => void;
     categories: string[];
+    postClick: (post: Post) => void;
+    closeMenu: () => void;
 }
 
 const ContextMenu: React.FC<ContextMenuProps> = ({
     x,
     y,
     post,
-    postClick,
     categories,
+    postClick,
+    closeMenu,
 }) => {
     const handleDelete = () => {
         if (!post) return;
         deletePostAction(post.id);
+        closeMenu();
     };
 
     const handleCategoryChange = (category: string) => {
         console.log("category", category);
         if (!post) return;
         updatePostCategoryAction(post.id, category);
+        closeMenu();
     };
 
     const pinClick = () => {
         if (!post) return;
         pinPostAction(post.id);
+        closeMenu();
     };
 
     return (

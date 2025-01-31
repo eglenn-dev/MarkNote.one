@@ -101,6 +101,10 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
         setContextMenu({ x: e.clientX, y: e.clientY, postId });
     };
 
+    const closeContextMenu = () => {
+        setContextMenu(null);
+    };
+
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             setTimeout(() => {
@@ -225,6 +229,7 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                                 : undefined
                         }
                         postClick={handlePostClick}
+                        closeMenu={closeContextMenu}
                     />
                 </div>
             )}
