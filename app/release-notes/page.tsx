@@ -14,6 +14,16 @@ type Release = {
 
 const releases: Release[] = [
     {
+        version: "1.2.1",
+        date: "2025-01-31",
+        changes: [
+            "Notes can note be categorized by tags",
+            "Added ability to pin notes to the top of the list",
+            "Tags can be added and removed in settings",
+            "Home page context menu can now edit categories and pinned notes",
+        ],
+    },
+    {
         version: "1.2.0",
         date: "2025-01-25",
         changes: [
@@ -76,8 +86,10 @@ export default function ReleaseNotes() {
                 </Link>
                 <ThemeToggle />
             </header>
-            <main className="flex-grow">
-                <h1 className="text-3xl font-bold mb-6">Release Notes</h1>
+            <main className="flex-grow pl-4 pr-4 md:pl-0 md:pr-0 md:w-1/2 mx-auto">
+                <h1 className="text-3xl font-bold mb-6 text-center">
+                    Release Notes
+                </h1>
                 <div className="space-y-8">
                     {releases.map((release) => (
                         <div key={release.version} className="border-b pb-6">
