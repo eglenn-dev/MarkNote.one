@@ -14,8 +14,8 @@ type Release = {
 
 const releases: Release[] = [
     {
-        version: "1.2.1",
-        date: "2025-01-31",
+        version: "1.3.0",
+        date: "2025-02-03",
         changes: [
             "Notes can note be categorized by tags",
             "Added ability to pin notes to the top of the list",
