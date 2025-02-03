@@ -8,6 +8,7 @@ import {
     createDemoPost,
 } from "@/models/post-model";
 import { getSession } from "@/lib/session";
+import { redirect } from "next/navigation";
 
 interface Post {
     title: string;
@@ -55,7 +56,8 @@ export async function deletePostAction(postId: string) {
 export async function createDemoPostAction() {
     const session = await getSession();
     if (!session) return;
-    await createDemoPost(session.user.userId);
+    const postId = await createDemoPost(session.user.userId);
+    redirect(`/note/${postId}`);
 }
 
 export async function pinPostAction(postId: string) {

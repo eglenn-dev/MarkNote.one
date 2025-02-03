@@ -19,8 +19,9 @@ const releases: Release[] = [
         changes: [
             "Notes can note be categorized by tags",
             "Added ability to pin notes to the top of the list",
-            "Tags can be added and removed in settings",
+            "Tags can be created and deleted in settings",
             "Home page context menu can now edit categories and pinned notes",
+            "Tips and tricks now has markdown shortcuts",
         ],
     },
     {

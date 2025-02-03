@@ -61,6 +61,45 @@ const shortcuts = [
     },
 ];
 
+const markdownTips = [
+    {
+        title: "Headers",
+        description: "Use # to create headers",
+    },
+    {
+        title: "Emphasis",
+        description: "Use * or _ to emphasize text",
+    },
+    {
+        title: "Lists",
+        description: "Use - or * to create lists",
+    },
+    {
+        title: "Links",
+        description: "Use []() to create links",
+    },
+    {
+        title: "Images",
+        description: "Use ![]() to add images",
+    },
+    {
+        title: "Blockquotes",
+        description: "Use > to create blockquotes",
+    },
+    {
+        title: "Code",
+        description: "Use ` to create inline code",
+    },
+    {
+        title: "Code Blocks",
+        description: "Use ``` to create code blocks",
+    },
+    {
+        title: "Horizontal Rules",
+        description: "Use --- to create horizontal rules",
+    },
+];
+
 export default function Header() {
     return (
         <div className="flex justify-between items-center mb-4 px-4 py-2">
@@ -92,7 +131,7 @@ export default function Header() {
                     <SheetTrigger asChild>
                         <Button variant="outline">Tips</Button>
                     </SheetTrigger>
-                    <SheetContent>
+                    <SheetContent className="h-full overflow-y-scroll">
                         <SheetHeader>
                             <SheetTitle>Tips and Tricks</SheetTitle>
                             <SheetDescription>
@@ -138,12 +177,37 @@ export default function Header() {
                         <form action={createDemoPostAction}>
                             <Button
                                 type="submit"
-                                variant="outline"
+                                variant="secondary"
                                 className="mt-4"
                             >
-                                Create Demo Post
+                                View Welcome Post
                             </Button>
                         </form>
+                        <div className="mt-4 flex flex-col">
+                            <Table>
+                                <TableCaption>
+                                    Markdown tips to help you get started
+                                </TableCaption>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Title</TableHead>
+                                        <TableHead>Description</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {markdownTips.map((tip, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell className="font-medium">
+                                                {tip.title}
+                                            </TableCell>
+                                            <TableCell>
+                                                {tip.description}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
                     </SheetContent>
                 </Sheet>
                 <form action={logoutAction}>
