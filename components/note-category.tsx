@@ -8,7 +8,6 @@ import {
     SelectItem,
     SelectLabel,
     SelectTrigger,
-    SelectValue,
 } from "@/components/ui/select";
 
 interface NoteCategoryProps {
@@ -28,8 +27,8 @@ export default function NoteCategory({
                 onValueChange={(value) => setCategory(value)}
                 defaultValue={category}
             >
-                <SelectTrigger className="w-[125px] border border-gray-300 rounded-md">
-                    <SelectValue placeholder="Select a category" />
+                <SelectTrigger className="w-[175px] rounded-md p-0">
+                    Edit Category
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>

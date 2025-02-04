@@ -45,6 +45,11 @@ const shortcuts = [
         pages: "/note/[id]",
     },
     {
+        shortcut: "Crtl + D",
+        action: "Download current note",
+        pages: "/note/[id]",
+    },
+    {
         shortcut: "Alt + P",
         action: "Toggle live preview",
         pages: "/note/[id]",

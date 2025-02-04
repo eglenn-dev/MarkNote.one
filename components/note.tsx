@@ -1,14 +1,11 @@
 "use client";
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import MarkdownPreview from "@/components/markdown-preview";
 import { createPostAction, updatePostAction } from "./action";
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
-import DownloadButton from "./download-button";
-import NoteCategory from "./note-category";
+import { NoteMenuBar } from "@/components/menu-bar";
 
 interface NoteEditorProps {
     userId: string;
@@ -103,6 +100,14 @@ export default function NoteEditor({
             } else if (e.altKey && e.key === "p") {
                 e.preventDefault();
                 setShowPreview(!showPreview);
+            } else if (e.altKey && e.key === "d") {
+                e.preventDefault();
+                const downloadLink = document.createElement("a");
+                downloadLink.href = `data:text/markdown;charset=utf-8,${encodeURIComponent(
+                    note
+                )}`;
+                downloadLink.download = `${noteTitle}.md`;
+                downloadLink.click();
             }
         },
         [note, showPreview, saveNote]
@@ -124,49 +129,18 @@ export default function NoteEditor({
 
     return (
         <div className="flex flex-col w-full h-full">
-            <div className="flex items-center justify-between mb-4">
-                <div
-                    title="Alt + P to toggle preview mode"
-                    className="flex flex-row items-center space-x-2 select-none"
-                >
-                    <div className="flex items-center space-x-2 select-none">
-                        <Switch
-                            id="preview-mode"
-                            checked={showPreview}
-                            onCheckedChange={setShowPreview}
-                        />
-                        <Label htmlFor="preview-mode">Show Preview</Label>
-                    </div>
-                    <div className="hidden sm:block">
-                        <DownloadButton
-                            note={{ title: noteTitle, content: note }}
-                        >
-                            Download
-                        </DownloadButton>
-                    </div>
-                    <div className="hidden sm:block">
-                        <NoteCategory
-                            category={category}
-                            categoriesList={categoriesList}
-                            setCategory={setCategory}
-                        />
-                    </div>
-                </div>
-                <div className="flex items-center space-x-2 select-none">
-                    <div className="hidden md:flex items-center space-x-2 text-gray-500">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={20}
-                            height={20}
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                fill="currentColor"
-                                d="M6 22q-.825 0-1.412-.587T4 20V10q0-.825.588-1.412T6 8h1V6q0-2.075 1.463-3.537T12 1t3.538 1.463T17 6v2h1q.825 0 1.413.588T20 10v10q0 .825-.587 1.413T18 22zm0-2h12V10H6zm6-3q.825 0 1.413-.587T14 15t-.587-1.412T12 13t-1.412.588T10 15t.588 1.413T12 17M9 8h6V6q0-1.25-.875-2.125T12 3t-2.125.875T9 6zM6 20V10z"
-                            ></path>
-                        </svg>
-                        <p>Visible only to you</p>
-                    </div>
+            <div className="flex flex-row items-center justify-between select-none">
+                <NoteMenuBar
+                    showPreview={showPreview}
+                    setShowPreview={setShowPreview}
+                    noteTitle={noteTitle}
+                    note={note}
+                    category={category}
+                    categoriesList={categoriesList}
+                    setCategory={setCategory}
+                    saveNote={saveNote}
+                />
+                <div className="flex items-center justify-end mb-2">
                     {saveStatus === "unsaved" && (
                         <span className="text-yellow-500">Unsaved changes</span>
                     )}
@@ -190,15 +164,6 @@ export default function NoteEditor({
                     )}
                 </div>
             </div>
-            {saveStatus === "error" && (
-                <Alert variant="destructive" className="mb-4">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                        There was an error saving your changes. Please try
-                        again.
-                    </AlertDescription>
-                </Alert>
-            )}
             <div className="mb-4">
                 <Input
                     id="title"
@@ -212,6 +177,15 @@ export default function NoteEditor({
                     onChange={(e) => setNoteTitle(e.target.value)}
                 />
             </div>
+            {saveStatus === "error" && (
+                <Alert variant="destructive" className="mb-4">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                        There was an error saving your changes. Please try
+                        again.
+                    </AlertDescription>
+                </Alert>
+            )}
             <div
                 className={`flex flex-grow transition-all duration-300 ease-in-out overflow-hidden ${
                     showPreview ? "sm:space-x-4" : ""
