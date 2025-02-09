@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
     Menubar,
     MenubarMenu,
@@ -7,6 +7,7 @@ import {
     MenubarItem,
     MenubarShortcut,
 } from "@/components/ui/menubar";
+import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import DownloadButton from "./download-button";
 import NoteCategory from "./note-category";
@@ -117,6 +118,9 @@ export function NoteMenuBar({
                         </Button>
                     </MenubarItem>
                 </MenubarContent>
+            </MenubarMenu>
+            <MenubarMenu>
+                <Badge>{category}</Badge>
             </MenubarMenu>
         </Menubar>
     );

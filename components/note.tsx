@@ -106,7 +106,7 @@ export default function NoteEditor({
                 e.preventDefault();
                 const newFullPreview = !fullPreview;
                 setFullPreview(newFullPreview);
-                setShowPreview(!newFullPreview);
+                setShowPreview(newFullPreview);
             } else if (e.altKey && e.key === "d") {
                 e.preventDefault();
                 const downloadLink = document.createElement("a");
@@ -117,7 +117,7 @@ export default function NoteEditor({
                 downloadLink.click();
             }
         },
-        [note, showPreview, saveNote]
+        [note, noteTitle, showPreview, fullPreview, saveNote]
     );
 
     useEffect(() => {
@@ -227,9 +227,11 @@ export default function NoteEditor({
                 </div>
                 <div
                     className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                        fullPreview ? "w-full" : (showPreview
+                        fullPreview
+                            ? "w-full"
+                            : showPreview
                             ? "w-full sm:w-1/2 h-full opacity-100"
-                            : "w-0 h-0 opacity-0")
+                            : "w-0 h-0 opacity-0"
                     }`}
                 >
                     <div
