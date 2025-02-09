@@ -53,6 +53,10 @@ const shortcuts = [
         shortcut: "Alt + P",
         action: "Toggle live preview",
         pages: "/note/[id]",
+    },{
+        shortcut: "Alt + F",
+        action: "Toggle full preview",
+        pages: "/note/[id]",
     },
     {
         shortcut: "Alt + M",

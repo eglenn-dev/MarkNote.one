@@ -35,6 +35,7 @@ export default function NoteEditor({
     const [showPreview, setShowPreview] = useState(preference);
     const [postId, setPostId] = useState(postKey || "");
     const [saveStatus, setSaveStatus] = useState<SaveStatus>("saved");
+    const [fullPreview, setFullPreview] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const saveNote = useCallback(async () => {
@@ -100,6 +101,12 @@ export default function NoteEditor({
             } else if (e.altKey && e.key === "p") {
                 e.preventDefault();
                 setShowPreview(!showPreview);
+                setFullPreview(false);
+            } else if (e.altKey && e.key === "f") {
+                e.preventDefault();
+                const newFullPreview = !fullPreview;
+                setFullPreview(newFullPreview);
+                setShowPreview(!newFullPreview);
             } else if (e.altKey && e.key === "d") {
                 e.preventDefault();
                 const downloadLink = document.createElement("a");
@@ -133,6 +140,8 @@ export default function NoteEditor({
                 <NoteMenuBar
                     showPreview={showPreview}
                     setShowPreview={setShowPreview}
+                    fullPreview={fullPreview}
+                    setFullPreview={setFullPreview}
                     noteTitle={noteTitle}
                     note={note}
                     category={category}
@@ -188,19 +197,25 @@ export default function NoteEditor({
             )}
             <div
                 className={`flex flex-grow transition-all duration-300 ease-in-out overflow-hidden ${
-                    showPreview ? "sm:space-x-4" : ""
+                    showPreview && !fullPreview ? "sm:space-x-4" : ""
                 }`}
                 style={{ height: "calc(100vh - 200px)" }}
             >
                 <div
                     className={`${
-                        showPreview ? "sm:w-1/2" : "w-full"
+                        fullPreview
+                            ? "hidden"
+                            : showPreview
+                            ? "sm:w-1/2"
+                            : "w-full"
                     } flex flex-col gap-5 h-full overflow-auto hide-scrollbar`}
                 >
                     <textarea
                         ref={textareaRef}
                         className={`${
-                            showPreview ? "hidden sm:inline-block" : null
+                            showPreview && !fullPreview
+                                ? "hidden sm:inline-block"
+                                : null
                         } w-full h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground`}
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
@@ -211,15 +226,15 @@ export default function NoteEditor({
                     />
                 </div>
                 <div
-                    className={`overflow-hidden transition-all duration-300 ease-in-out  ${
-                        showPreview
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        fullPreview ? "w-full" : (showPreview
                             ? "w-full sm:w-1/2 h-full opacity-100"
-                            : "w-0 h-0 opacity-0"
+                            : "w-0 h-0 opacity-0")
                     }`}
                 >
                     <div
                         className={`${
-                            showPreview
+                            fullPreview || showPreview
                                 ? "h-full p-4 border rounded-md overflow-auto bg-background text-foreground hide-scrollbar"
                                 : "hidden"
                         }`}

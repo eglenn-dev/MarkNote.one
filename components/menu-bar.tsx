@@ -1,3 +1,4 @@
+'use client';
 import {
     Menubar,
     MenubarMenu,
@@ -13,6 +14,8 @@ import NoteCategory from "./note-category";
 interface NoteMenuBarProps {
     showPreview: boolean;
     setShowPreview: (show: boolean) => void;
+    fullPreview: boolean;
+    setFullPreview: (show: boolean) => void;
     noteTitle: string;
     note: string;
     category: string;
@@ -24,6 +27,8 @@ interface NoteMenuBarProps {
 export function NoteMenuBar({
     showPreview,
     setShowPreview,
+    fullPreview,
+    setFullPreview,
     noteTitle,
     note,
     category,
@@ -35,7 +40,7 @@ export function NoteMenuBar({
         <Menubar className="mb-4">
             <MenubarMenu>
                 <MenubarTrigger className="text-md">File</MenubarTrigger>
-                <MenubarContent className="border border-gray-400">
+                <MenubarContent className="border border-gray-500">
                     <MenubarItem asChild onClick={saveNote}>
                         <Button
                             className="w-full justify-between"
@@ -52,7 +57,7 @@ export function NoteMenuBar({
                             note={{ title: noteTitle, content: note }}
                         >
                             Download
-                            <MenubarShortcut>Ctrl + D</MenubarShortcut>
+                            <MenubarShortcut>Alt + D</MenubarShortcut>
                         </DownloadButton>
                     </MenubarItem>
                     <MenubarItem className="py-0 mx-auto">
@@ -72,10 +77,13 @@ export function NoteMenuBar({
             </MenubarMenu>
             <MenubarMenu>
                 <MenubarTrigger className="text-md">View</MenubarTrigger>
-                <MenubarContent className="border border-gray-400">
+                <MenubarContent className="border border-gray-500">
                     <MenubarItem
                         asChild
-                        onClick={() => setShowPreview(!showPreview)}
+                        onClick={() => {
+                            setShowPreview(!showPreview);
+                            setFullPreview(false);
+                        }}
                     >
                         <Button
                             variant="ghost"
@@ -87,6 +95,25 @@ export function NoteMenuBar({
                                 <p>Show Preview</p>
                             )}
                             <MenubarShortcut>Alt + P</MenubarShortcut>
+                        </Button>
+                    </MenubarItem>
+                    <MenubarItem
+                        asChild
+                        onClick={() => {
+                            setFullPreview(!fullPreview);
+                            setShowPreview(false);
+                        }}
+                    >
+                        <Button
+                            variant="ghost"
+                            className="w-full justify-between"
+                        >
+                            {fullPreview ? (
+                                <p>Exit Full Preview</p>
+                            ) : (
+                                <p>Full Preview</p>
+                            )}
+                            <MenubarShortcut>Alt + F</MenubarShortcut>
                         </Button>
                     </MenubarItem>
                 </MenubarContent>
