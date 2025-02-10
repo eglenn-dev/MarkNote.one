@@ -28,48 +28,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-const shortcuts = [
-    {
-        shortcut: "Alt + N",
-        action: "New note",
-        pages: "/home",
-    },
-    {
-        shortcut: "Alt + U",
-        action: "Upload note",
-        pages: "/home",
-    },
-    {
-        shortcut: "Crtl + S",
-        action: "Save current note",
-        pages: "/note/[id]",
-    },
-    {
-        shortcut: "Crtl + D",
-        action: "Download current note",
-        pages: "/note/[id]",
-    },
-    {
-        shortcut: "Alt + P",
-        action: "Toggle live preview",
-        pages: "/note/[id]",
-    },{
-        shortcut: "Alt + F",
-        action: "Toggle full preview",
-        pages: "/note/[id]",
-    },
-    {
-        shortcut: "Alt + M",
-        action: "Toggle menu bar",
-        pages: "/note/[id]",
-    },
-    {
-        shortcut: "Esc",
-        action: "Close note",
-        pages: "/note/[id]",
-    },
-];
-
 const markdownTips = [
     {
         title: "Headers",
@@ -150,38 +108,8 @@ export default function Header() {
                         </SheetHeader>
                         <div className="mt-4 flex flex-col">
                             <Link href="/release-notes">
-                                <Button>View Release Notes</Button>
+                                <Button>Release Notes</Button>
                             </Link>
-                            <Table>
-                                <TableCaption>
-                                    Shortcuts available and when you can use
-                                    them.
-                                </TableCaption>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="w-[100px]">
-                                            Shortcut
-                                        </TableHead>
-                                        <TableHead>Action</TableHead>
-                                        <TableHead>Pages</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {shortcuts.map((shortcut, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell className="font-medium">
-                                                {shortcut.shortcut}
-                                            </TableCell>
-                                            <TableCell>
-                                                {shortcut.action}
-                                            </TableCell>
-                                            <TableCell>
-                                                {shortcut.pages}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
                         </div>
                         <form action={createDemoPostAction}>
                             <Button
@@ -189,7 +117,7 @@ export default function Header() {
                                 variant="secondary"
                                 className="mt-4"
                             >
-                                View Welcome Post
+                                Welcome Note
                             </Button>
                         </form>
                         <div className="mt-4 flex flex-col">
