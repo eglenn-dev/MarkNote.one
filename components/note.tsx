@@ -6,6 +6,7 @@ import MarkdownPreview from "@/components/markdown-preview";
 import { createPostAction, updatePostAction } from "./action";
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { NoteMenuBar } from "@/components/menu-bar";
+import { redirect } from "next/navigation";
 
 interface NoteEditorProps {
     userId: string;
@@ -80,7 +81,7 @@ export default function NoteEditor({
     }, [noteTitle, note, category, saveStatus, saveNote]);
 
     const handleKeyDown = useCallback(
-        (e: KeyboardEvent) => {
+        async (e: KeyboardEvent) => {
             if ((e.ctrlKey || e.metaKey) && e.key === "s") {
                 e.preventDefault();
                 saveNote();
@@ -115,6 +116,14 @@ export default function NoteEditor({
                 )}`;
                 downloadLink.download = `${noteTitle}.md`;
                 downloadLink.click();
+            } else if (e.altKey && e.key === "n") {
+                e.preventDefault();
+                await saveNote();
+                redirect("/new-note");
+            } else if (e.altKey && e.key === "u") {
+                e.preventDefault();
+                await saveNote();
+                redirect("/upload");
             }
         },
         [note, noteTitle, showPreview, fullPreview, saveNote]

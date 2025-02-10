@@ -11,6 +11,7 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import DownloadButton from "./download-button";
 import NoteCategory from "./note-category";
+import { redirect } from "next/navigation";
 
 interface NoteMenuBarProps {
     showPreview: boolean;
@@ -42,6 +43,36 @@ export function NoteMenuBar({
             <MenubarMenu>
                 <MenubarTrigger className="text-md">File</MenubarTrigger>
                 <MenubarContent className="border border-gray-500">
+                    <MenubarItem
+                        asChild
+                        onClick={async () => {
+                            await saveNote();
+                            redirect("/new-note");
+                        }}
+                    >
+                        <Button
+                            className="w-full justify-between"
+                            variant="ghost"
+                        >
+                            New Note
+                            <MenubarShortcut>Alt + N</MenubarShortcut>
+                        </Button>
+                    </MenubarItem>
+                    <MenubarItem
+                        asChild
+                        onClick={async () => {
+                            await saveNote();
+                            redirect("/upload");
+                        }}
+                    >
+                        <Button
+                            className="w-full justify-between"
+                            variant="ghost"
+                        >
+                            Upload Note
+                            <MenubarShortcut>Alt + U</MenubarShortcut>
+                        </Button>
+                    </MenubarItem>
                     <MenubarItem asChild onClick={saveNote}>
                         <Button
                             className="w-full justify-between"
@@ -61,6 +92,11 @@ export function NoteMenuBar({
                             <MenubarShortcut>Alt + D</MenubarShortcut>
                         </DownloadButton>
                     </MenubarItem>
+                </MenubarContent>
+            </MenubarMenu>
+            <MenubarMenu>
+                <MenubarTrigger className="text-md">Edit</MenubarTrigger>
+                <MenubarContent className="border border-gray-500">
                     <MenubarItem className="py-0 mx-auto">
                         <Button
                             asChild
@@ -120,7 +156,9 @@ export function NoteMenuBar({
                 </MenubarContent>
             </MenubarMenu>
             <MenubarMenu>
-                <Badge>{category}</Badge>
+                <Badge className="hidden sm:block">
+                    {category ? category : "----"}
+                </Badge>
             </MenubarMenu>
         </Menubar>
     );
