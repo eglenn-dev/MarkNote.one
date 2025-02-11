@@ -14,52 +14,60 @@ type Release = {
 
 const releases: Release[] = [
     {
+        version: "1.4.0",
+        date: "2025-02-11",
+        changes: [
+            "Updated note editor with drop down menus for more settings.",
+            "Added a full screen mode rendered for the note editor.",
+        ],
+    },
+    {
         version: "1.3.0",
         date: "2025-02-03",
         changes: [
-            "Notes can note be categorized by tags",
-            "Added ability to pin notes to the top of the list",
-            "Tags can be created and deleted in settings",
-            "Home page context menu can now edit categories and pinned notes",
-            "Tips and tricks now has markdown shortcuts",
+            "Notes can note be categorized by tags.",
+            "Added ability to pin notes to the top of the list.",
+            "Tags can be created and deleted in settings.",
+            "Home page context menu can now edit categories and pinned notes.",
+            "Tips and tricks now has markdown shortcuts.",
         ],
     },
     {
         version: "1.2.0",
         date: "2025-01-25",
         changes: [
-            "Added sidebar file list for easier navigation between notes",
-            "Implemented file selection and editing functionality",
-            "Added docs popup with list of available shortcuts",
-            "Added release notes page to track changes",
+            "Added sidebar file list for easier navigation between notes.",
+            "Implemented file selection and editing functionality.",
+            "Added docs popup with list of available shortcuts.",
+            "Added release notes page to track changes.",
         ],
     },
     {
         version: "1.1.1",
         date: "2025-01-16",
         changes: [
-            "Added page for uploading new .md files that are converted into MarkNote",
-            "Added a download button that saves notes to a local .md file",
+            "Added page for uploading new .md files that are converted into MarkNote.",
+            "Added a download button that saves notes to a local .md file.",
         ],
     },
     {
         version: "1.1.0",
         date: "2025-01-15",
         changes: [
-            "Added GitHub as an authentication provider",
-            "Implemented account management page",
-            "Improved responsive design for mobile devices",
-            "Added keyboard shortcuts for common actions",
+            "Added GitHub as an authentication provider.",
+            "Implemented account management page.",
+            "Improved responsive design for mobile devices.",
+            "Added keyboard shortcuts for common actions.",
         ],
     },
     {
         version: "1.0.0",
         date: "2025-01-11",
         changes: [
-            "Initial release of MarkNote.one",
-            "Autosave turned on for all notes",
-            "Basic Markdown editing and preview functionality",
-            "User authentication (login and signup)",
+            "Initial release of MarkNote.one.",
+            "Autosave turned on for all notes.",
+            "Basic Markdown editing and preview functionality.",
+            "User authentication (login and signup).",
         ],
     },
 ];
