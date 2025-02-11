@@ -7,6 +7,7 @@ import {
     MenubarItem,
     MenubarShortcut,
 } from "@/components/ui/menubar";
+import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import DownloadButton from "./download-button";
@@ -14,6 +15,7 @@ import NoteCategory from "./note-category";
 import { redirect } from "next/navigation";
 
 interface NoteMenuBarProps {
+    saveStatus: string;
     showPreview: boolean;
     setShowPreview: (show: boolean) => void;
     fullPreview: boolean;
@@ -27,6 +29,7 @@ interface NoteMenuBarProps {
 }
 
 export function NoteMenuBar({
+    saveStatus,
     showPreview,
     setShowPreview,
     fullPreview,
@@ -41,7 +44,7 @@ export function NoteMenuBar({
     return (
         <Menubar className="mb-4">
             <MenubarMenu>
-                <MenubarTrigger className="text-md">File</MenubarTrigger>
+                <MenubarTrigger className="text-sm">File</MenubarTrigger>
                 <MenubarContent className="border border-gray-500">
                     <MenubarItem
                         asChild
@@ -95,7 +98,7 @@ export function NoteMenuBar({
                 </MenubarContent>
             </MenubarMenu>
             <MenubarMenu>
-                <MenubarTrigger className="text-md">Edit</MenubarTrigger>
+                <MenubarTrigger className="text-sm">Edit</MenubarTrigger>
                 <MenubarContent className="border border-gray-500">
                     <MenubarItem className="py-0 mx-auto">
                         <Button
@@ -113,7 +116,7 @@ export function NoteMenuBar({
                 </MenubarContent>
             </MenubarMenu>
             <MenubarMenu>
-                <MenubarTrigger className="text-md">View</MenubarTrigger>
+                <MenubarTrigger className="text-sm">View</MenubarTrigger>
                 <MenubarContent className="border border-gray-500">
                     <MenubarItem
                         asChild
@@ -159,6 +162,35 @@ export function NoteMenuBar({
                 <Badge className="hidden sm:block">
                     {category ? category : "----"}
                 </Badge>
+            </MenubarMenu>
+            <MenubarMenu>
+                <div className="flex flex-row items-center justify-between select-none">
+                    <div className="flex items-center justify-end ml-2">
+                        {saveStatus === "unsaved" && (
+                            <span className="text-yellow-500">
+                                Unsaved changes
+                            </span>
+                        )}
+                        {saveStatus === "saving" && (
+                            <span className="text-blue-500 flex items-center">
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Saving...
+                            </span>
+                        )}
+                        {saveStatus === "saved" && (
+                            <span className="text-green-500 flex items-center">
+                                <CheckCircle className="mr-2 h-4 w-4" />
+                                Changes saved
+                            </span>
+                        )}
+                        {saveStatus === "error" && (
+                            <span className="text-red-500 flex items-center">
+                                <AlertCircle className="mr-2 h-4 w-4" />
+                                Error saving changes
+                            </span>
+                        )}
+                    </div>
+                </div>
             </MenubarMenu>
         </Menubar>
     );

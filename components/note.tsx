@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import MarkdownPreview from "@/components/markdown-preview";
 import { createPostAction, updatePostAction } from "./action";
-import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { NoteMenuBar } from "@/components/menu-bar";
 import { redirect } from "next/navigation";
 
@@ -145,43 +145,6 @@ export default function NoteEditor({
 
     return (
         <div className="flex flex-col w-full h-full">
-            <div className="flex flex-row items-center justify-between select-none">
-                <NoteMenuBar
-                    showPreview={showPreview}
-                    setShowPreview={setShowPreview}
-                    fullPreview={fullPreview}
-                    setFullPreview={setFullPreview}
-                    noteTitle={noteTitle}
-                    note={note}
-                    category={category}
-                    categoriesList={categoriesList}
-                    setCategory={setCategory}
-                    saveNote={saveNote}
-                />
-                <div className="flex items-center justify-end mb-2">
-                    {saveStatus === "unsaved" && (
-                        <span className="text-yellow-500">Unsaved changes</span>
-                    )}
-                    {saveStatus === "saving" && (
-                        <span className="text-blue-500 flex items-center">
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Saving...
-                        </span>
-                    )}
-                    {saveStatus === "saved" && (
-                        <span className="text-green-500 flex items-center">
-                            <CheckCircle className="mr-2 h-4 w-4" />
-                            Changes saved
-                        </span>
-                    )}
-                    {saveStatus === "error" && (
-                        <span className="text-red-500 flex items-center">
-                            <AlertCircle className="mr-2 h-4 w-4" />
-                            Error saving changes
-                        </span>
-                    )}
-                </div>
-            </div>
             <div className="mb-4">
                 <Input
                     id="title"
@@ -195,6 +158,19 @@ export default function NoteEditor({
                     onChange={(e) => setNoteTitle(e.target.value)}
                 />
             </div>
+            <NoteMenuBar
+                saveStatus={saveStatus}
+                showPreview={showPreview}
+                setShowPreview={setShowPreview}
+                fullPreview={fullPreview}
+                setFullPreview={setFullPreview}
+                noteTitle={noteTitle}
+                note={note}
+                category={category}
+                categoriesList={categoriesList}
+                setCategory={setCategory}
+                saveNote={saveNote}
+            />
             {saveStatus === "error" && (
                 <Alert variant="destructive" className="mb-4">
                     <AlertCircle className="h-4 w-4" />
