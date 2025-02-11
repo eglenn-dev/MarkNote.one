@@ -19,6 +19,7 @@ const releases: Release[] = [
         changes: [
             "Updated note editor with drop down menus for more settings.",
             "Added a full screen mode rendered for the note editor.",
+            "Refactored the note editor to use a more modular design.",
         ],
     },
     {
