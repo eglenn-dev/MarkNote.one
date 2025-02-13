@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { ThemeToggle } from "@/components/theme-toggle";
+import LandingHeader from "@/components/landing-header";
 
 export const metadata = {
     title: "Release Notes | MarkNote.one",
@@ -76,26 +75,7 @@ const releases: Release[] = [
 export default function ReleaseNotes() {
     return (
         <div className="container mx-auto min-h-screen p-4 flex flex-col">
-            <header className="flex justify-between items-center mb-8">
-                <Link
-                    href="/"
-                    className="text-2xl font-bold flex items-center space-x-1"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={30}
-                        height={30}
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            fill="currentColor"
-                            d="m5.41 21l.71-4h-4l.35-2h4l1.06-6h-4l.35-2h4l.71-4h2l-.71 4h6l.71-4h2l-.71 4h4l-.35 2h-4l-1.06 6h4l-.35 2h-4l-.71 4h-2l.71-4h-6l-.71 4zM9.53 9l-1.06 6h6l1.06-6z"
-                        ></path>
-                    </svg>
-                    MarkNote.one
-                </Link>
-                <ThemeToggle />
-            </header>
+            <LandingHeader />
             <main className="flex-grow pl-4 pr-4 md:pl-0 md:pr-0 md:w-1/2 mx-auto">
                 <h1 className="text-3xl font-bold mb-6 text-center">
                     Release Notes

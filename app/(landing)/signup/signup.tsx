@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { signup } from "./action";
+import LandingHeader from "@/components/landing-header";
 
 export default function SignupPage() {
     const [email, setEmail] = useState("");
@@ -24,26 +24,7 @@ export default function SignupPage() {
 
     return (
         <div className="container mx-auto min-h-screen flex flex-col">
-            <header className="p-4 flex justify-between items-center">
-                <Link
-                    href="/"
-                    className="text-2xl font-bold flex items-center space-x-1"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={30}
-                        height={30}
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            fill="currentColor"
-                            d="m5.41 21l.71-4h-4l.35-2h4l1.06-6h-4l.35-2h4l.71-4h2l-.71 4h6l.71-4h2l-.71 4h4l-.35 2h-4l-1.06 6h4l-.35 2h-4l-.71 4h-2l.71-4h-6l-.71 4zM9.53 9l-1.06 6h6l1.06-6z"
-                        ></path>
-                    </svg>
-                    MarkNote.one
-                </Link>
-                <ThemeToggle />
-            </header>
+            <LandingHeader />
             <main className="flex-grow flex flex-col items-center justify-center p-4">
                 <div className="w-full max-w-md space-y-8">
                     <div className="text-center">
