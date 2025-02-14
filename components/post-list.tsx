@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlusCircle, Search, UploadCloud, Pin } from "lucide-react";
+import { PlusIcon } from "./icons";
 import NoteModal from "./note-modal";
 import ContextMenu from "./context-menu";
 
@@ -156,7 +157,7 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                         </svg>
                         <p>Try right clicking a card</p>
                     </div>
-                    <Link href="/new-note">
+                    <Link href="/new-note" className="hidden md:block">
                         <Button>
                             <PlusCircle className="mr-2 h-4 w-4" /> New Note
                         </Button>
@@ -204,6 +205,12 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                     </Link>
                 ))}
             </div>
+            <Link
+                href="/new-note"
+                className="md:hidden fixed bottom-10 right-4 m-6 h-12 w-12 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-200"
+            >
+                <PlusIcon width={24} height={24} className="h-8 w-8" />
+            </Link>
             {filteredPosts.length === 0 && (
                 <p className="text-center text-gray-500 mt-8">
                     No notes found. Create a new one!
