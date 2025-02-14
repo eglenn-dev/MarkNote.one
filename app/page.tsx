@@ -16,7 +16,7 @@ export default async function LandingPage() {
                     Welcome to MarkNote.one
                 </h2>
                 <div className="text-xl mb-8">
-                    <HomeMdPreview text="A _powerful_ Markdown **note-taking** app with [live]() `previews`" />
+                    <HomeMdPreview text="A _powerful_ markdown **note-taking** app with [live]() `previews`" />
                 </div>
                 <div></div>
                 <Link
