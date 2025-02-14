@@ -96,7 +96,7 @@ export default function Login() {
                     <div>
                         <a href="/oauth/github" className="w-full">
                             <Button
-                                variant="outline"
+                                variant="secondary"
                                 className="w-full"
                                 onClick={() => setGitHubLoading(true)}
                                 disabled={gitHubLoading}

@@ -107,20 +107,9 @@ export default function Header() {
                             </SheetDescription>
                         </SheetHeader>
                         <div className="mt-4 flex flex-col">
-                            <Link href="/release-notes">
-                                <Button>Release Notes</Button>
+                            <Link href="/feedback">
+                                <Button>Submit Feedback</Button>
                             </Link>
-                        </div>
-                        <form action={createDemoPostAction}>
-                            <Button
-                                type="submit"
-                                variant="secondary"
-                                className="mt-4"
-                            >
-                                Welcome Note
-                            </Button>
-                        </form>
-                        <div className="mt-4 flex flex-col">
                             <Table>
                                 <TableCaption>
                                     Markdown tips to help you get started
@@ -144,6 +133,18 @@ export default function Header() {
                                     ))}
                                 </TableBody>
                             </Table>
+                        </div>
+                        <div className="mt-4 flex flex-row gap-2 justify-center items-center">
+                            <Link href="/release-notes">
+                                <Button variant="secondary">
+                                    Release Notes
+                                </Button>
+                            </Link>
+                            <form action={createDemoPostAction}>
+                                <Button type="submit" variant="secondary">
+                                    Welcome Note
+                                </Button>
+                            </form>
                         </div>
                     </SheetContent>
                 </Sheet>

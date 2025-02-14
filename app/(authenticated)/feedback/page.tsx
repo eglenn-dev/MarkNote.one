@@ -16,33 +16,29 @@ import {
     CardDescription,
     CardContent,
 } from "@/components/ui/card";
-import Link from "next/link";
+import { submitFeedbackAction } from "./action";
+import { getFeedback } from "@/models/feedback-model";
+import { redirect } from "next/navigation";
+import DeleteFeedbackButton from "./delete-feedback-button";
+
+interface Feedback {
+    key: string;
+    type: string;
+    content: string;
+    userId: string;
+}
+
+export const metadata = {
+    title: "Feedback | MarkNote.one",
+};
 
 export default async function FeedbackPage() {
     const session = await getSession();
-
-    if (!session?.user) {
-        return (
-            <div className="container max-w-md mx-auto h-full flex items-center justify-center">
-                <Card className="w-full">
-                    <CardHeader className="text-center">
-                        <CardTitle className="text-2xl font-bold">
-                            Feedback
-                        </CardTitle>
-                        <CardDescription>
-                            You must be signed in to leave feedback.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex justify-center">
-                        <Link href="/login">
-                            <Button className="w-full">Sign in</Button>
-                        </Link>
-                    </CardContent>
-                </Card>
-            </div>
-        );
-    }
-
+    if (!session?.user) redirect("/");
+    const feedbackList =
+        session.user.role === "admin"
+            ? ((await getFeedback()) as Feedback[])
+            : [];
     return (
         <div className="container max-w-2xl mx-auto py-8">
             <Card>
@@ -55,9 +51,12 @@ export default async function FeedbackPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form className="flex flex-col gap-4">
+                    <form
+                        action={submitFeedbackAction}
+                        className="flex flex-col gap-4"
+                    >
                         <Label htmlFor="type">Type</Label>
-                        <Select>
+                        <Select name="type">
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="Select a Type" />
                             </SelectTrigger>
@@ -73,10 +72,10 @@ export default async function FeedbackPage() {
                         </Select>
                         <Label htmlFor="feedback">Feedback</Label>
                         <Input
-                            id="feedback"
-                            name="feedback"
+                            id="content"
+                            name="content"
                             type="text"
-                            className="w-full"
+                            className="w-full border-white h-[44px]"
                             required
                         />
                         <div className="mt-4">
@@ -85,6 +84,31 @@ export default async function FeedbackPage() {
                     </form>
                 </CardContent>
             </Card>
+            <div className="mt-8">
+                <h2 className="text-2xl font-bold mb-4">Feedback List</h2>
+                {feedbackList.length > 0 ? (
+                    <ul className="space-y-4">
+                        {feedbackList.map((feedback) => (
+                            <li
+                                key={feedback.key}
+                                className="p-4 border border-gray-800 rounded-md flex flex-row justify-between"
+                            >
+                                <div>
+                                    <p className="text-lg font-semibold">
+                                        {feedback.type}
+                                    </p>
+                                    <p>{feedback.content}</p>
+                                </div>
+                                <DeleteFeedbackButton
+                                    feedbackKey={feedback.key}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No feedback available.</p>
+                )}
+            </div>
         </div>
     );
 }
