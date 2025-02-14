@@ -6,7 +6,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Mail } from "lucide-react";
-import { GithubIcon } from "@/components/icons";
+import { GithubIcon, GlobeIcon } from "@/components/icons";
 import LandingHeader from "@/components/landing-header";
 
 export const metadata = {
@@ -34,8 +34,14 @@ export default function AboutPage() {
                         </CardHeader>
                         <CardContent>
                             <p className="text-muted-foreground mb-4">
-                                <a href="https://eglenn.dev">Ethan Glenn</a> is
-                                a full-stack developer and the creator of
+                                <a
+                                    href="https://eglenn.dev"
+                                    target="_blank"
+                                    className="underline underline-offset-4"
+                                >
+                                    Ethan Glenn
+                                </a>{" "}
+                                is a full-stack developer and the creator of
                                 MarkNote.one. With a passion for building
                                 innovative web applications, Ethan has a keen
                                 interest in AI and its potential to transform
@@ -65,9 +71,10 @@ export default function AboutPage() {
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="flex items-center space-x-2">
-                                <Mail className="h-5 w-5 text-muted-foreground" />
+                                <Mail className="h-5 w-5" />
                                 <a
                                     href="mailto:info@marknote.one"
+                                    target="_blank"
                                     className="text-primary hover:underline"
                                 >
                                     info@marknote.one
@@ -82,6 +89,12 @@ export default function AboutPage() {
                                     className="text-primary hover:underline"
                                 >
                                     github.com/eglenn-dev/marknote.one
+                                </a>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <GlobeIcon />
+                                <a href="https://eglenn.dev" target="_blank">
+                                    About Ethan (eglenn.dev)
                                 </a>
                             </div>
                         </CardContent>
