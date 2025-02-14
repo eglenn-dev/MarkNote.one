@@ -24,10 +24,13 @@ export default function LandingHeader() {
             <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-4">
                     <Link href="/login">
-                        <Button variant="outline">Login</Button>
+                        <Button>Login</Button>
                     </Link>
                     <Link href="/signup">
-                        <Button>Sign Up</Button>
+                        <Button variant="outline">Sign Up</Button>
+                    </Link>
+                    <Link href="/about" className="hidden sm:block">
+                        <Button variant="outline">About</Button>
                     </Link>
                 </div>
                 <ThemeToggle />
