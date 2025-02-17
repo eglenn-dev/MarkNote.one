@@ -13,9 +13,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlusCircle, Search, UploadCloud, Pin } from "lucide-react";
-import { PlusIcon } from "./icons";
-import NoteModal from "./note-modal";
-import ContextMenu from "./context-menu";
+import { PlusIcon } from "../../../components/icons";
+import NoteModal from "../../../components/note-modal";
+import ContextMenu from "../../../components/context-menu";
 
 interface Post {
     id: string;

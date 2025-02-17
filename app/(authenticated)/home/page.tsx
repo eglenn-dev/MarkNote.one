@@ -4,7 +4,7 @@ import { getPostsByUser } from "@/models/post-model";
 import { getUserCategories } from "@/models/accounts-model";
 import { Suspense } from "react";
 import HomeSkeleton from "./home-skeleton";
-import PostList from "@/components/post-list";
+import PostList from "./post-list";
 
 interface Post {
     title: string;
