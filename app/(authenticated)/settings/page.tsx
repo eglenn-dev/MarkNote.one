@@ -7,25 +7,44 @@ import {
     getUserCategories,
 } from "@/models/accounts-model";
 import Settings from "./settings";
+import { Suspense } from "react";
+import SettingsSkeleton from "./setting-skeleton";
 
 export const metadata = {
     title: "Settings | MarkNote.one",
 };
 
+interface User {
+    user: {
+        userId: string;
+        role: string;
+        menuOpen: boolean;
+        mdPreview: boolean;
+    };
+}
+
 export default async function AccountPage() {
     const session = await getSession();
     if (!session) redirect("/login");
 
-    const userEmail = await getEmailByKey(session.user.userId);
-    const username = await getUsernameByKey(session.user.userId);
-    const userCategories = await getUserCategories(session.user.userId);
+    return (
+        <Suspense fallback={<SettingsSkeleton />}>
+            <AccountPageWrapper user={session.user} />
+        </Suspense>
+    );
+}
+
+async function AccountPageWrapper({ user }: User) {
+    const userEmail = await getEmailByKey(user.userId);
+    const username = await getUsernameByKey(user.userId);
+    const userCategories = await getUserCategories(user.userId);
     const isOauth = await checkOauthUser(username);
 
     const userAccount = {
-        userId: session.user.userId,
+        userId: user.userId,
         preferences: {
-            mdPreview: session.user.mdPreview,
-            menuOpen: session.user.menuOpen,
+            mdPreview: user.mdPreview,
+            menuOpen: user.menuOpen,
             categories: userCategories,
         },
         username: username,
