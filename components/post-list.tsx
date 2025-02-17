@@ -50,7 +50,10 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
         );
     });
 
-    const sortedPosts = [...sortedPinnedPosts, ...sortedUnpinnedPosts];
+    const [sortedPosts, setSortedPosts] = useState<Post[]>([
+        ...sortedPinnedPosts,
+        ...sortedUnpinnedPosts,
+    ]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedPost, setSelectedPost] = useState<Post | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -104,6 +107,12 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
 
     const closeContextMenu = () => {
         setContextMenu(null);
+    };
+
+    const handlePostDelete = (postId: string) => {
+        setSortedPosts((sortedPosts) =>
+            sortedPosts.filter((post) => post.id !== postId)
+        );
     };
 
     useEffect(() => {
@@ -237,6 +246,7 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                         }
                         postClick={handlePostClick}
                         closeMenu={closeContextMenu}
+                        deletePost={handlePostDelete}
                     />
                 </div>
             )}

@@ -32,6 +32,7 @@ interface ContextMenuProps {
     categories: string[];
     postClick: (post: Post) => void;
     closeMenu: () => void;
+    deletePost: (postId: string) => void;
 }
 
 const ContextMenu: React.FC<ContextMenuProps> = ({
@@ -41,10 +42,12 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
     categories,
     postClick,
     closeMenu,
+    deletePost,
 }) => {
     const handleDelete = () => {
         if (!post) return;
         deletePostAction(post.id);
+        deletePost(post.id);
         closeMenu();
     };
 
