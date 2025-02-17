@@ -158,11 +158,11 @@ export function NoteMenuBar({
                     </MenubarItem>
                 </MenubarContent>
             </MenubarMenu>
-            <MenubarMenu>
-                <Badge className="hidden sm:block">
-                    {category ? category : "----"}
-                </Badge>
-            </MenubarMenu>
+            {category && (
+                <MenubarMenu>
+                    <Badge className="hidden sm:block">{category}</Badge>
+                </MenubarMenu>
+            )}
             <MenubarMenu>
                 <div className="flex flex-row items-center justify-between select-none">
                     <div className="flex items-center justify-end ml-2">

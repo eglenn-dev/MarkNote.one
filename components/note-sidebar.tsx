@@ -26,7 +26,6 @@ interface EditorSidebarProps {
 
 export default function NoteSidebar({ posts, preference }: EditorSidebarProps) {
     const [menuOpen, setMenuOpen] = useState(preference);
-
     const pinnedPosts = posts.filter((post) => post.pinned);
     const unpinnedPosts = posts.filter((post) => !post.pinned);
 

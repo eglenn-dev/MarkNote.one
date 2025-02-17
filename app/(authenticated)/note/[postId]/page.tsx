@@ -4,6 +4,8 @@ import { getPostByKey, getPostsByUser } from "@/models/post-model";
 import { getUserCategories } from "@/models/accounts-model";
 import Note from "@/components/note";
 import NoteSidebar from "@/components/note-sidebar";
+import { NoteEditorSkeleton, NoteSidebarSkeleton } from "./note-skeletons";
+import { Suspense } from "react";
 
 export const metadata = {
     title: "Edit Note | MarkNote.one",
@@ -26,12 +28,59 @@ export default async function Page({
     const session = await getSession();
     if (!session) redirect("/login");
 
-    const post = await getPostByKey((await params).postId);
-    if (!post) redirect("/");
-    if (session.user.userId !== post.userId) redirect("/");
+    return (
+        <div className="flex flex-row h-full gap-3">
+            <Suspense fallback={<NoteSidebarSkeleton />}>
+                <NoteSidebarWrapper
+                    userId={session.user.userId}
+                    menuOpen={session.user.menuOpen}
+                />
+            </Suspense>
+            <Suspense fallback={<NoteEditorSkeleton />}>
+                <NoteWrapper
+                    userId={session.user.userId}
+                    postId={(await params).postId}
+                    mdPreview={session.user.mdPreview}
+                />
+            </Suspense>
+        </div>
+    );
+}
 
-    const categoriesList = await getUserCategories(session.user.userId);
-    const posts = (await getPostsByUser(session.user.userId)) as Post[];
+async function NoteWrapper({
+    userId,
+    postId,
+    mdPreview,
+}: {
+    userId: string;
+    postId: string;
+    mdPreview: boolean;
+}) {
+    const post = await getPostByKey(postId);
+    if (!post) redirect("/");
+    if (userId !== post.userId) redirect("/");
+
+    const categoriesList = await getUserCategories(userId);
+
+    return (
+        <Note
+            userId={userId}
+            preference={mdPreview}
+            postKey={postId}
+            categoriesList={categoriesList}
+            post={post}
+        />
+    );
+}
+
+async function NoteSidebarWrapper({
+    userId,
+    menuOpen,
+}: {
+    userId: string;
+    menuOpen: boolean;
+}) {
+    const posts = (await getPostsByUser(userId)) as Post[];
     if (!posts) return [];
     const postsArray = Object.entries(posts).map(([key, post]) => {
         return {
@@ -50,19 +99,5 @@ export default async function Page({
             new Date(a.lastUpdated).getTime()
     );
 
-    return (
-        <div className="flex flex-row h-full gap-3">
-            <NoteSidebar
-                posts={postsArray}
-                preference={session.user.menuOpen}
-            />
-            <Note
-                userId={session.user.userId}
-                preference={session.user.mdPreview}
-                postKey={(await params).postId}
-                categoriesList={categoriesList}
-                post={post}
-            />
-        </div>
-    );
+    return <NoteSidebar posts={postsArray} preference={menuOpen} />;
 }
