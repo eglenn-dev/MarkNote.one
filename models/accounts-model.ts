@@ -213,7 +213,7 @@ export async function getUserCategories(uid: string) {
     return user.preferences.categories || [];
 }
 
-export async function checkOauthUser(username: string, primaryEmail: string) {
+export async function checkOauthUser(username: string, primaryEmail?: string) {
     try {
         const userSnapshot = await db
             .ref("users")
@@ -222,7 +222,10 @@ export async function checkOauthUser(username: string, primaryEmail: string) {
             .once("value");
         const user = userSnapshot.val();
         const userKey = Object.keys(user || {})[0];
-        if (user.userKey.email === "" || user.userKey.email === null) {
+        if (
+            primaryEmail &&
+            (user.userKey.email === "" || user.userKey.email === null)
+        ) {
             await updateUserEmail(userKey, primaryEmail);
         }
         return user !== null;
