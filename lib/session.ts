@@ -1,7 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { JWTExpired } from "jose/errors";
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 const secretKey = process.env.SECRET_KEY;
 const key = new TextEncoder().encode(secretKey);
@@ -62,7 +62,12 @@ export async function updateSession(request: NextRequest) {
     const parsed = await decrypt(session);
     if (!parsed) return;
 
-    parsed.expires = new Date(Date.now() + 60 * 60 * 1000 * 168);
+    const fourDaysAgo = new Date(Date.now() - 4 * 24 * 60 * 60 * 1000);
+    if (new Date(parsed.expires) > fourDaysAgo) {
+        return NextResponse.next();
+    }
+
+    parsed.expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     const updatedSessionData = {
         user: {
