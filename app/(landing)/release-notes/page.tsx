@@ -13,6 +13,14 @@ type Release = {
 
 const releases: Release[] = [
     {
+        version: "1.4.6",
+        date: "2025-02-18",
+        changes: [
+            "Updated GitHub OAuth to add GitHub account email to account.",
+            "Added skeleton loaders to improve navigation speed and responsiveness.",
+        ],
+    },
+    {
         version: "1.4.5",
         date: "2025-02-14",
         changes: [
