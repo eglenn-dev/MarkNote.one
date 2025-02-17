@@ -224,7 +224,7 @@ export async function checkOauthUser(username: string, primaryEmail?: string) {
         const userKey = Object.keys(user || {})[0];
         if (
             primaryEmail &&
-            (user.userKey.email === "" || user.userKey.email === null)
+            (user[userKey].email === "" || user[userKey].email === null)
         ) {
             await updateUserEmail(userKey, primaryEmail);
         }

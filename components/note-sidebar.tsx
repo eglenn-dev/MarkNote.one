@@ -105,7 +105,7 @@ export default function NoteSidebar({ posts, preference }: EditorSidebarProps) {
                 } flex flex-col`}
             >
                 {sortedPosts.map((post) => (
-                    <HoverCard key={post.title}>
+                    <HoverCard key={post.id}>
                         <HoverCardTrigger asChild>
                             <Link href={`/note/${post.id}`}>
                                 <Button variant="ghost" className="text-xs">
