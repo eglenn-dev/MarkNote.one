@@ -60,8 +60,38 @@ export async function GET(request: Request) {
         const user = await userResponse.json();
         const githubUsername = user.login;
 
-        if (!(await checkOauthUser(githubUsername)))
-            await createOauthUser(githubUsername);
+        const emailsResponse = await fetch(
+            "https://api.github.com/user/emails",
+            {
+                headers: {
+                    Authorization: `token ${data.access_token}`,
+                },
+            }
+        );
+
+        if (!emailsResponse.ok) {
+            console.error(
+                "Error Fetching User Emails:",
+                emailsResponse.status,
+                emailsResponse.statusText
+            );
+            return new Response("Error fetching user email data", {
+                status: emailsResponse.status,
+            });
+        }
+
+        const emailList = await emailsResponse.json();
+        const primaryEmail = emailList.find(
+            (item: {
+                email: string;
+                primary: boolean;
+                verified: boolean;
+                visibility: boolean;
+            }) => item.primary
+        ).email;
+
+        if (!(await checkOauthUser(githubUsername, primaryEmail)))
+            await createOauthUser(githubUsername, primaryEmail);
 
         const key = await getKeyByUsername(githubUsername);
         if (!key) throw new Error("Failed to get key by username");

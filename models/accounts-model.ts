@@ -171,9 +171,9 @@ export async function createUser(
     await createDemoPost(userId);
 }
 
-export async function createOauthUser(username: string) {
+export async function createOauthUser(username: string, primaryEmail: string) {
     const user: User = {
-        email: "",
+        email: primaryEmail,
         name: username,
         password: "",
         role: "user",
@@ -213,7 +213,7 @@ export async function getUserCategories(uid: string) {
     return user.preferences.categories || [];
 }
 
-export async function checkOauthUser(username: string) {
+export async function checkOauthUser(username: string, primaryEmail: string) {
     try {
         const userSnapshot = await db
             .ref("users")
@@ -221,6 +221,10 @@ export async function checkOauthUser(username: string) {
             .equalTo(username)
             .once("value");
         const user = userSnapshot.val();
+        const userKey = Object.keys(user || {})[0];
+        if (user.userKey.email === "" || user.userKey.email === null) {
+            await updateUserEmail(userKey, primaryEmail);
+        }
         return user !== null;
     } catch (e) {
         console.error("Error checking oauth user: ", e);
