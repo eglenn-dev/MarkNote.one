@@ -61,7 +61,7 @@ export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
                         />
                     ) : (
                         <code
-                            className="bg-gray-100 dark:bg-gray-700 rounded p-2 my-2 whitespace-pre-wrap"
+                            className="bg-gray-100 dark:bg-gray-700 rounded p-1 my-2 whitespace-pre-wrap"
                             {...props}
                         />
                     ),
