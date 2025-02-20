@@ -33,6 +33,7 @@ interface ContextMenuProps {
     postClick: (post: Post) => void;
     closeMenu: () => void;
     deletePost: (postId: string) => void;
+    categoryChange: (postId: string, category: string) => void;
 }
 
 const ContextMenu: React.FC<ContextMenuProps> = ({
@@ -43,6 +44,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
     postClick,
     closeMenu,
     deletePost,
+    categoryChange,
 }) => {
     const handleDelete = () => {
         if (!post) return;
@@ -55,13 +57,14 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         console.log("category", category);
         if (!post) return;
         updatePostCategoryAction(post.id, category);
+        categoryChange(post.id, category);
         closeMenu();
     };
 
     const pinClick = () => {
         if (!post) return;
         pinPostAction(post.id);
-        closeMenu();
+        window.location.reload();
     };
 
     return (
