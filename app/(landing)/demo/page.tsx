@@ -16,12 +16,6 @@ export default async function DemoPage() {
             <main className="flex-grow pl-4 pr-4 md:pl-0 md:pr-0 md:w-full mx-auto">
                 <DemoExample />
             </main>
-            <footer className="mt-8 text-center text-sm text-muted-foreground">
-                <p>
-                    &copy; {new Date().getFullYear()} MarkNote. All rights
-                    reserved.
-                </p>
-            </footer>
         </div>
     );
 }

@@ -13,6 +13,15 @@ type Release = {
 
 const releases: Release[] = [
     {
+        version: "1.5.0",
+        date: "2025-02-20",
+        changes: [
+            "Created a demo page for users to try out MarkNote.one.",
+            "Demo page includes a live markdown editor with preview, and upload and download buttons.",
+            "Demo page can now be accessed from the landing page.",
+        ],
+    },
+    {
         version: "1.4.6",
         date: "2025-02-18",
         changes: [
