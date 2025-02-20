@@ -18,13 +18,20 @@ export default async function LandingPage() {
                 <div className="text-xl mb-8">
                     <HomeMdPreview text="A _powerful_ markdown **note-taking** app with [live]() `previews`" />
                 </div>
-                <div></div>
-                <Link
-                    href="/login"
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-md text-lg font-semibold transition-colors"
-                >
-                    Start Taking Notes
-                </Link>
+                <div className="flex flex-row gap-4">
+                    <Link
+                        href="/login"
+                        className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-md text-lg font-semibold transition-colors"
+                    >
+                        Start Taking Notes
+                    </Link>
+                    <Link
+                        href="/demo"
+                        className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-md text-lg font-semibold transition-colors"
+                    >
+                        Try It Out
+                    </Link>
+                </div>
             </main>
             <footer className="p-4 text-center text-sm text-muted-foreground">
                 &copy; {new Date().getFullYear()} MarkNote.one. All rights

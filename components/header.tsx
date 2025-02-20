@@ -107,9 +107,9 @@ export default function Header() {
                             </SheetDescription>
                         </SheetHeader>
                         <div className="mt-4 flex flex-col">
-                            <Link href="/feedback">
+                            <a href="/feedback">
                                 <Button>Submit Feedback</Button>
-                            </Link>
+                            </a>
                             <Table>
                                 <TableCaption>
                                     Markdown tips to help you get started
@@ -145,6 +145,9 @@ export default function Header() {
                                     Welcome Note
                                 </Button>
                             </form>
+                            <Link href="/demo">
+                                <Button variant="secondary">Demo</Button>
+                            </Link>
                         </div>
                     </SheetContent>
                 </Sheet>
