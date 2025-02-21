@@ -4,6 +4,7 @@ import Signup from "./signup";
 
 export const metadata = {
     title: "Signup | MarkNote.one",
+    description: "Create an account on MarkNote.one",
 };
 
 export default async function LoginPage() {

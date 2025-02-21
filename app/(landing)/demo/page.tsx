@@ -5,6 +5,7 @@ import { getSession } from "@/lib/session";
 
 export const metadata = {
     title: "Demo | MarkNote.one",
+    description: "Try out MarkNote.one for yourself!",
 };
 
 export default async function DemoPage() {

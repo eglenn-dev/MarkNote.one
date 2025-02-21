@@ -11,6 +11,7 @@ import LandingHeader from "@/components/landing-header";
 
 export const metadata = {
     title: "About | MarkNote.one",
+    description: "Learn more about the creators of MarkNote.one",
 };
 
 export default function AboutPage() {

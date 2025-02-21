@@ -2,7 +2,7 @@ import LandingHeader from "@/components/landing-header";
 
 export const metadata = {
     title: "Release Notes | MarkNote.one",
-    description: "Release notes for MarkNote.one",
+    description: "Update release notes for MarkNote.one",
 };
 
 type Release = {
