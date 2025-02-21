@@ -17,6 +17,7 @@ export default function DeleteFeedbackButton({
             className="text-red-500 dark:text-red-400"
             onClick={async () => {
                 await deleteFeedbackAction(feedbackKey);
+                window.location.reload();
             }}
         >
             Delete
