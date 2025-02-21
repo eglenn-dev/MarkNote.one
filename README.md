@@ -50,6 +50,6 @@ We welcome contributions to MarkNote! If you would like to contribute, please fo
 4. Push your changes to your fork.
 5. Create a pull request.
 
-## License
+## Copyright
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+© 2025 Ethan Glenn. All rights reserved.

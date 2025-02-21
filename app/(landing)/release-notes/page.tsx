@@ -131,7 +131,7 @@ export default function ReleaseNotes() {
             </main>
             <footer className="mt-8 text-center text-sm text-muted-foreground">
                 <p>
-                    &copy; {new Date().getFullYear()} MarkNote. All rights
+                    &copy; {new Date().getFullYear()} MarkNote.one. All rights
                     reserved.
                 </p>
             </footer>
