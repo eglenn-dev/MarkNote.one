@@ -54,7 +54,6 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
     };
 
     const handleCategoryChange = (category: string) => {
-        console.log("category", category);
         if (!post) return;
         updatePostCategoryAction(post.id, category);
         categoryChange(post.id, category);
