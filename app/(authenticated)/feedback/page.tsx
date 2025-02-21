@@ -84,31 +84,36 @@ export default async function FeedbackPage() {
                     </form>
                 </CardContent>
             </Card>
-            <div className="mt-8">
-                <h2 className="text-2xl font-bold mb-4">Feedback List</h2>
-                {feedbackList.length > 0 ? (
-                    <ul className="space-y-4">
-                        {feedbackList.map((feedback) => (
-                            <li
-                                key={feedback.key}
-                                className="p-4 border border-gray-800 rounded-md flex flex-row justify-between"
-                            >
-                                <div>
-                                    <p className="text-lg font-semibold">
-                                        {feedback.type}
-                                    </p>
-                                    <p>{feedback.content}</p>
-                                </div>
-                                <DeleteFeedbackButton
-                                    feedbackKey={feedback.key}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No feedback available.</p>
-                )}
-            </div>
+            {session.user.role === "admin" && (
+                <div className="mt-8">
+                    <h2 className="text-2xl font-bold mb-4">Feedback List</h2>
+                    {feedbackList.length > 0 ? (
+                        <ul className="space-y-4">
+                            {feedbackList.map((feedback) => (
+                                <li
+                                    key={feedback.key}
+                                    className="p-4 border border-gray-800 rounded-md flex flex-row justify-between"
+                                >
+                                    <div>
+                                        <p className="text-lg font-semibold">
+                                            {feedback.type
+                                                .charAt(0)
+                                                .toUpperCase() +
+                                                feedback.type.slice(1)}
+                                        </p>
+                                        <p>{feedback.content}</p>
+                                    </div>
+                                    <DeleteFeedbackButton
+                                        feedbackKey={feedback.key}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No feedback available.</p>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
