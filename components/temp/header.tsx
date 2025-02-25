@@ -19,7 +19,7 @@ export default async function Header() {
             <a
                 href={
                     host === "temp.marknote.one"
-                        ? "https://marknote.one"
+                        ? `https://${process.env.BASE_URL}`
                         : "http://localhost:3000"
                 }
                 className="text-2xl font-bold flex items-center user-none space-x-1"
@@ -39,12 +39,12 @@ export default async function Header() {
             </a>
             <div className="hidden md:flex items-center space-x-4">
                 <Link href="/create">
-                    <Button>Create</Button>
+                    <Button>New Temp Note</Button>
                 </Link>
                 <a
                     href={
                         host === "temp.marknote.one"
-                            ? "https://marknote.one"
+                            ? `https://${process.env.BASE_URL}`
                             : "http://localhost:3000"
                     }
                 >
@@ -62,15 +62,20 @@ export default async function Header() {
                             className="text-lg font-semibold"
                             asChild
                         >
-                            <Link className="h-11" href="/home">
-                                Home
-                            </Link>
+                            <Link href="/create">New Temp Note</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className="text-lg font-semibold"
                             asChild
                         >
-                            <a className="h-11" href="https://marknote.one">
+                            <a
+                                className="h-11"
+                                href={
+                                    host === "temp.marknote.one"
+                                        ? `https://${process.env.BASE_URL}`
+                                        : "http://localhost:3000"
+                                }
+                            >
                                 Take Notes
                             </a>
                         </DropdownMenuItem>
