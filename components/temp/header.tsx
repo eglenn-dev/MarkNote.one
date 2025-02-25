@@ -16,8 +16,12 @@ export default async function Header() {
 
     return (
         <div className="flex justify-between items-center mb-4 px-4 py-4">
-            <Link
-                href="/"
+            <a
+                href={
+                    host === "temp.marknote.one"
+                        ? "https://marknote.one"
+                        : "http://localhost:3000"
+                }
                 className="text-2xl font-bold flex items-center user-none space-x-1"
             >
                 <svg
@@ -32,7 +36,7 @@ export default async function Header() {
                     ></path>
                 </svg>
                 <span className="hidden sm:inline">MarkNote.one</span>
-            </Link>
+            </a>
             <div className="hidden md:flex items-center space-x-4">
                 <Link href="/create">
                     <Button>Create</Button>
