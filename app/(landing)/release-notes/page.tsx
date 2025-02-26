@@ -13,6 +13,16 @@ type Release = {
 
 const releases: Release[] = [
     {
+        version: "1.6.0",
+        date: "2025-02-27",
+        changes: [
+            "Addition of Temporary Notes feature.",
+            "Temporary notes can be created without an account.",
+            "A single use link is generated for each temporary note.",
+            "Once opened, note content is removed from server and database.",
+        ],
+    },
+    {
         version: "1.5.1",
         date: "2025-02-21",
         changes: ["Minor bug fixes and performance improvements."],
