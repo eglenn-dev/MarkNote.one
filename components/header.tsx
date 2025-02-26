@@ -67,7 +67,7 @@ const markdownTips = [
     },
 ];
 
-export default function Header() {
+export default async function Header() {
     return (
         <div className="flex justify-between items-center mb-4 px-4 py-2">
             <Link
@@ -94,6 +94,12 @@ export default function Header() {
                 <Link href="/settings">
                     <Button variant="outline">Settings</Button>
                 </Link>
+                <a
+                    target="_blank"
+                    href={`https://temp.${process.env.BASE_DOMAIN}`}
+                >
+                    <Button variant="outline">Temp Note</Button>
+                </a>
                 <Sheet>
                     <SheetTrigger asChild>
                         <Button variant="outline">Tips</Button>
@@ -169,6 +175,18 @@ export default function Header() {
                             <Link className="h-11" href="/home">
                                 Home
                             </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="text-lg font-semibold"
+                            asChild
+                        >
+                            <a
+                                href={`https://temp.${process.env.BASE_DOMAIN}`}
+                                target="_blank"
+                                className="h-11"
+                            >
+                                Temp Note
+                            </a>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className="text-lg font-semibold"
