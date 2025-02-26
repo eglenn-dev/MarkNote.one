@@ -46,7 +46,7 @@ export default function OpenNote({ noteId }: OpenNoteProps) {
                 <div className="w-full max-w-2xl flex flex-col gap-8">
                     {isLoading && <p>Loading...</p>}
                     <MarkdownPreview content={noteContent} />
-                    <CopyText text={noteContent} />
+                    <CopyText text={noteContent} showText={false} />
                 </div>
             ) : (
                 <AlertDialog>

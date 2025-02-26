@@ -8,9 +8,14 @@ import { cn } from "@/lib/utils";
 interface CopyTextProps {
     text: string;
     className?: string;
+    showText?: boolean;
 }
 
-export default function CopyText({ text, className }: CopyTextProps) {
+export default function CopyText({
+    text,
+    className,
+    showText = true,
+}: CopyTextProps) {
     const [copied, setCopied] = useState(false);
 
     const copyToClipboard = async () => {
@@ -27,7 +32,9 @@ export default function CopyText({ text, className }: CopyTextProps) {
         <div
             className={cn("relative group flex items-center gap-2", className)}
         >
-            <div className="w-fit break-all text-gray-200">{text}</div>
+            {showText && (
+                <div className="w-fit break-all text-gray-200">{text}</div>
+            )}
             <Button
                 variant="ghost"
                 size="icon"

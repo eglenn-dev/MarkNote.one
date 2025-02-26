@@ -13,11 +13,7 @@ import {
 } from "@/components/ui/card";
 import CopyText from "@/components/temp/copy-button";
 
-interface CreateTempNoteProps {
-    host: string;
-}
-
-export default function CreateTempNote({ host }: CreateTempNoteProps) {
+export default function CreateTempNote() {
     const [noteContent, setNoteContent] = useState("");
     const [noteId, setNoteId] = useState("");
 
@@ -51,11 +47,7 @@ export default function CreateTempNote({ host }: CreateTempNoteProps) {
                             </p>
                             <div className="text-sm text-muted-foreground">
                                 <CopyText
-                                    text={
-                                        host.includes("localhost")
-                                            ? `http://${host}/note/${noteId}`
-                                            : `https://${process.env.BASE_URL}/note/${noteId}`
-                                    }
+                                    text={`https://temp.marknote.one/note/${noteId}`}
                                 />
                             </div>
                             <p className="text-[#f44336] text-sm">

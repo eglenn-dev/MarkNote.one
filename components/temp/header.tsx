@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { ThemeToggle } from "../theme-toggle";
 import { Menu } from "lucide-react";
-import { headers } from "next/headers";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,17 +10,10 @@ import {
 } from "../ui/dropdown-menu";
 
 export default async function Header() {
-    const headerList = await headers();
-    const host = headerList.get("host");
-
     return (
         <div className="flex justify-between items-center mb-4 px-4 py-4">
             <a
-                href={
-                    host === "temp.marknote.one"
-                        ? `https://${process.env.BASE_URL}`
-                        : "http://localhost:3000"
-                }
+                href={`https://${process.env.BASE_DOMAIN}`}
                 className="text-2xl font-bold flex items-center user-none space-x-1"
             >
                 <svg
@@ -41,13 +33,7 @@ export default async function Header() {
                 <Link href="/">
                     <Button>Home</Button>
                 </Link>
-                <a
-                    href={
-                        host === "temp.marknote.one"
-                            ? `https://${process.env.BASE_URL}`
-                            : "http://localhost:3000"
-                    }
-                >
+                <a href={`https://${process.env.BASE_DOMAIN}`}>
                     <Button variant="outline">Take Notes</Button>
                 </a>
                 <ThemeToggle />
@@ -70,11 +56,7 @@ export default async function Header() {
                         >
                             <a
                                 className="h-11"
-                                href={
-                                    host === "temp.marknote.one"
-                                        ? `https://${process.env.BASE_URL}`
-                                        : "http://localhost:3000"
-                                }
+                                href={`https://${process.env.BASE_DOMAIN}`}
                             >
                                 Take Notes
                             </a>

@@ -19,11 +19,14 @@ export default async function TempNotesLayout({
     const headerList = await headers();
     const host = headerList.get("host");
     if (
-        host !== `temp.${process.env.BASE_URL}` &&
+        host !== `temp.${process.env.BASE_DOMAIN}` &&
         process.env.NODE_ENV === "production"
     ) {
-        redirect(`https://temp.${process.env.BASE_URL}`);
-    } else if (host !== `temp.localhost:3000`) {
+        redirect(`https://temp.${process.env.BASE_DOMAIN}`);
+    } else if (
+        host !== `temp.localhost:3000` &&
+        process.env.NODE_ENV !== "production"
+    ) {
         redirect(`http://temp.localhost:3000`);
     }
     return (
