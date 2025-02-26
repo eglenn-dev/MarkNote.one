@@ -1,8 +1,8 @@
 "use server";
 import { createTempNote } from "@/models/temp-notes";
-import DOMPurify from "dompurify";
+import sanitizeHtml from "sanitize-html";
 
 export async function createTempNoteAction(noteContent: string) {
-    const sanitizedContent = DOMPurify.sanitize(noteContent);
+    const sanitizedContent = sanitizeHtml(noteContent);
     return await createTempNote(sanitizedContent);
 }
