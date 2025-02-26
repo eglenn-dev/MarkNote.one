@@ -1,55 +1,61 @@
-# MarkNote.one
+<div align="center">
+    <h1>MarkNote.one</h1> 
+    <img src="./public/web-app-manifest-512x512.png" height="100" width="100" alt="MarkNote.one logo" />
+</div>
 
-MarkNote.one is a simple and efficient note-taking application that allows users to create, edit, and manage their notes with ease. The application supports markdown syntax, making it easy to format and organize your notes.
+Welcome to **MarkNote.one**, a powerful markdown note-taking app with live previews. This app is designed to make note-taking easier and more efficient with a focus on simplicity and functionality.
 
 ## Features
 
--   Support for markdown syntax
--   Create, edit, and delete notes
--   Upload and download markdown files
--   Search and filter notes
--   User-friendly interface, optimized for efficiency
--   Helpful keyboard shortcuts
+-   **Live Preview**: See your markdown rendered in real-time.
+-   **Syntax Highlighting**: Supports the essential markdown syntax.
+-   **Cross-Platform**: Available on from [MarkNote.one](https://marknote.one) on any device.
+-   **Import & Export**: Easily upload and download you markdown notes.
 
 ## Installation
 
-To install and run MarkNote, follow these steps:
+### Prerequisites
+
+-   Node.js (v14.x or above)
+-   npm (v6.x or above)
+
+### Steps
 
 1. Clone the repository:
-    ```
+    ```bash
     git clone https://github.com/eglenn-dev/MarkNote.one.git
     ```
 2. Navigate to the project directory:
-    ```
+    ```bash
     cd MarkNote.one
     ```
-3. Install the dependencies:
-    ```
+3. Install dependencies:
+    ```bash
     npm install
     ```
 4. Start the application:
-    ```
+    ```bash
     npm run dev
     ```
 
 ## Usage
 
-1. Navigate to [MarkNote.one](https://marknote.one/)
-2. Create a new note by clicking the "New Note" button.
-3. Edit the note using markdown syntax.
-4. No need to worry about saving, your notes are saved automatically.
-5. Use the search bar to find specific notes.
+1. Open the app and start writing your markdown notes.
+2. Use the live preview to see changes in real-time.
+3. Customize your theme and settings in the preferences menu.
+4. Save and export your notes as needed.
 
-## Contributing
+## Acknowledgements
 
-We welcome contributions to MarkNote! If you would like to contribute, please follow these steps:
+While this project is primarily developed by Ethan Glenn, I would like to acknowledge the following resources that have been instrumental in its development:
 
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Make your changes and commit them.
-4. Push your changes to your fork.
-5. Create a pull request.
+-   [React](https://react.dev/)
+-   [Next.js](https://nextjs.org/)
+-   [Tailwind CSS](https://tailwindcss.com/)
+-   [shadcn/ui](https://ui.shadcn.com/)
 
-## Copyright
+![MarkNote.one Screenshot](./public/images/home-page.png)
 
-© 2025 Ethan Glenn. All rights reserved.
+---
+
+Copyright © 2025 [Ethan Glenn](https://eglenn.dev). All rights reserved.
