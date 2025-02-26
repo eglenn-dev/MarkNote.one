@@ -33,12 +33,14 @@ export default function CopyText({
             className={cn("relative group flex items-center gap-2", className)}
         >
             {showText && (
-                <div className="w-fit break-all text-gray-200">{text}</div>
+                <div className="w-fit break-all text-black dark:text-gray-200">
+                    {text}
+                </div>
             )}
             <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 relative shrink-0 text-gray-200"
+                className="h-8 w-8 relative shrink-0 text-black dark:text-gray-200"
                 onClick={copyToClipboard}
                 aria-label={copied ? "Copied!" : "Copy to clipboard"}
             >
