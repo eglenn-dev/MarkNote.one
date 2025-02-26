@@ -13,6 +13,7 @@ export default function SignupPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [name, setName] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const [gitHubLoading, setGitHubLoading] = useState(false);
 
     useEffect(() => {
@@ -22,6 +23,24 @@ export default function SignupPage() {
             setError("");
         }
     }, [password, confirmPassword]);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("");
+        try {
+            const formData = new FormData(e.currentTarget);
+            formData.append("name", name);
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("confirmPassword", confirmPassword);
+            await signup(formData);
+        } catch (error) {
+            console.log(error);
+            setError("An error occurred. Please try again.");
+        }
+        setLoading(false);
+    };
 
     return (
         <div className="container mx-auto min-h-screen flex flex-col">
@@ -38,7 +57,7 @@ export default function SignupPage() {
                             <p className="text-red-500">{error}</p>
                         </div>
                     )}
-                    <form className="mt-8 space-y-6" action={signup}>
+                    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                         <div className="space-y-4 rounded-md shadow-sm">
                             <div>
                                 <Label htmlFor="name">Name</Label>
@@ -103,8 +122,12 @@ export default function SignupPage() {
                         </div>
 
                         <div>
-                            <Button type="submit" className="w-full">
-                                Sign up
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                disabled={loading}
+                            >
+                                {loading ? "Loading..." : "Sign up"}
                             </Button>
                         </div>
                     </form>
