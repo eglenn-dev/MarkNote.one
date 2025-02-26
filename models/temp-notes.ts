@@ -51,3 +51,15 @@ export async function readNote(key: string) {
     });
     return noteContent as string;
 }
+
+export async function checkNoteExists(key: string) {
+    if (!key || /[.#$[\]]/.test(key)) {
+        throw new Error(
+            'Invalid key. Paths must be non-empty strings and cannot contain ".", "#", "$", "[", or "]"'
+        );
+    }
+    const noteContent = (
+        await postsRef.child(key).child("noteContent").once("value")
+    ).val();
+    return noteContent !== null;
+}

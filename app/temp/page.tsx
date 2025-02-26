@@ -49,7 +49,7 @@ export default function TempNotesLanding() {
                             </h3>
                             <p className="text-muted-foreground">
                                 Notes are permanently erased from our servers
-                                after expiration or reading.
+                                after being viewed.
                             </p>
                         </CardContent>
                     </Card>
@@ -70,9 +70,8 @@ export default function TempNotesLanding() {
                                 Create Your Note
                             </h3>
                             <p className="text-muted-foreground">
-                                Write your message and set an expiration time or
-                                choose one-time access. You&apos;ll get a secure
-                                link to share.
+                                Enter your markdown supported note and generate
+                                a secure one time link to view that note.
                             </p>
                         </div>
                     </div>
@@ -101,8 +100,8 @@ export default function TempNotesLanding() {
                                 Automatic Deletion
                             </h3>
                             <p className="text-muted-foreground">
-                                Once read or when time expires, the note is
-                                permanently deleted. No traces left behind.
+                                Once the note is viewed, it is automatically
+                                deleted from our servers, ensuring privacy.
                             </p>
                         </div>
                     </div>

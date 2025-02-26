@@ -38,8 +38,8 @@ export default async function Header() {
                 <span className="hidden sm:inline">MarkNote.one</span>
             </a>
             <div className="hidden md:flex items-center space-x-4">
-                <Link href="/create">
-                    <Button>New Temp Note</Button>
+                <Link href="/">
+                    <Button>Home</Button>
                 </Link>
                 <a
                     href={
@@ -62,7 +62,7 @@ export default async function Header() {
                             className="text-lg font-semibold"
                             asChild
                         >
-                            <Link href="/create">New Temp Note</Link>
+                            <Link href="/">Home</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className="text-lg font-semibold"
