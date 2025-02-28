@@ -16,13 +16,15 @@ import CopyText from "@/components/temp/copy-button";
 export default function CreateTempNote() {
     const [noteContent, setNoteContent] = useState("");
     const [noteId, setNoteId] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const submitFormActionResult = async () => {
+            setLoading(true);
             const dbNoteId = await createTempNoteAction(noteContent);
             if (dbNoteId) setNoteId(dbNoteId);
-            console.log(dbNoteId);
+            setLoading(false);
         };
         submitFormActionResult();
     };
@@ -77,9 +79,11 @@ export default function CreateTempNote() {
                                 <Button
                                     type="submit"
                                     className="btn btn-primary"
-                                    disabled={noteContent.length > 500}
+                                    disabled={
+                                        noteContent.length > 500 || loading
+                                    }
                                 >
-                                    Create Note
+                                    {loading ? "Creating..." : "Create Note"}
                                 </Button>
                             </div>
                         </form>
