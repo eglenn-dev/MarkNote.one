@@ -102,7 +102,7 @@ export async function GET(request: Request) {
         const session = await encrypt({
             user: {
                 userId: key,
-                role: "user",
+                role: dbUser.role || "user",
                 menuOpen: dbUser.preferences.menuOpen || true,
                 mdPreview: dbUser.preferences.mdPreview || true,
             },
