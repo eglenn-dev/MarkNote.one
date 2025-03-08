@@ -4,6 +4,8 @@ import { Button } from "./ui/button";
 import { ThemeToggle } from "./theme-toggle";
 import { Menu } from "lucide-react";
 import { createDemoPostAction } from "./action";
+import { HomeIcon, SettingsIcon, TimerIcon, LogoutIcon } from "./icons";
+import { Lightbulb } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -69,146 +71,241 @@ const markdownTips = [
 
 export default async function Header() {
     return (
-        <div className="flex justify-between items-center mb-4 px-4 py-2">
-            <Link
-                href="/home"
-                className="text-2xl font-bold flex items-center user-none space-x-1"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={25}
-                    height={25}
-                    viewBox="0 0 24 24"
+        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+            <div className="flex justify-between items-center px-4 py-3 max-w-7xl mx-auto">
+                <Link
+                    href="/home"
+                    className="text-2xl font-bold flex items-center user-none space-x-2 hover:opacity-80 transition-opacity"
                 >
-                    <path
-                        fill="currentColor"
-                        d="m5.41 21l.71-4h-4l.35-2h4l1.06-6h-4l.35-2h4l.71-4h2l-.71 4h6l.71-4h2l-.71 4h4l-.35 2h-4l-1.06 6h4l-.35 2h-4l-.71 4h-2l.71-4h-6l-.71 4zM9.53 9l-1.06 6h6l1.06-6z"
-                    ></path>
-                </svg>
-                <span className="hidden sm:inline">MarkNote.one</span>
-            </Link>
-            <div className="hidden md:flex items-center space-x-4">
-                <Link href="/home">
-                    <Button>Home</Button>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={36}
+                        height={36}
+                        viewBox="0 0 24 24"
+                        className="text-primary"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="m5.41 21l.71-4h-4l.35-2h4l1.06-6h-4l.35-2h4l.71-4h2l-.71 4h6l.71-4h2l-.71 4h4l-.35 2h-4l-1.06 6h4l-.35 2h-4l-.71 4h-2l.71-4h-6l-.71 4zM9.53 9l-1.06 6h6l1.06-6z"
+                        ></path>
+                    </svg>
+                    <span className="hidden sm:inline">MarkNote.one</span>
                 </Link>
-                <Link href="/settings">
-                    <Button variant="outline">Settings</Button>
-                </Link>
-                <a
-                    target="_blank"
-                    href={`https://temp.${process.env.BASE_DOMAIN}`}
-                >
-                    <Button variant="outline">Temp Note</Button>
-                </a>
-                <Sheet>
-                    <SheetTrigger asChild>
-                        <Button variant="outline">Tips</Button>
-                    </SheetTrigger>
-                    <SheetContent className="h-full overflow-y-scroll">
-                        <SheetHeader>
-                            <SheetTitle>Tips and Tricks</SheetTitle>
-                            <SheetDescription>
-                                Learn all the tips and tricks to get the most
-                                out of MarkNote.one
-                            </SheetDescription>
-                        </SheetHeader>
-                        <div className="mt-4 flex flex-col">
-                            <a href="/feedback">
-                                <Button>Submit Feedback</Button>
-                            </a>
-                            <Table>
-                                <TableCaption>
-                                    Markdown tips to help you get started
-                                </TableCaption>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Title</TableHead>
-                                        <TableHead>Description</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {markdownTips.map((tip, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell className="font-medium">
-                                                {tip.title}
-                                            </TableCell>
-                                            <TableCell>
-                                                {tip.description}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </div>
-                        <div className="mt-4 flex flex-row gap-2 justify-center items-center">
-                            <Link href="/release-notes">
-                                <Button variant="secondary">
-                                    Release Notes
-                                </Button>
-                            </Link>
-                            <form action={createDemoPostAction}>
-                                <Button type="submit" variant="secondary">
-                                    Welcome Note
-                                </Button>
-                            </form>
-                            <Link href="/demo">
-                                <Button variant="secondary">Demo</Button>
-                            </Link>
-                        </div>
-                    </SheetContent>
-                </Sheet>
-                <form action={logoutAction}>
-                    <Button variant="outline">Logout</Button>
-                </form>
-                <ThemeToggle />
-            </div>
-            <div className="md:hidden">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Menu width={30} height={30} />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                            className="text-lg font-semibold"
-                            asChild
+                <div className="hidden md:flex items-center gap-3">
+                    <Link href="/home">
+                        <Button
+                            size="lg"
+                            variant="ghost"
+                            className="h-10 px-4 rounded-lg"
                         >
-                            <Link className="h-11" href="/home">
-                                Home
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="text-lg font-semibold"
-                            asChild
+                            <HomeIcon width={22} height={22} className="mr-2" />
+                            <span>Home</span>
+                        </Button>
+                    </Link>
+                    <Link href="/settings">
+                        <Button
+                            size="lg"
+                            variant="ghost"
+                            className="h-10 px-4 rounded-lg"
                         >
-                            <a
-                                href={`https://temp.${process.env.BASE_DOMAIN}`}
-                                target="_blank"
-                                className="h-11"
+                            <SettingsIcon
+                                width={22}
+                                height={22}
+                                className="mr-2"
+                            />
+                            <span>Settings</span>
+                        </Button>
+                    </Link>
+                    <a
+                        target="_blank"
+                        href={`https://temp.${process.env.BASE_DOMAIN}`}
+                        rel="noreferrer"
+                    >
+                        <Button
+                            size="lg"
+                            variant="ghost"
+                            className="h-10 px-4 rounded-lg"
+                        >
+                            <TimerIcon
+                                width={22}
+                                height={22}
+                                className="mr-2"
+                            />
+                            <span>Temp</span>
+                        </Button>
+                    </a>
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <Button
+                                size="lg"
+                                variant="ghost"
+                                className="h-10 px-4 rounded-lg"
                             >
-                                Temp Note
-                            </a>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="text-lg font-semibold"
-                            asChild
+                                <Lightbulb
+                                    width={22}
+                                    height={22}
+                                    className="mr-2"
+                                />
+                                <span>Tips</span>
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent className="h-full overflow-y-scroll">
+                            <SheetHeader>
+                                <SheetTitle>Tips and Tricks</SheetTitle>
+                                <SheetDescription>
+                                    Learn all the tips and tricks to get the
+                                    most out of MarkNote.one
+                                </SheetDescription>
+                            </SheetHeader>
+                            <div className="mt-4 flex flex-col">
+                                <a href="/feedback">
+                                    <Button size="lg" className="w-full mb-4">
+                                        Submit Feedback
+                                    </Button>
+                                </a>
+                                <Table>
+                                    <TableCaption>
+                                        Markdown tips to help you get started
+                                    </TableCaption>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Title</TableHead>
+                                            <TableHead>Description</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {markdownTips.map((tip, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell className="font-medium">
+                                                    {tip.title}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {tip.description}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                            <div className="mt-6 flex flex-row gap-2 justify-center items-center">
+                                <Link href="/release-notes">
+                                    <Button size="lg" variant="secondary">
+                                        Release Notes
+                                    </Button>
+                                </Link>
+                                <form action={createDemoPostAction}>
+                                    <Button
+                                        size="lg"
+                                        type="submit"
+                                        variant="secondary"
+                                    >
+                                        Welcome Note
+                                    </Button>
+                                </form>
+                                <Link href="/demo">
+                                    <Button size="lg" variant="secondary">
+                                        Demo
+                                    </Button>
+                                </Link>
+                            </div>
+                        </SheetContent>
+                    </Sheet>
+                    <form action={logoutAction}>
+                        <Button
+                            size="lg"
+                            variant="ghost"
+                            className="h-10 px-4 rounded-lg"
                         >
-                            <Link className="h-11" href="/settings">
-                                Settings
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="text-lg font-semibold">
-                            <form action={logoutAction}>
-                                <button className="h-11" type="submit">
-                                    Logout
-                                </button>
-                            </form>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <ThemeToggle />
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                            <LogoutIcon
+                                width={22}
+                                height={22}
+                                className="mr-2"
+                            />
+                            <span>Logout</span>
+                        </Button>
+                    </form>
+                    <ThemeToggle />
+                </div>
+                <div className="md:hidden">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-10 w-10"
+                            >
+                                <Menu width={24} height={24} />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-56">
+                            <DropdownMenuItem
+                                className="text-base py-3 cursor-pointer"
+                                asChild
+                            >
+                                <Link href="/home">
+                                    <HomeIcon
+                                        width={18}
+                                        height={18}
+                                        className="mr-2"
+                                    />
+                                    Home
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                className="text-base py-3 cursor-pointer"
+                                asChild
+                            >
+                                <a
+                                    href={`https://temp.${process.env.BASE_DOMAIN}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <TimerIcon
+                                        width={18}
+                                        height={18}
+                                        className="mr-2"
+                                    />
+                                    Temp Note
+                                </a>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                className="text-base py-3 cursor-pointer"
+                                asChild
+                            >
+                                <Link href="/settings">
+                                    <SettingsIcon
+                                        width={18}
+                                        height={18}
+                                        className="mr-2"
+                                    />
+                                    Settings
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="text-base py-3 cursor-pointer">
+                                <form action={logoutAction} className="w-full">
+                                    <button
+                                        type="submit"
+                                        className="flex items-center w-full text-left"
+                                    >
+                                        <LogoutIcon
+                                            width={18}
+                                            height={18}
+                                            className="mr-2"
+                                        />
+                                        Logout
+                                    </button>
+                                </form>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="flex justify-between items-center">
+                                <span className="text-sm text-muted-foreground">
+                                    Theme
+                                </span>
+                                <ThemeToggle />
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
-        </div>
+        </header>
     );
 }
