@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
 import type React from "react";
-
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
@@ -14,6 +13,14 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
 import { PlusCircle, Search, UploadCloud, Pin } from "lucide-react";
 import { PlusIcon } from "@/components/icons";
 import NoteModal from "@/components/note-modal";
@@ -64,6 +71,14 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
         y: number;
         postId: string;
     } | null>(null);
+    const [viewType, setViewType] = useState<"grid" | "list">(() => {
+        // Check if we're in a browser environment
+        if (typeof window !== "undefined") {
+            const savedView = localStorage.getItem("noteViewType");
+            return savedView === "list" ? "list" : "grid";
+        }
+        return "grid";
+    });
 
     const contextMenuRef = useRef<HTMLDivElement>(null);
 
@@ -145,6 +160,115 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
         };
     }, [contextMenu]);
 
+    useEffect(() => {
+        localStorage.setItem("noteViewType", viewType);
+    }, [viewType]);
+
+    const renderGridView = () => (
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredPosts.map((post) => (
+                <Link
+                    href={`/note/${post.id}`}
+                    key={post.id}
+                    onContextMenu={(e) => handleContextMenu(e, post.id)}
+                >
+                    <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer overflow-hidden">
+                        <CardHeader className="pb-2">
+                            <CardTitle className="text-lg truncate flex flex-row justify-between items-center">
+                                <span>{post.title}</span>
+                                {post.pinned && (
+                                    <Pin className="h-4 w-4 text-yellow-500" />
+                                )}
+                            </CardTitle>
+                            <CardDescription className="text-sm flex flex-row gap-2 items-center">
+                                {post.category && (
+                                    <Badge className="max-w-20">
+                                        {post.category}
+                                    </Badge>
+                                )}
+                                Updated:{" "}
+                                {new Date(post.lastUpdated).toLocaleString()}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-sm text-gray-600 line-clamp-3 break-words overflow-hidden">
+                                {post.content}
+                            </p>
+                        </CardContent>
+                    </Card>
+                </Link>
+            ))}
+        </div>
+    );
+
+    const renderTableView = () => (
+        <div className="rounded-md border">
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[300px]">Title</TableHead>
+                        <TableHead>Category</TableHead>
+                        <TableHead>Last Updated</TableHead>
+                        <TableHead className="w-[400px]">Content</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {filteredPosts.length === 0 ? (
+                        <TableRow>
+                            <TableCell
+                                colSpan={4}
+                                className="text-center h-24 text-muted-foreground"
+                            >
+                                No notes found. Create a new one!
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        filteredPosts.map((post) => (
+                            <TableRow
+                                key={post.id}
+                                className="cursor-pointer hover:bg-muted/50"
+                                onContextMenu={(e) =>
+                                    handleContextMenu(e, post.id)
+                                }
+                                onClick={() =>
+                                    (window.location.href = `/note/${post.id}`)
+                                }
+                            >
+                                <TableCell className="font-medium">
+                                    <div className="flex items-center gap-2">
+                                        {post.pinned && (
+                                            <Pin className="h-4 w-4 text-yellow-500 flex-shrink-0" />
+                                        )}
+                                        <span className="truncate">
+                                            {post.title}
+                                        </span>
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    {post.category && (
+                                        <Badge className="max-w-20">
+                                            {post.category}
+                                        </Badge>
+                                    )}
+                                </TableCell>
+                                <TableCell>
+                                    {new Date(
+                                        post.lastUpdated
+                                    ).toLocaleString()}
+                                </TableCell>
+                                <TableCell>
+                                    <p className="text-sm text-muted-foreground line-clamp-1 break-words">
+                                        {post.content}
+                                    </p>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    )}
+                </TableBody>
+            </Table>
+        </div>
+    );
+
     return (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
@@ -176,6 +300,67 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                         </svg>
                         <p>Try right clicking a card</p>
                     </div>
+                    <div className="flex items-center border rounded-md overflow-hidden mr-2">
+                        <Button
+                            variant={viewType === "grid" ? "default" : "ghost"}
+                            size="sm"
+                            onClick={() => {
+                                setViewType("grid");
+                            }}
+                            className="px-2 rounded-none"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="lucide lucide-grid-2x2"
+                            >
+                                <rect
+                                    width="18"
+                                    height="18"
+                                    x="3"
+                                    y="3"
+                                    rx="2"
+                                />
+                                <path d="M3 12h18" />
+                                <path d="M12 3v18" />
+                            </svg>
+                        </Button>
+                        <Button
+                            variant={viewType === "list" ? "default" : "ghost"}
+                            size="sm"
+                            onClick={() => {
+                                setViewType("list");
+                            }}
+                            className="px-2 rounded-none"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="lucide lucide-list"
+                            >
+                                <line x1="8" x2="21" y1="6" y2="6" />
+                                <line x1="8" x2="21" y1="12" y2="12" />
+                                <line x1="8" x2="21" y1="18" y2="18" />
+                                <line x1="3" x2="3.01" y1="6" y2="6" />
+                                <line x1="3" x2="3.01" y1="12" y2="12" />
+                                <line x1="3" x2="3.01" y1="18" y2="18" />
+                            </svg>
+                        </Button>
+                    </div>
                     <Link href="/new-note" className="hidden md:block">
                         <Button>
                             <PlusCircle className="mr-2 h-4 w-4" /> New Note
@@ -188,53 +373,16 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                     </Link>
                 </div>
             </div>
-            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                {filteredPosts.map((post) => (
-                    <Link
-                        href={`/note/${post.id}`}
-                        key={post.id}
-                        onContextMenu={(e) => handleContextMenu(e, post.id)}
-                    >
-                        <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer overflow-hidden">
-                            <CardHeader className="pb-2">
-                                <CardTitle className="text-lg truncate flex flex-row justify-between items-center">
-                                    <span>{post.title}</span>
-                                    {post.pinned && (
-                                        <Pin className="h-4 w-4 text-yellow-500" />
-                                    )}
-                                </CardTitle>
-                                <CardDescription className="text-sm flex flex-row gap-2 items-center">
-                                    {post.category && (
-                                        <Badge className="max-w-20">
-                                            {post.category}
-                                        </Badge>
-                                    )}
-                                    Updated:{" "}
-                                    {new Date(
-                                        post.lastUpdated
-                                    ).toLocaleString()}
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-sm text-gray-600 line-clamp-3 break-words overflow-hidden">
-                                    {post.content}
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                ))}
-            </div>
+
+            {viewType === "grid" ? renderGridView() : renderTableView()}
+
             <Link
                 href="/new-note"
                 className="md:hidden fixed bottom-10 right-4 m-6 h-12 w-12 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-200"
             >
                 <PlusIcon width={24} height={24} className="h-8 w-8" />
             </Link>
-            {filteredPosts.length === 0 && (
-                <p className="text-center text-gray-500 mt-8">
-                    No notes found. Create a new one!
-                </p>
-            )}
+
             <NoteModal
                 post={selectedPost}
                 isOpen={isModalOpen}
