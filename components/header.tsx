@@ -189,23 +189,17 @@ export default async function Header() {
                             </div>
                             <div className="mt-6 flex flex-row gap-2 justify-center items-center">
                                 <Link href="/release-notes">
-                                    <Button size="lg" variant="secondary">
+                                    <Button variant="secondary">
                                         Release Notes
                                     </Button>
                                 </Link>
                                 <form action={createDemoPostAction}>
-                                    <Button
-                                        size="lg"
-                                        type="submit"
-                                        variant="secondary"
-                                    >
+                                    <Button type="submit" variant="secondary">
                                         Welcome Note
                                     </Button>
                                 </form>
                                 <Link href="/demo">
-                                    <Button size="lg" variant="secondary">
-                                        Demo
-                                    </Button>
+                                    <Button variant="secondary">Demo</Button>
                                 </Link>
                             </div>
                         </SheetContent>
