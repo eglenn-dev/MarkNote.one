@@ -15,6 +15,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import MarkdownPreview from "@/components/markdown-preview";
 import CopyText from "@/components/temp/copy-button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Clock, AlertTriangle } from "lucide-react";
 
 interface OpenNoteProps {
     noteId: string;
@@ -38,16 +47,44 @@ export default function OpenNote({ noteId }: OpenNoteProps) {
             <h2 className="text-center text-2xl font-bold">
                 Open Temporary Note
             </h2>
-            <p className="text-center text-red-600 dark:text-red-400 font-bold">
-                This note is temporary and will only be available until you
-                leave or refresh the page.
-            </p>
+            <div className="flex items-center gap-2 text-red-600 dark:text-red-400 font-medium">
+                <AlertTriangle size={18} />
+                <p className="text-center">
+                    This note is temporary and will only be available until you
+                    leave or refresh the page.
+                </p>
+            </div>
+
             {noteContent ? (
-                <div className="w-full max-w-2xl flex flex-col gap-8">
-                    {isLoading && <p>Loading...</p>}
-                    <MarkdownPreview content={noteContent} />
-                    <CopyText text={noteContent} showText={false} />
-                </div>
+                <Card className="w-full max-w-2xl border shadow-md">
+                    <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                            <CardTitle>Temporary Note</CardTitle>
+                            <div className="flex items-center text-muted-foreground text-sm">
+                                <Clock className="mr-1 h-4 w-4" />
+                                <span>Expires on page refresh</span>
+                            </div>
+                        </div>
+                        <CardDescription>
+                            Make sure to copy this content if you want to save
+                            it
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="pt-4 pb-2">
+                        {isLoading ? (
+                            <div className="flex justify-center py-8">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                            </div>
+                        ) : (
+                            <div className="prose dark:prose-invert max-w-none">
+                                <MarkdownPreview content={noteContent} />
+                            </div>
+                        )}
+                    </CardContent>
+                    <CardFooter className="flex justify-end pt-2">
+                        <CopyText text={noteContent || ""} showText={false} />
+                    </CardFooter>
+                </Card>
             ) : (
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
