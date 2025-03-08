@@ -129,6 +129,14 @@ export default function NoteEditor({
         [note, noteTitle, showPreview, fullPreview, saveNote]
     );
 
+    const handleDoubleClick = useCallback(() => {
+        setFullPreview(false);
+        setShowPreview(false);
+        if (!fullPreview && textareaRef.current) {
+            textareaRef.current.focus();
+        }
+    }, [fullPreview]);
+
     useEffect(() => {
         document.addEventListener("keydown", handleKeyDown);
 
@@ -225,6 +233,7 @@ export default function NoteEditor({
                                 ? "h-full p-4 border rounded-md overflow-auto bg-background text-foreground hide-scrollbar"
                                 : "hidden"
                         }`}
+                        onDoubleClick={handleDoubleClick}
                     >
                         <MarkdownPreview content={note} />
                     </div>
