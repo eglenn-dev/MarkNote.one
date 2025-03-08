@@ -7,6 +7,11 @@ import { createPostAction, updatePostAction } from "./action";
 import { AlertCircle } from "lucide-react";
 import { NoteMenuBar } from "@/components/menu-bar";
 import { redirect } from "next/navigation";
+import {
+    ResizableHandle,
+    ResizablePanel,
+    ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 interface NoteEditorProps {
     userId: string;
@@ -152,8 +157,8 @@ export default function NoteEditor({
     }, [noteTitle, note, category]);
 
     return (
-        <div className="flex flex-col w-full h-full">
-            <div className="mb-4">
+        <div className="flex flex-col w-full h-full bg-background">
+            <div className="mb-2">
                 <Input
                     id="title"
                     name="title"
@@ -161,7 +166,7 @@ export default function NoteEditor({
                     required
                     spellCheck={false}
                     placeholder={post?.title || "Enter note title"}
-                    className="mt-1 p-4 h-fit md:text-2xl font-bold"
+                    className="mt-1 p-4 h-fit md:text-2xl font-bold border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
                     defaultValue={post?.title || ""}
                     onChange={(e) => setNoteTitle(e.target.value)}
                 />
@@ -188,56 +193,55 @@ export default function NoteEditor({
                     </AlertDescription>
                 </Alert>
             )}
+
             <div
-                className={`flex flex-grow transition-all duration-300 ease-in-out overflow-hidden ${
-                    showPreview && !fullPreview ? "sm:space-x-4" : ""
-                }`}
-                style={{ height: "calc(100vh - 200px)" }}
+                className="flex-grow overflow-hidden"
+                style={{ height: "calc(100vh - 160px)" }}
             >
-                <div
-                    className={`${
-                        fullPreview
-                            ? "hidden"
-                            : showPreview
-                            ? "sm:w-1/2"
-                            : "w-full"
-                    } flex flex-col gap-5 h-full overflow-auto hide-scrollbar`}
-                >
-                    <textarea
-                        ref={textareaRef}
-                        className={`${
-                            showPreview && !fullPreview
-                                ? "hidden sm:inline-block"
-                                : null
-                        } w-full h-full p-2 border rounded-md resize-none font-mono bg-background text-foreground`}
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
-                        spellCheck={false}
-                        placeholder={
-                            post?.content || "Write your Markdown here..."
-                        }
-                    />
-                </div>
-                <div
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                        fullPreview
-                            ? "w-full"
-                            : showPreview
-                            ? "w-full sm:w-1/2 h-full opacity-100"
-                            : "w-0 h-0 opacity-0"
-                    }`}
-                >
+                {fullPreview ? (
                     <div
-                        className={`${
-                            fullPreview || showPreview
-                                ? "h-full p-4 border rounded-md overflow-auto bg-background text-foreground hide-scrollbar"
-                                : "hidden"
-                        }`}
+                        className="h-full p-4 overflow-auto bg-background text-foreground"
                         onDoubleClick={handleDoubleClick}
                     >
                         <MarkdownPreview content={note} />
                     </div>
-                </div>
+                ) : (
+                    <ResizablePanelGroup
+                        direction="horizontal"
+                        className="w-full h-full rounded-lg"
+                    >
+                        <ResizablePanel
+                            defaultSize={showPreview ? 50 : 100}
+                            minSize={20}
+                        >
+                            <textarea
+                                ref={textareaRef}
+                                className="w-full h-full p-4 font-mono bg-background text-foreground resize-none border-0 focus:outline-none focus:ring-0"
+                                value={note}
+                                onChange={(e) => setNote(e.target.value)}
+                                spellCheck={false}
+                                placeholder={
+                                    post?.content ||
+                                    "Write your Markdown here..."
+                                }
+                            />
+                        </ResizablePanel>
+
+                        {showPreview && (
+                            <>
+                                <ResizableHandle withHandle />
+                                <ResizablePanel defaultSize={50} minSize={20}>
+                                    <div
+                                        className="h-full p-4 overflow-auto bg-background text-foreground"
+                                        onDoubleClick={handleDoubleClick}
+                                    >
+                                        <MarkdownPreview content={note} />
+                                    </div>
+                                </ResizablePanel>
+                            </>
+                        )}
+                    </ResizablePanelGroup>
+                )}
             </div>
         </div>
     );

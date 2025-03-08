@@ -6,6 +6,11 @@ import Note from "@/components/note";
 import NoteSidebar from "@/components/note-sidebar";
 import { NoteEditorSkeleton, NoteSidebarSkeleton } from "./note-skeletons";
 import { Suspense } from "react";
+import {
+    ResizableHandle,
+    ResizablePanel,
+    ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 export const metadata = {
     title: "Edit Note | MarkNote.one",
@@ -29,20 +34,36 @@ export default async function Page({
     if (!session) redirect("/login");
 
     return (
-        <div className="flex flex-row h-full gap-3">
-            <Suspense fallback={<NoteSidebarSkeleton />}>
-                <NoteSidebarWrapper
-                    userId={session.user.userId}
-                    menuOpen={session.user.menuOpen}
-                />
-            </Suspense>
-            <Suspense fallback={<NoteEditorSkeleton />}>
-                <NoteWrapper
-                    userId={session.user.userId}
-                    postId={(await params).postId}
-                    mdPreview={session.user.mdPreview}
-                />
-            </Suspense>
+        <div className="flex flex-row h-full w-full">
+            <ResizablePanelGroup
+                direction="horizontal"
+                className="w-full h-full"
+            >
+                <ResizablePanel
+                    defaultSize={session.user.menuOpen ? 25 : 0}
+                    minSize={15}
+                    maxSize={40}
+                    collapsible={true}
+                    collapsedSize={0}
+                >
+                    <Suspense fallback={<NoteSidebarSkeleton />}>
+                        <NoteSidebarWrapper
+                            userId={session.user.userId}
+                            menuOpen={session.user.menuOpen}
+                        />
+                    </Suspense>
+                </ResizablePanel>
+                <ResizableHandle />
+                <ResizablePanel defaultSize={100} minSize={75}>
+                    <Suspense fallback={<NoteEditorSkeleton />}>
+                        <NoteWrapper
+                            userId={session.user.userId}
+                            postId={(await params).postId}
+                            mdPreview={session.user.mdPreview}
+                        />
+                    </Suspense>
+                </ResizablePanel>
+            </ResizablePanelGroup>
         </div>
     );
 }
