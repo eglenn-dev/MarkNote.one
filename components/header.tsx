@@ -71,7 +71,7 @@ const markdownTips = [
 
 export default async function Header() {
     return (
-        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-4">
             <div className="flex justify-between items-center px-4 py-3 max-w-7xl mx-auto">
                 <Link
                     href="/home"
