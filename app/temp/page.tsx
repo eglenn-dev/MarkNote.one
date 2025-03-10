@@ -118,7 +118,7 @@ export default function TempNotesLanding() {
                             Create your first temporary note now. No account
                             required.
                         </p>
-                        <Link href="/temp-notes/create">
+                        <Link href="/create">
                             <Button size="lg" className="text-lg px-8">
                                 Create Your First Note
                             </Button>
