@@ -44,6 +44,10 @@ export default function NoteEditor({
     const [fullPreview, setFullPreview] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+    const isMobileDevice = useCallback(() => {
+        return /Mobi|Android/i.test(navigator.userAgent);
+    }, []);
+
     const saveNote = useCallback(async () => {
         if (!noteTitle || !note) return;
 
@@ -141,6 +145,12 @@ export default function NoteEditor({
             textareaRef.current.focus();
         }
     }, [fullPreview]);
+
+    useEffect(() => {
+        if (isMobileDevice()) {
+            setShowPreview(false);
+        }
+    }, [isMobileDevice]);
 
     useEffect(() => {
         document.addEventListener("keydown", handleKeyDown);

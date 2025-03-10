@@ -35,35 +35,46 @@ export default async function Page({
 
     return (
         <div className="flex flex-row h-full w-full">
-            <ResizablePanelGroup
-                direction="horizontal"
-                className="w-full h-full"
-            >
-                <ResizablePanel
-                    defaultSize={session.user.menuOpen ? 25 : 0}
-                    minSize={15}
-                    maxSize={40}
-                    collapsible={true}
-                    collapsedSize={0}
+            <span className="hidden sm:flex h-full w-full">
+                <ResizablePanelGroup
+                    direction="horizontal"
+                    className="w-full h-full"
                 >
-                    <Suspense fallback={<NoteSidebarSkeleton />}>
-                        <NoteSidebarWrapper
-                            userId={session.user.userId}
-                            menuOpen={session.user.menuOpen}
-                        />
-                    </Suspense>
-                </ResizablePanel>
-                <ResizableHandle />
-                <ResizablePanel defaultSize={100} minSize={75}>
-                    <Suspense fallback={<NoteEditorSkeleton />}>
-                        <NoteWrapper
-                            userId={session.user.userId}
-                            postId={(await params).postId}
-                            mdPreview={session.user.mdPreview}
-                        />
-                    </Suspense>
-                </ResizablePanel>
-            </ResizablePanelGroup>
+                    <ResizablePanel
+                        defaultSize={session.user.menuOpen ? 25 : 0}
+                        minSize={15}
+                        maxSize={40}
+                        collapsible={true}
+                        collapsedSize={0}
+                    >
+                        <Suspense fallback={<NoteSidebarSkeleton />}>
+                            <NoteSidebarWrapper
+                                userId={session.user.userId}
+                                menuOpen={session.user.menuOpen}
+                            />
+                        </Suspense>
+                    </ResizablePanel>
+                    <ResizableHandle />
+                    <ResizablePanel defaultSize={100} minSize={75}>
+                        <Suspense fallback={<NoteEditorSkeleton />}>
+                            <NoteWrapper
+                                userId={session.user.userId}
+                                postId={(await params).postId}
+                                mdPreview={session.user.mdPreview}
+                            />
+                        </Suspense>
+                    </ResizablePanel>
+                </ResizablePanelGroup>
+            </span>
+            <span className="block sm:hidden h-full w-full">
+                <Suspense fallback={<NoteEditorSkeleton />}>
+                    <NoteWrapper
+                        userId={session.user.userId}
+                        postId={(await params).postId}
+                        mdPreview={session.user.mdPreview}
+                    />
+                </Suspense>
+            </span>
         </div>
     );
 }

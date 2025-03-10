@@ -223,13 +223,7 @@ export default async function Header() {
                 <div className="md:hidden">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-10 w-10"
-                            >
-                                <Menu width={24} height={24} />
-                            </Button>
+                            <Menu width={30} height={30} />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-56">
                             <DropdownMenuItem
