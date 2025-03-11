@@ -85,7 +85,7 @@ export default function NoteEditor({
         if (saveStatus === "unsaved") {
             timer = setTimeout(() => {
                 saveNote();
-            }, 2000);
+            }, 1200);
         }
 
         return () => {
