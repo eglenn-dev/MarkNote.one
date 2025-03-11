@@ -62,7 +62,7 @@ export default function NoteEditor({
                 });
                 if (response) {
                     setPostId(response);
-                    history.pushState(null, "", `/note/${response}`);
+                    window.history.replaceState(null, "", `/note/${response}`);
                 }
             } else {
                 await updatePostAction(postId, {
@@ -81,12 +81,16 @@ export default function NoteEditor({
     }, [noteTitle, note, postId, category, userId]);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            if (saveStatus !== "saved") {
+        let timer: NodeJS.Timeout;
+        if (saveStatus === "unsaved") {
+            timer = setTimeout(() => {
                 saveNote();
-            }
-        }, 2000);
-        return () => clearTimeout(timer);
+            }, 2000);
+        }
+
+        return () => {
+            if (timer) clearTimeout(timer);
+        };
     }, [noteTitle, note, category, saveStatus, saveNote]);
 
     const handleKeyDown = useCallback(
@@ -133,6 +137,87 @@ export default function NoteEditor({
                 e.preventDefault();
                 await saveNote();
                 redirect("/upload");
+            } else if (e.ctrlKey && e.key === "b") {
+                e.preventDefault();
+                const start = textareaRef.current!.selectionStart;
+                const end = textareaRef.current!.selectionEnd;
+                let selectedText = note.substring(start, end);
+                let newStart = start;
+                let newEnd = end;
+                if (
+                    note.substring(start - 2, start) === "**" &&
+                    note.substring(end, end + 2) === "**"
+                ) {
+                    newStart = start - 2;
+                    newEnd = end + 2;
+                    selectedText = note.substring(newStart, newEnd);
+                }
+
+                const isBold =
+                    selectedText.startsWith("**") &&
+                    selectedText.endsWith("**");
+
+                if (isBold) {
+                    setNote(
+                        note.substring(0, newStart) +
+                            selectedText.slice(2, -2) +
+                            note.substring(newEnd)
+                    );
+                    setTimeout(() => {
+                        textareaRef.current!.selectionStart = newStart;
+                        textareaRef.current!.selectionEnd = newEnd - 4;
+                    }, 0);
+                } else {
+                    setNote(
+                        note.substring(0, start) +
+                            `**${selectedText}**` +
+                            note.substring(end)
+                    );
+                    setTimeout(() => {
+                        textareaRef.current!.selectionStart = start + 2;
+                        textareaRef.current!.selectionEnd = end + 2;
+                    }, 0);
+                }
+            } else if (e.ctrlKey && e.key === "i") {
+                e.preventDefault();
+                const start = textareaRef.current!.selectionStart;
+                const end = textareaRef.current!.selectionEnd;
+                let selectedText = note.substring(start, end);
+                let newStart = start;
+                let newEnd = end;
+                if (
+                    note.substring(start - 1, start) === "*" &&
+                    note.substring(end, end + 1) === "*"
+                ) {
+                    newStart = start - 1;
+                    newEnd = end + 1;
+                    selectedText = note.substring(newStart, newEnd);
+                }
+
+                const isItalic =
+                    selectedText.startsWith("*") && selectedText.endsWith("*");
+
+                if (isItalic) {
+                    setNote(
+                        note.substring(0, newStart) +
+                            selectedText.slice(1, -1) +
+                            note.substring(newEnd)
+                    );
+                    setTimeout(() => {
+                        textareaRef.current!.selectionStart = newStart;
+                        textareaRef.current!.selectionEnd = newEnd - 2;
+                    }, 0);
+                } else {
+                    setNote(
+                        note.substring(0, start) +
+                            `*${selectedText}*` +
+                            note.substring(end)
+                    );
+                    setTimeout(() => {
+                        textareaRef.current!.selectionStart = start + 1;
+                        textareaRef.current!.selectionEnd = end + 1;
+                    }, 0);
+                }
             }
         },
         [note, noteTitle, showPreview, fullPreview, saveNote]
