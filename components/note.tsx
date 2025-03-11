@@ -49,10 +49,14 @@ export default function NoteEditor({
     }, []);
 
     const saveNote = useCallback(async () => {
-        if (!noteTitle || !note) return;
+        if (!noteTitle || !note) {
+            setSaveStatus("unsaved");
+            return;
+        }
 
         setSaveStatus("saving");
         try {
+            let newPostId = postId;
             if (!postId) {
                 const response = await createPostAction({
                     title: noteTitle,
@@ -61,8 +65,10 @@ export default function NoteEditor({
                     lastUpdated: new Date().toISOString(),
                 });
                 if (response) {
+                    newPostId = response;
                     setPostId(response);
                     window.history.replaceState(null, "", `/note/${response}`);
+                    window.location.reload();
                 }
             } else {
                 await updatePostAction(postId, {
@@ -74,6 +80,7 @@ export default function NoteEditor({
                 });
             }
             setSaveStatus("saved");
+            return newPostId;
         } catch (error) {
             console.error("Error saving note:", error);
             setSaveStatus("error");
@@ -82,22 +89,31 @@ export default function NoteEditor({
 
     useEffect(() => {
         let timer: NodeJS.Timeout;
-        if (saveStatus === "unsaved") {
-            timer = setTimeout(() => {
-                saveNote();
+        if (saveStatus === "unsaved" && noteTitle && note) {
+            timer = setTimeout(async () => {
+                const savedId = await saveNote();
+                if (savedId && !postId) {
+                    setPostId(savedId);
+                }
             }, 1200);
         }
 
         return () => {
             if (timer) clearTimeout(timer);
         };
-    }, [noteTitle, note, category, saveStatus, saveNote]);
+    }, [noteTitle, note, category, saveStatus, saveNote, postId]);
+
+    useEffect(() => {
+        if (post?.title !== noteTitle || post?.content !== note) {
+            setSaveStatus("unsaved");
+        }
+    }, [noteTitle, note, post?.title, post?.content]);
 
     const handleKeyDown = useCallback(
         async (e: KeyboardEvent) => {
             if ((e.ctrlKey || e.metaKey) && e.key === "s") {
                 e.preventDefault();
-                saveNote();
+                await saveNote();
             } else if (
                 e.key === "Tab" &&
                 document.activeElement === textareaRef.current
@@ -244,12 +260,6 @@ export default function NoteEditor({
             document.removeEventListener("keydown", handleKeyDown);
         };
     }, [handleKeyDown]);
-
-    useEffect(() => {
-        if (saveStatus === "saved") {
-            setSaveStatus("unsaved");
-        }
-    }, [noteTitle, note, category]);
 
     return (
         <div className="flex flex-col w-full h-full bg-background">
