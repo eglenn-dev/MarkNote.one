@@ -1,10 +1,13 @@
 "use server";
 import { login } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 export async function loginAction(formData: FormData) {
     if (!formData.get("email") || !formData.get("password")) {
-        redirect("/login");
+        throw new Error("Please fill in all fields");
     }
-    await login(formData);
+    try {
+        await login(formData);
+    } catch (error) {
+        throw new Error(error instanceof Error ? error.message : String(error));
+    }
 }

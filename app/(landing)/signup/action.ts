@@ -23,6 +23,10 @@ export async function signup(formData: FormData) {
         );
     }
 
+    if (!formData.get("email") || !formData.get("name")) {
+        throw new Error("Email and name are required");
+    }
+
     await createUserIfUnique(
         formData.get("email")?.toString() || "",
         formData.get("name")?.toString() || "",

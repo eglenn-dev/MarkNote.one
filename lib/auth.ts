@@ -1,6 +1,5 @@
 import { getUserByEmail } from "@/models/accounts-model";
 import { verifyPassword } from "@/lib/hashing";
-import { NextResponse } from "next/server";
 import { encrypt } from "./session";
 import { cookies } from "next/headers";
 import { getKeyByEmail } from "@/models/accounts-model";
@@ -25,22 +24,23 @@ export async function login(formData: FormData) {
     };
 
     if (formUserData.password === "")
-        return new NextResponse("Missing password", { status: 400 });
+        throw new Error("Please fill in all fields");
 
     const dbUser: User = await getUserByEmail(formUserData.email);
-    if (!dbUser)
-        return new NextResponse("Invalid credentials", { status: 401 });
+    if (!dbUser) throw new Error("Invalid credentials");
 
     if (
         (await verifyPassword(formUserData.password, dbUser.password)) === false
     )
-        return new NextResponse("Invalid credentials", { status: 401 });
+        throw new Error("Invalid credentials");
 
     formUserData.name = dbUser.name;
     const expires = new Date(Date.now() + 60 * 60 * 1000 * 168);
     const userKey = await getKeyByEmail(formUserData.email);
     if (!userKey)
-        return new NextResponse("Invalid credentials", { status: 401 });
+        throw new Error(
+            "An error occurred while logging in. Please try again."
+        );
     const session = await encrypt({
         user: {
             userId: userKey,

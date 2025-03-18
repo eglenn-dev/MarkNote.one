@@ -37,7 +37,7 @@ export default function SignupPage() {
             await signup(formData);
         } catch (error) {
             console.log(error);
-            setError("An error occurred. Please try again.");
+            setError(String(error));
         }
         setLoading(false);
     };
