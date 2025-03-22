@@ -17,6 +17,7 @@
 
 -   **Live Preview**: See your markdown rendered in real-time.
 -   **Syntax Highlighting**: Supports the essential markdown syntax.
+-   **Temporary Notes**: Create a temporary note that will disappear after being used.
 -   **Cross-Platform**: Available on from [MarkNote.one](https://marknote.one) on any device.
 -   **Import & Export**: Easily upload and download you markdown notes.
 
