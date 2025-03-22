@@ -2,7 +2,7 @@ import { getSession } from "@/lib/session";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { version } from "@/package.json";
+import appPackage from "@/package.json";
 import {
     Select,
     SelectTrigger,
@@ -58,7 +58,7 @@ export default async function FeedbackPage() {
                         className="flex flex-col gap-4"
                     >
                         <div className="text-sm text-gray-500">
-                            Version: {version}
+                            Version: {appPackage.version}
                         </div>
                         <Label htmlFor="type">Type</Label>
                         <Select name="type" required>
@@ -86,7 +86,7 @@ export default async function FeedbackPage() {
                         <Input
                             type="hidden"
                             name="version"
-                            value={version}
+                            value={appPackage.version}
                             readOnly
                             hidden
                         />
