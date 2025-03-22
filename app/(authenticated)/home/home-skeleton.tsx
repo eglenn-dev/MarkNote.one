@@ -42,14 +42,65 @@ export default function HomeSkeleton() {
                         </svg>
                         <p>Try right clicking a card</p>
                     </div>
+                    <div className="flex items-center border rounded-md overflow-hidden mr-2">
+                        <Button size="sm" className="px-2 rounded-none">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="lucide lucide-grid-2x2"
+                            >
+                                <rect
+                                    width="18"
+                                    height="18"
+                                    x="3"
+                                    y="3"
+                                    rx="2"
+                                />
+                                <path d="M3 12h18" />
+                                <path d="M12 3v18" />
+                            </svg>
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="px-2 rounded-none"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="lucide lucide-list"
+                            >
+                                <line x1="8" x2="21" y1="6" y2="6" />
+                                <line x1="8" x2="21" y1="12" y2="12" />
+                                <line x1="8" x2="21" y1="18" y2="18" />
+                                <line x1="3" x2="3.01" y1="6" y2="6" />
+                                <line x1="3" x2="3.01" y1="12" y2="12" />
+                                <line x1="3" x2="3.01" y1="18" y2="18" />
+                            </svg>
+                        </Button>
+                    </div>
                     <Link href="/new-note" className="hidden md:block">
                         <Button>
-                            <PlusCircle className="mr-2 h-4 w-4" /> New Note
+                            <PlusCircle className="h-4 w-4" /> New
                         </Button>
                     </Link>
                     <Link href="/upload" className="hidden md:block">
                         <Button>
-                            <UploadCloud className="mr-2 h-4 w-4" /> Upload File
+                            <UploadCloud className="h-4 w-4" /> Upload
                         </Button>
                     </Link>
                 </div>

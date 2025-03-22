@@ -4,6 +4,11 @@ import { getPostsByUser } from "@/models/post-model";
 import { getUserCategories } from "@/models/accounts-model";
 import Note from "@/components/note";
 import NoteSidebar from "@/components/note-sidebar";
+import {
+    ResizableHandle,
+    ResizablePanel,
+    ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 export const metadata = {
     title: "New Note | MarkNote.one",
@@ -16,6 +21,7 @@ interface Post {
     userId: string;
     lastUpdated: string;
     pinned?: boolean;
+    archived?: boolean;
 }
 
 export default async function NewNotePage() {
@@ -32,26 +38,46 @@ export default async function NewNotePage() {
             userId: post.userId,
             lastUpdated: post.lastUpdated,
             pinned: post.pinned || false,
+            archived: post.archived || false,
         };
     }) as Post[];
 
-    postsArray.sort(
-        (a, b) =>
-            new Date(b.lastUpdated).getTime() -
-            new Date(a.lastUpdated).getTime()
-    );
-
     return (
-        <div className="flex flex-row h-full gap-3">
-            <NoteSidebar
-                posts={postsArray}
-                preference={session.user.menuOpen}
-            />
-            <Note
-                userId={session.user.userId}
-                categoriesList={categoriesList}
-                preference={session.user.mdPreview}
-            />
+        <div className="flex flex-row h-full w-full">
+            <span className="hidden sm:flex h-full w-full">
+                <ResizablePanelGroup
+                    direction="horizontal"
+                    className="w-full h-full"
+                >
+                    <ResizablePanel
+                        defaultSize={session.user.menuOpen ? 25 : 0}
+                        minSize={15}
+                        maxSize={40}
+                        collapsible={true}
+                        collapsedSize={0}
+                    >
+                        <NoteSidebar
+                            posts={postsArray.filter((post) => !post.archived)}
+                            preference={session.user.menuOpen}
+                        />
+                    </ResizablePanel>
+                    <ResizableHandle />
+                    <ResizablePanel defaultSize={100} minSize={75}>
+                        <Note
+                            userId={session.user.userId}
+                            preference={session.user.mdPreview}
+                            categoriesList={categoriesList}
+                        />
+                    </ResizablePanel>
+                </ResizablePanelGroup>
+            </span>
+            <span className="block sm:hidden h-full w-full">
+                <Note
+                    userId={session.user.userId}
+                    preference={session.user.mdPreview}
+                    categoriesList={categoriesList}
+                />
+            </span>
         </div>
     );
 }

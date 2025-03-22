@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 import { getPostsByUser } from "@/models/post-model";
 import { getUserCategories } from "@/models/accounts-model";
 import { Suspense } from "react";
-import HomeSkeleton from "./home-skeleton";
-import PostList from "./post-list";
+import HomeSkeleton from "../home-skeleton";
+import PostList from "../post-list";
 
 interface Post {
     title: string;
@@ -17,8 +17,8 @@ interface Post {
 }
 
 export const metadata = {
-    title: "Home | MarkNote.one",
-    description: "View and manage all your markdown notes",
+    title: "Archive | MarkNote.one",
+    description: "View and manage all your archived markdown notes",
 };
 
 export default async function HomePage() {
@@ -53,7 +53,7 @@ async function PostListWrapper({ userId }: { userId: string }) {
     return (
         <PostList
             categories={categories}
-            initialPosts={postsArray.filter((post) => !post.archived)}
+            initialPosts={postsArray.filter((post) => post.archived)}
         />
     );
 }

@@ -34,6 +34,7 @@ interface Post {
     category: string;
     lastUpdated: string;
     pinned: boolean;
+    archived: boolean;
 }
 
 interface PostListProps {
@@ -164,42 +165,54 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
         localStorage.setItem("noteViewType", viewType);
     }, [viewType]);
 
-    const renderGridView = () => (
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredPosts.map((post) => (
-                <Link
-                    href={`/note/${post.id}`}
-                    key={post.id}
-                    onContextMenu={(e) => handleContextMenu(e, post.id)}
-                >
-                    <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer overflow-hidden">
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-lg truncate flex flex-row justify-between items-center">
-                                <span>{post.title}</span>
-                                {post.pinned && (
-                                    <Pin className="h-4 w-4 text-yellow-500" />
-                                )}
-                            </CardTitle>
-                            <CardDescription className="text-sm flex flex-row gap-2 items-center">
-                                {post.category && (
-                                    <Badge className="max-w-20">
-                                        {post.category}
-                                    </Badge>
-                                )}
-                                Updated:{" "}
-                                {new Date(post.lastUpdated).toLocaleString()}
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-sm text-gray-600 line-clamp-3 break-words overflow-hidden">
-                                {post.content}
-                            </p>
-                        </CardContent>
-                    </Card>
-                </Link>
-            ))}
-        </div>
-    );
+    const renderGridView = () => {
+        if (filteredPosts.length === 0) {
+            return (
+                <div className="flex items-center justify-center h-96 text-muted-foreground">
+                    No notes found. Create a new one!
+                </div>
+            );
+        }
+
+        return (
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                {filteredPosts.map((post) => (
+                    <Link
+                        href={`/note/${post.id}`}
+                        key={post.id}
+                        onContextMenu={(e) => handleContextMenu(e, post.id)}
+                    >
+                        <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer overflow-hidden">
+                            <CardHeader className="pb-2">
+                                <CardTitle className="text-lg truncate flex flex-row justify-between items-center">
+                                    <span>{post.title}</span>
+                                    {post.pinned && (
+                                        <Pin className="h-4 w-4 text-yellow-500" />
+                                    )}
+                                </CardTitle>
+                                <CardDescription className="text-sm flex flex-row gap-2 items-center">
+                                    {post.category && (
+                                        <Badge className="max-w-20">
+                                            {post.category}
+                                        </Badge>
+                                    )}
+                                    Updated:{" "}
+                                    {new Date(
+                                        post.lastUpdated
+                                    ).toLocaleString()}
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-sm text-gray-600 line-clamp-3 break-words overflow-hidden">
+                                    {post.content}
+                                </p>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                ))}
+            </div>
+        );
+    };
 
     const renderTableView = () => (
         <div className="rounded-md border">
@@ -363,12 +376,12 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                     </div>
                     <Link href="/new-note" className="hidden md:block">
                         <Button>
-                            <PlusCircle className="mr-2 h-4 w-4" /> New Note
+                            <PlusCircle className="h-4 w-4" /> New
                         </Button>
                     </Link>
                     <Link href="/upload" className="hidden md:block">
                         <Button>
-                            <UploadCloud className="mr-2 h-4 w-4" /> Upload File
+                            <UploadCloud className="h-4 w-4" /> Upload
                         </Button>
                     </Link>
                 </div>

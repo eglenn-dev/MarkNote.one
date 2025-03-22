@@ -6,6 +6,8 @@ import {
     getPostByKey,
     deletePost,
     createDemoPost,
+    archivePost,
+    unarchivePost,
 } from "@/models/post-model";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -79,4 +81,22 @@ export async function updatePostCategoryAction(
     if (!existingPost) return;
     if (session.user.userId !== existingPost.userId) return;
     await updatePost(postId, { ...existingPost, category });
+}
+
+export async function archivePostAction(postId: string) {
+    const session = await getSession();
+    if (!session) return;
+    const existingPost = await getPostByKey(postId);
+    if (!existingPost) return;
+    if (session.user.userId !== existingPost.userId) return;
+    await archivePost(postId);
+}
+
+export async function unarchivePostAction(postId: string) {
+    const session = await getSession();
+    if (!session) return;
+    const existingPost = await getPostByKey(postId);
+    if (!existingPost) return;
+    if (session.user.userId !== existingPost.userId) return;
+    await unarchivePost(postId);
 }

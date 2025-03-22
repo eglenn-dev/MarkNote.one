@@ -1,11 +1,21 @@
 import type React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Trash2, Download, Pin, FolderEdit } from "lucide-react";
+import {
+    Eye,
+    Edit,
+    Trash2,
+    Download,
+    Pin,
+    FolderEdit,
+    Archive,
+} from "lucide-react";
 import {
     deletePostAction,
     pinPostAction,
     updatePostCategoryAction,
+    archivePostAction,
+    unarchivePostAction,
 } from "./action";
 import DownloadButton from "./download-button";
 import {
@@ -23,6 +33,7 @@ interface Post {
     category: string;
     lastUpdated: string;
     pinned: boolean;
+    archived: boolean;
 }
 
 interface ContextMenuProps {
@@ -66,6 +77,16 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         window.location.reload();
     };
 
+    const archiveClick = () => {
+        if (!post) return;
+        if (post.archived) {
+            unarchivePostAction(post.id);
+        } else {
+            archivePostAction(post.id);
+        }
+        window.location.reload();
+    };
+
     return (
         <div
             className="absolute w-[200px] bg-background border border-border rounded-md shadow-md p-2 user-none text-foreground flex flex-col gap-1"
@@ -79,6 +100,16 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
                 <Pin className="mr-2 h-4 w-4" />
                 <span className="text-md">
                     {post?.pinned ? "Unpin" : "Pin"}
+                </span>
+            </Button>
+            <Button
+                className="w-full justify-start px-2 py-1.5 h-auto"
+                variant="ghost"
+                onClick={() => archiveClick()}
+            >
+                <Archive className="mr-2 h-4 w-4" />
+                <span className="text-md">
+                    {post?.archived ? "Unarchive" : "Archive"}
                 </span>
             </Button>
             <Button

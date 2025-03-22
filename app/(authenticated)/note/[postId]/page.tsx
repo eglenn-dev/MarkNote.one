@@ -23,6 +23,7 @@ interface Post {
     userId: string;
     lastUpdated: string;
     pinned?: boolean;
+    archived?: boolean;
 }
 
 export default async function Page({
@@ -122,14 +123,14 @@ async function NoteSidebarWrapper({
             userId: post.userId,
             lastUpdated: post.lastUpdated,
             pinned: post.pinned || false,
+            archived: post.archived || false,
         };
     }) as Post[];
 
-    postsArray.sort(
-        (a, b) =>
-            new Date(b.lastUpdated).getTime() -
-            new Date(a.lastUpdated).getTime()
+    return (
+        <NoteSidebar
+            posts={postsArray.filter((post) => !post.archived)}
+            preference={menuOpen}
+        />
     );
-
-    return <NoteSidebar posts={postsArray} preference={menuOpen} />;
 }

@@ -26,6 +26,7 @@ interface Post {
     lastUpdated: string;
     pinned?: boolean;
     category?: string;
+    archived?: boolean;
 }
 
 export async function createPost(post: Post) {
@@ -62,6 +63,14 @@ export async function deletePost(key: string) {
 
 export async function updatePostCategory(key: string, category: string) {
     await postsRef.child(key).update({ category });
+}
+
+export async function archivePost(key: string) {
+    await postsRef.child(key).update({ archived: true });
+}
+
+export async function unarchivePost(key: string) {
+    await postsRef.child(key).update({ archived: false });
 }
 
 export async function createDemoPost(userId: string) {
