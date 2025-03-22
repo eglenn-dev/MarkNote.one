@@ -18,27 +18,37 @@ export default async function LandingPage() {
                 <div className="text-xl mb-8">
                     <HomeMdPreview text="A _powerful_ markdown **note-taking** app with [live]() `previews`" />
                 </div>
-                <div className="flex flex-col items-center gap-4">
-                    <div className="flex flex-row gap-4">
-                        <Link
-                            href="/login"
-                            className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-md text-lg font-semibold transition-colors"
+                <div className="flex flex-col items-center gap-6 w-full max-w-md">
+                    <Link
+                        href="/login"
+                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center justify-center"
+                    >
+                        <span>Start Taking Notes</span>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 ml-2"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
                         >
-                            Start Taking Notes
-                        </Link>
+                            <path
+                                fillRule="evenodd"
+                                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </Link>
+                    <div className="flex flex-row gap-4 w-full">
                         <Link
                             href="/demo"
-                            className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-md text-lg font-semibold transition-colors"
+                            className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/90 px-6 py-3 rounded-lg text-lg font-medium transition-all duration-300 border border-secondary/20 hover:border-secondary flex items-center justify-center"
                         >
-                            Try It Out
+                            <span>Try It Out</span>
                         </Link>
-                    </div>
-                    <div className="pt-4">
                         <a
                             href={`https://temp.${process.env.BASE_DOMAIN}`}
-                            className="bg-black text-primary-foreground hover:bg-black/90 px-6 py-3 rounded-md text-lg text-black dark:text-white font-semibold transition-colors border border-gray-500"
+                            className="flex-1 bg-background text-foreground hover:bg-accent px-6 py-3 rounded-lg text-lg font-medium transition-all duration-300 border border-border hover:border-primary/50 flex items-center justify-center"
                         >
-                            Temporary Notes
+                            <span>Temp Notes</span>
                         </a>
                     </div>
                 </div>
