@@ -13,6 +13,15 @@ type Release = {
 
 const releases: Release[] = [
     {
+        version: "1.8.0",
+        date: "2025-03-22",
+        changes: [
+            "Notes can now be archived without being deleted. Archived notes can be restored.",
+            "Fixed mobile responsiveness for the note editor.",
+            "Updated home page header for simplicity and clarity.",
+        ],
+    },
+    {
         version: "1.7.2",
         date: "2025-03-18",
         changes: [
