@@ -1,11 +1,18 @@
+import React from "react";
 import Link from "next/link";
 import { logoutAction } from "./action";
 import { Button } from "./ui/button";
 import { ThemeToggle } from "./theme-toggle";
-import { Menu } from "lucide-react";
+import { Menu, Lightbulb, Archive, Link2Icon } from "lucide-react";
 import { createDemoPostAction } from "./action";
-import { HomeIcon, SettingsIcon, TimerIcon, LogoutIcon } from "./icons";
-import { Lightbulb } from "lucide-react";
+import {
+    HomeIcon,
+    SettingsIcon,
+    TimerIcon,
+    LogoutIcon,
+    UserIcon,
+    OtherIcon,
+} from "./icons";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -29,6 +36,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import {
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 
 const markdownTips = [
     {
@@ -92,132 +106,196 @@ export default async function Header() {
                     <span className="hidden sm:inline">MarkNote.one</span>
                 </Link>
                 <div className="hidden md:flex items-center gap-3">
-                    <Link href="/home">
-                        <Button
-                            size="lg"
-                            variant="ghost"
-                            className="h-10 px-4 rounded-lg"
-                        >
-                            <HomeIcon width={22} height={22} className="mr-2" />
-                            <span>Home</span>
-                        </Button>
-                    </Link>
-                    <Link href="/settings">
-                        <Button
-                            size="lg"
-                            variant="ghost"
-                            className="h-10 px-4 rounded-lg"
-                        >
-                            <SettingsIcon
-                                width={22}
-                                height={22}
-                                className="mr-2"
-                            />
-                            <span>Settings</span>
-                        </Button>
-                    </Link>
-                    <a
-                        target="_blank"
-                        href={`https://temp.${process.env.BASE_DOMAIN}`}
-                        rel="noreferrer"
-                    >
-                        <Button
-                            size="lg"
-                            variant="ghost"
-                            className="h-10 px-4 rounded-lg"
-                        >
-                            <TimerIcon
-                                width={22}
-                                height={22}
-                                className="mr-2"
-                            />
-                            <span>Temp</span>
-                        </Button>
-                    </a>
-                    <Sheet>
-                        <SheetTrigger asChild>
-                            <Button
-                                size="lg"
-                                variant="ghost"
-                                className="h-10 px-4 rounded-lg"
-                            >
-                                <Lightbulb
-                                    width={22}
-                                    height={22}
-                                    className="mr-2"
-                                />
-                                <span>Tips</span>
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent className="h-full overflow-y-scroll">
-                            <SheetHeader>
-                                <SheetTitle>Tips and Tricks</SheetTitle>
-                                <SheetDescription>
-                                    Learn all the tips and tricks to get the
-                                    most out of MarkNote.one
-                                </SheetDescription>
-                            </SheetHeader>
-                            <div className="mt-4 flex flex-col">
-                                <a href="/feedback">
-                                    <Button size="lg" className="w-full mb-4">
-                                        Submit Feedback
-                                    </Button>
-                                </a>
-                                <Table>
-                                    <TableCaption>
-                                        Markdown tips to help you get started
-                                    </TableCaption>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Title</TableHead>
-                                            <TableHead>Description</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {markdownTips.map((tip, index) => (
-                                            <TableRow key={index}>
-                                                <TableCell className="font-medium">
-                                                    {tip.title}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {tip.description}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </div>
-                            <div className="mt-6 flex flex-row gap-2 justify-center items-center">
-                                <Link href="/release-notes">
-                                    <Button variant="secondary">
-                                        Release Notes
+                    <NavigationMenu>
+                        <NavigationMenuList>
+                            <NavigationMenuItem>
+                                <Link href="/home">
+                                    <Button
+                                        variant="ghost"
+                                        className="h-10 px-4 flex items-center justify-center gap-2 text-sm"
+                                    >
+                                        <HomeIcon
+                                            width={30}
+                                            height={30}
+                                            className="mr-2"
+                                        />
+                                        Home
                                     </Button>
                                 </Link>
-                                <form action={createDemoPostAction}>
-                                    <Button type="submit" variant="secondary">
-                                        Welcome Note
-                                    </Button>
-                                </form>
-                                <Link href="/demo">
-                                    <Button variant="secondary">Demo</Button>
-                                </Link>
-                            </div>
-                        </SheetContent>
-                    </Sheet>
-                    <form action={logoutAction}>
-                        <Button
-                            size="lg"
-                            variant="ghost"
-                            className="h-10 px-4 rounded-lg"
-                        >
-                            <LogoutIcon
-                                width={22}
-                                height={22}
-                                className="mr-2"
-                            />
-                            <span>Logout</span>
-                        </Button>
-                    </form>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger className="flex items-center gap-2 h-10 px-4">
+                                    <UserIcon width={18} height={18} />
+                                    Account
+                                </NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <div className="flex flex-col gap-1 p-4 md:w-[300px]">
+                                        <Link
+                                            href="/settings"
+                                            className="py-1 flex items-center gap-2 w-full hover:bg-muted rounded-lg"
+                                        >
+                                            <SettingsIcon
+                                                width={18}
+                                                height={18}
+                                                className="mr-2"
+                                            />
+                                            <span>Settings</span>
+                                        </Link>
+                                        <Link
+                                            href="/home/archive"
+                                            className="py-1 flex items-center gap-2 w-full hover:bg-muted rounded-lg"
+                                        >
+                                            <Archive className="h-4 w-4" />
+                                            <span>Archive</span>
+                                        </Link>
+                                        <Sheet>
+                                            <SheetTrigger asChild>
+                                                <span className="flex items-center gap-2 py-1 cursor-pointer w-full hover:bg-muted rounded-lg">
+                                                    <Lightbulb
+                                                        width={18}
+                                                        height={18}
+                                                    />
+                                                    <span>Tips</span>
+                                                </span>
+                                            </SheetTrigger>
+                                            <SheetContent className="h-full overflow-y-scroll">
+                                                <SheetHeader>
+                                                    <SheetTitle>
+                                                        Tips and Tricks
+                                                    </SheetTitle>
+                                                    <SheetDescription>
+                                                        Learn all the tips and
+                                                        tricks to get the most
+                                                        out of MarkNote.one
+                                                    </SheetDescription>
+                                                </SheetHeader>
+                                                <div className="mt-4 flex flex-col">
+                                                    <Link href="/feedback">
+                                                        <Button
+                                                            size="lg"
+                                                            className="w-full mb-4"
+                                                        >
+                                                            Submit Feedback
+                                                        </Button>
+                                                    </Link>
+                                                    <Table>
+                                                        <TableCaption>
+                                                            Markdown tips to
+                                                            help you get started
+                                                        </TableCaption>
+                                                        <TableHeader>
+                                                            <TableRow>
+                                                                <TableHead>
+                                                                    Title
+                                                                </TableHead>
+                                                                <TableHead>
+                                                                    Description
+                                                                </TableHead>
+                                                            </TableRow>
+                                                        </TableHeader>
+                                                        <TableBody>
+                                                            {markdownTips.map(
+                                                                (
+                                                                    tip,
+                                                                    index
+                                                                ) => (
+                                                                    <TableRow
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                    >
+                                                                        <TableCell className="font-medium">
+                                                                            {
+                                                                                tip.title
+                                                                            }
+                                                                        </TableCell>
+                                                                        <TableCell>
+                                                                            {
+                                                                                tip.description
+                                                                            }
+                                                                        </TableCell>
+                                                                    </TableRow>
+                                                                )
+                                                            )}
+                                                        </TableBody>
+                                                    </Table>
+                                                </div>
+                                                <div className="mt-6 flex flex-row gap-2 justify-center items-center">
+                                                    <Link href="/release-notes">
+                                                        <Button variant="secondary">
+                                                            Release Notes
+                                                        </Button>
+                                                    </Link>
+                                                    <form
+                                                        action={
+                                                            createDemoPostAction
+                                                        }
+                                                    >
+                                                        <Button
+                                                            type="submit"
+                                                            variant="secondary"
+                                                        >
+                                                            Welcome Note
+                                                        </Button>
+                                                    </form>
+                                                    <Link href="/demo">
+                                                        <Button variant="secondary">
+                                                            Demo
+                                                        </Button>
+                                                    </Link>
+                                                </div>
+                                            </SheetContent>
+                                        </Sheet>
+                                        <form action={logoutAction}>
+                                            <button
+                                                type="submit"
+                                                className="flex items-center py-1 gap-2 cursor-pointer w-full hover:bg-muted rounded-lg"
+                                            >
+                                                <LogoutIcon
+                                                    width={18}
+                                                    height={18}
+                                                    className="mr-2"
+                                                />
+                                                <span>Logout</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger className="flex items-center gap-2 h-10 px-4">
+                                    <OtherIcon width={16} height={16} />
+                                    Other
+                                </NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <div className="flex flex-col gap-1 p-4 md:w-[300px]">
+                                        <a
+                                            target="_blank"
+                                            href={`https://temp.${process.env.BASE_DOMAIN}`}
+                                            rel="noreferrer"
+                                            className="w-full flex flex-row gap-1 items-center justify-start h-10 px-4 rounded-lg hover:bg-muted text-sm"
+                                        >
+                                            <TimerIcon
+                                                width={18}
+                                                height={22}
+                                                className="mr-2"
+                                            />
+                                            <span>Temp Notes</span>
+                                        </a>
+                                        <a
+                                            target="_blank"
+                                            href="https://clipit.one"
+                                            rel="noreferrer"
+                                            className="w-full flex flex-row gap-1 items-center justify-start h-10 px-4 rounded-lg hover:bg-muted text-sm"
+                                        >
+                                            <Link2Icon className="h-6 w-6" />
+                                            <span>ClipIt.one</span>
+                                        </a>
+                                    </div>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        </NavigationMenuList>
+                    </NavigationMenu>
                     <ThemeToggle />
                 </div>
                 <div className="md:hidden">
@@ -243,18 +321,10 @@ export default async function Header() {
                                 className="text-base py-3 cursor-pointer"
                                 asChild
                             >
-                                <a
-                                    href={`https://temp.${process.env.BASE_DOMAIN}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <TimerIcon
-                                        width={18}
-                                        height={18}
-                                        className="mr-2"
-                                    />
-                                    Temp Note
-                                </a>
+                                <Link href="/home/archive">
+                                    <Archive />
+                                    <span>Archive</span>
+                                </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem
                                 className="text-base py-3 cursor-pointer"
@@ -266,14 +336,14 @@ export default async function Header() {
                                         height={18}
                                         className="mr-2"
                                     />
-                                    Settings
+                                    <span>Settings</span>
                                 </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem className="text-base py-3 cursor-pointer">
                                 <form action={logoutAction} className="w-full">
                                     <button
                                         type="submit"
-                                        className="flex items-center w-full text-left"
+                                        className="flex items-center w-full text-left gap-1"
                                     >
                                         <LogoutIcon
                                             width={18}
