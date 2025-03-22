@@ -21,6 +21,10 @@
 -   **Cross-Platform**: Available on from [MarkNote.one](https://marknote.one) on any device.
 -   **Import & Export**: Easily upload and download you markdown notes.
 
+## Release Notes
+
+For detailed release notes, please visit the [release notes](https://marknote.one/release-notes) page.
+
 ## Installation
 
 ### Prerequisites
