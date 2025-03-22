@@ -455,3 +455,38 @@ export function LogoutIcon({ width = 20, height = 20 }: IconProps) {
         </svg>
     );
 }
+
+export function UserIcon({ width = 20, height = 20 }: IconProps) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={width}
+            height={height}
+            viewBox="0 0 24 24"
+        >
+            <g fill="none" stroke="currentColor" strokeWidth={2}>
+                <path
+                    strokeLinejoin="round"
+                    d="M4 18a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"
+                ></path>
+                <circle cx={12} cy={7} r={3}></circle>
+            </g>
+        </svg>
+    );
+}
+
+export function OtherIcon({ width = 20, height = 20 }: IconProps) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={width}
+            height={height}
+            viewBox="0 0 24 24"
+        >
+            <path
+                fill="currentColor"
+                d="M9 20q-.475 0-.9-.213t-.7-.587L2 12l5.4-7.2q.275-.375.7-.587T9 4h11q.825 0 1.413.587T22 6v12q0 .825-.587 1.413T20 20zm-4.5-8L9 18h11V6H9zm5.5 1q.425 0 .713-.288T11 12t-.288-.712T10 11t-.712.288T9 12t.288.713T10 13m3.5 0q.425 0 .713-.288T14.5 12t-.288-.712T13.5 11t-.712.288T12.5 12t.288.713t.712.287m3.5 0q.425 0 .713-.288T18 12t-.288-.712T17 11t-.712.288T16 12t.288.713T17 13m-2.5-1"
+            ></path>
+        </svg>
+    );
+}
