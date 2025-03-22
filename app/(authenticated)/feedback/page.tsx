@@ -2,6 +2,7 @@ import { getSession } from "@/lib/session";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { version } from "@/package.json";
 import {
     Select,
     SelectTrigger,
@@ -26,6 +27,7 @@ interface Feedback {
     type: string;
     content: string;
     userId: string;
+    appVersion: string;
 }
 
 export const metadata = {
@@ -55,8 +57,11 @@ export default async function FeedbackPage() {
                         action={submitFeedbackAction}
                         className="flex flex-col gap-4"
                     >
+                        <div className="text-sm text-gray-500">
+                            Version: {version}
+                        </div>
                         <Label htmlFor="type">Type</Label>
-                        <Select name="type">
+                        <Select name="type" required>
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="Select a Type" />
                             </SelectTrigger>
@@ -77,6 +82,13 @@ export default async function FeedbackPage() {
                             type="text"
                             className="w-full border-white h-[44px]"
                             required
+                        />
+                        <Input
+                            type="hidden"
+                            name="version"
+                            value={version}
+                            readOnly
+                            hidden
                         />
                         <div className="mt-4">
                             <Button type="submit">Submit</Button>
@@ -102,6 +114,9 @@ export default async function FeedbackPage() {
                                                 feedback.type.slice(1)}
                                         </p>
                                         <p>{feedback.content}</p>
+                                        <div className="text-sm text-gray-500">
+                                            {feedback.appVersion}
+                                        </div>
                                     </div>
                                     <DeleteFeedbackButton
                                         feedbackKey={feedback.key}

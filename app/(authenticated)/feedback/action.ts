@@ -8,10 +8,12 @@ export async function submitFeedbackAction(formData: FormData) {
     if (!session?.user) return;
     const type = formData.get("type");
     const content = formData.get("content");
+    const appVersion = formData.get("version");
     if (typeof type !== "string" || typeof content !== "string") return;
     const feedback = {
         type,
         content,
+        appVersion,
         userId: session.user.userId,
     };
     await recordFeedback(feedback);
