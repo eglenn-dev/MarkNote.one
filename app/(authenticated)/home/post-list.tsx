@@ -73,7 +73,6 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
         postId: string;
     } | null>(null);
     const [viewType, setViewType] = useState<"grid" | "list">(() => {
-        // Check if we're in a browser environment
         if (typeof window !== "undefined") {
             const savedView = localStorage.getItem("noteViewType");
             return savedView === "list" ? "list" : "grid";
@@ -259,7 +258,7 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                                 </TableCell>
                                 <TableCell>
                                     {post.category && (
-                                        <Badge className="max-w-20">
+                                        <Badge className="max-w-20 text-center">
                                             {post.category}
                                         </Badge>
                                     )}
@@ -270,7 +269,7 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                                     ).toLocaleString()}
                                 </TableCell>
                                 <TableCell>
-                                    <p className="text-sm text-muted-foreground line-clamp-1 break-words">
+                                    <p className="text-sm text-muted-foreground line-clamp-1 break-words max-w-screen-sm">
                                         {post.content}
                                     </p>
                                 </TableCell>
