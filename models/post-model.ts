@@ -73,6 +73,11 @@ export async function unarchivePost(key: string) {
     await postsRef.child(key).update({ archived: false });
 }
 
+export async function getPostTitle(key: string) {
+    const postSnapshot = await postsRef.child(key).once("value");
+    return postSnapshot.val().title;
+}
+
 export async function createDemoPost(userId: string) {
     const noteContent = `### [MarkNote.one](https://marknote.one) is a great, free, and easy to use Markdown note taking web-based application. 
 

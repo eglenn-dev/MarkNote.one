@@ -1,6 +1,10 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
-import { getPostByKey, getPostsByUser } from "@/models/post-model";
+import {
+    getPostByKey,
+    getPostsByUser,
+    getPostTitle,
+} from "@/models/post-model";
 import { getUserCategories } from "@/models/accounts-model";
 import Note from "@/components/note";
 import NoteSidebar from "@/components/note-sidebar";
@@ -11,10 +15,6 @@ import {
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable";
-
-export const metadata = {
-    title: "Edit Note | MarkNote.one",
-};
 
 interface Post {
     id: string;
@@ -133,4 +133,17 @@ async function NoteSidebarWrapper({
             preference={menuOpen}
         />
     );
+}
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ postId: string }>;
+}) {
+    const { postId } = await params;
+    const postTitle = await getPostTitle(postId);
+
+    return {
+        title: `${postTitle} | MarkNote.one`,
+    };
 }
