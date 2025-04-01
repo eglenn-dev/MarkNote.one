@@ -268,16 +268,16 @@ export default async function Header() {
                                     Other
                                 </NavigationMenuTrigger>
                                 <NavigationMenuContent>
-                                    <div className="flex flex-col gap-1 p-4 md:w-[300px]">
+                                    <div className="flex flex-col gap-1 p-2 py-4 md:w-[300px]">
                                         <a
                                             target="_blank"
                                             href={`https://temp.${process.env.BASE_DOMAIN}`}
                                             rel="noreferrer"
-                                            className="w-full flex flex-row gap-1 items-center justify-start h-10 px-4 rounded-lg hover:bg-muted text-sm"
+                                            className="w-full flex flex-row gap-2 items-center justify-start h-10 px-2 rounded-lg hover:bg-muted text-sm"
                                         >
                                             <TimerIcon
-                                                width={18}
-                                                height={22}
+                                                width={24}
+                                                height={24}
                                                 className="mr-2"
                                             />
                                             <span>Temp Notes</span>
@@ -286,7 +286,7 @@ export default async function Header() {
                                             target="_blank"
                                             href="https://clipit.one"
                                             rel="noreferrer"
-                                            className="w-full flex flex-row gap-1 items-center justify-start h-10 px-4 rounded-lg hover:bg-muted text-sm"
+                                            className="w-full flex flex-row gap-2 items-center justify-start h-10 px-2 rounded-lg hover:bg-muted text-sm"
                                         >
                                             <Link2Icon className="h-6 w-6" />
                                             <span>ClipIt.one</span>
