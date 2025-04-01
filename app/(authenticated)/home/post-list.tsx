@@ -236,42 +236,44 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                         </TableRow>
                     ) : (
                         filteredPosts.map((post) => (
-                            <Link href={`/note/${post.id}`} key={post.id}>
-                                <TableRow
-                                    className="cursor-pointer hover:bg-muted/50"
-                                    onContextMenu={(e) =>
-                                        handleContextMenu(e, post.id)
-                                    }
-                                >
-                                    <TableCell className="font-medium">
-                                        <div className="flex items-center gap-2">
-                                            {post.pinned && (
-                                                <Pin className="h-4 w-4 text-yellow-500 flex-shrink-0" />
-                                            )}
-                                            <span className="truncate">
-                                                {post.title}
-                                            </span>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>
-                                        {post.category && (
-                                            <Badge className="max-w-20 text-center">
-                                                {post.category}
-                                            </Badge>
+                            <TableRow
+                                key={post.id}
+                                className="cursor-pointer select-none hover:bg-muted/50"
+                                onContextMenu={(e) =>
+                                    handleContextMenu(e, post.id)
+                                }
+                                onClick={() =>
+                                    window.location.assign(`/note/${post.id}`)
+                                }
+                            >
+                                <TableCell className="font-medium">
+                                    <div className="flex items-center gap-2">
+                                        {post.pinned && (
+                                            <Pin className="h-4 w-4 text-yellow-500 flex-shrink-0" />
                                         )}
-                                    </TableCell>
-                                    <TableCell>
-                                        {new Date(
-                                            post.lastUpdated
-                                        ).toLocaleString()}
-                                    </TableCell>
-                                    <TableCell>
-                                        <p className="text-sm text-muted-foreground line-clamp-1 break-words max-w-screen-sm">
-                                            {post.content}
-                                        </p>
-                                    </TableCell>
-                                </TableRow>
-                            </Link>
+                                        <span className="truncate">
+                                            {post.title}
+                                        </span>
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    {post.category && (
+                                        <Badge className="max-w-20 text-center">
+                                            {post.category}
+                                        </Badge>
+                                    )}
+                                </TableCell>
+                                <TableCell>
+                                    {new Date(
+                                        post.lastUpdated
+                                    ).toLocaleString()}
+                                </TableCell>
+                                <TableCell>
+                                    <p className="text-sm text-muted-foreground line-clamp-1 break-words max-w-screen-sm">
+                                        {post.content}
+                                    </p>
+                                </TableCell>
+                            </TableRow>
                         ))
                     )}
                 </TableBody>
