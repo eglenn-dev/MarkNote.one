@@ -25,6 +25,7 @@ import { PlusCircle, Search, UploadCloud, Pin } from "lucide-react";
 import { PlusIcon } from "@/components/icons";
 import NoteModal from "@/components/note-modal";
 import ContextMenu from "@/components/context-menu";
+import LinkLoadingIndicator from "@/components/link-loading";
 
 interface Post {
     id: string;
@@ -361,12 +362,18 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                     </div>
                     <Link href="/new-note" className="hidden md:block">
                         <Button>
-                            <PlusCircle className="h-4 w-4" /> New
+                            <LinkLoadingIndicator
+                                icon={<PlusCircle className="h-4 w-4" />}
+                            />
+                            New
                         </Button>
                     </Link>
                     <Link href="/upload" className="hidden md:block">
                         <Button>
-                            <UploadCloud className="h-4 w-4" /> Upload
+                            <LinkLoadingIndicator
+                                icon={<UploadCloud className="h-4 w-4" />}
+                            />
+                            Upload
                         </Button>
                     </Link>
                 </div>
