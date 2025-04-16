@@ -3,7 +3,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import MarkdownPreview from "@/components/markdown-preview";
-import { createPostAction, updatePostAction } from "./action";
+import { createPostAction } from "./action";
 import { AlertCircle } from "lucide-react";
 import { NoteMenuBar } from "@/components/menu-bar";
 import { redirect } from "next/navigation";
@@ -68,16 +68,29 @@ export default function NoteEditor({
                     newPostId = response;
                     setPostId(response);
                     window.history.replaceState(null, "", `/note/${response}`);
-                    window.location.reload();
                 }
             } else {
-                await updatePostAction(postId, {
-                    title: noteTitle,
-                    content: note,
-                    userId: userId,
-                    category: category === "remove" ? "" : category,
-                    lastUpdated: new Date().toISOString(),
+                const payload = {
+                    postId: postId,
+                    post: {
+                        title: noteTitle,
+                        content: note,
+                        userId: userId,
+                        category: category === "remove" ? "" : category,
+                        lastUpdated: new Date().toISOString(),
+                    },
+                };
+                const response = await fetch("/api/update-post", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
                 });
+                console.log("Response:", response);
+                if (!response.ok) {
+                    throw new Error("Failed to update post");
+                }
             }
             setSaveStatus("saved");
             return newPostId;

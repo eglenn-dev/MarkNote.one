@@ -34,17 +34,6 @@ export async function createPostAction(post: Post) {
     return id;
 }
 
-export async function updatePostAction(postId: string, post: Post) {
-    if (!postId || !post) return;
-    const session = await getSession();
-    if (!session) return;
-    if (session.user.userId !== post.userId) return "";
-    const existingPost = await getPostByKey(postId);
-    if (!existingPost) return;
-    if (session.user.userId !== existingPost.userId) return;
-    await updatePost(postId, post);
-}
-
 export async function deletePostAction(postId: string) {
     if (!postId) return;
     const session = await getSession();
