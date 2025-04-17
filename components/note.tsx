@@ -261,6 +261,12 @@ export default function NoteEditor({
     }, [fullPreview]);
 
     useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.focus();
+            textareaRef.current.selectionStart =
+                textareaRef.current.selectionEnd =
+                    textareaRef.current.value.length;
+        }
         if (isMobileDevice()) {
             setShowPreview(false);
         }
@@ -310,6 +316,10 @@ export default function NoteEditor({
                         again.
                     </AlertDescription>
                 </Alert>
+            )}
+
+            {!postId && (
+                <div className="text-sm pl-4">Enter title and note to save</div>
             )}
 
             <div
