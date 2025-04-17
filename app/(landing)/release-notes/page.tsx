@@ -17,6 +17,7 @@ const releases: Release[] = [
         date: "2025-04-16",
         changes: [
             "Fixed issue where new note page was refreshing after being updated.",
+            "Fixed markdown render issue for code chunks in the preview.",
             "Added link loading indicators for page navigation's.",
         ],
     },
