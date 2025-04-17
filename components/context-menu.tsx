@@ -162,7 +162,11 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
                             key={category}
                             onClick={() => handleCategoryChange(category)}
                         >
-                            {category}
+                            <span
+                                onClick={() => handleCategoryChange(category)}
+                            >
+                                {category}
+                            </span>
                         </DropdownMenuItem>
                     ))}
                 </DropdownMenuContent>
