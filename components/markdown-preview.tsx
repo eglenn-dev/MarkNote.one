@@ -52,7 +52,7 @@ export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
                 ),
                 code: ({ ...props }) => (
                     <code
-                        className="bg-gray-200 dark:bg-gray-900 rounded px-1 py-0.5"
+                        className="bg-gray-100 dark:bg-gray-900 rounded px-1 py-0.5"
                         {...props}
                     />
                 ),
