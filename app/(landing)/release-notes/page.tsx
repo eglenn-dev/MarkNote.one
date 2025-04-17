@@ -17,6 +17,7 @@ const releases: Release[] = [
         date: "2025-04-17",
         changes: [
             "Minor bug fixes that were causing page reloads on home page.",
+            "Added home screen button for accessing archived notes. ",
             "Accessibility improvements.",
         ],
     },
