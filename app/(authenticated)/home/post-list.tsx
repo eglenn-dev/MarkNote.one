@@ -127,6 +127,14 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
         setContextMenu(null);
     };
 
+    const togglePinPost = (postId: string) => {
+        setSortedPosts((sortedPosts) =>
+            sortedPosts.map((post) =>
+                post.id === postId ? { ...post, pinned: !post.pinned } : post
+            )
+        );
+    };
+
     const handlePostDelete = (postId: string) => {
         setSortedPosts((sortedPosts) =>
             sortedPosts.filter((post) => post.id !== postId)
@@ -411,6 +419,7 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                         closeMenu={closeContextMenu}
                         deletePost={handlePostDelete}
                         categoryChange={updatePostCategory}
+                        pinPost={togglePinPost}
                     />
                 </div>
             )}
