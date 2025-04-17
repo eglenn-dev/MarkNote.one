@@ -315,6 +315,7 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                 <div className="flex items-center space-x-4 w-full sm:w-auto justify-between sm:justify-end">
                     <div className="flex items-center border rounded-md overflow-hidden mr-2">
                         <Button
+                            aria-label="Grid view"
                             variant={viewType === "grid" ? "default" : "ghost"}
                             size="sm"
                             onClick={() => {
@@ -346,6 +347,7 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                             </svg>
                         </Button>
                         <Button
+                            aria-label="List view"
                             variant={viewType === "list" ? "default" : "ghost"}
                             size="sm"
                             onClick={() => {
