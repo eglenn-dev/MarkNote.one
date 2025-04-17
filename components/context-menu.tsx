@@ -46,6 +46,7 @@ interface ContextMenuProps {
     deletePost: (postId: string) => void;
     categoryChange: (postId: string, category: string) => void;
     pinPost: (postId: string) => void;
+    removePost: (postId: string) => void;
 }
 
 const ContextMenu: React.FC<ContextMenuProps> = ({
@@ -58,6 +59,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
     deletePost,
     categoryChange,
     pinPost,
+    removePost,
 }) => {
     const handleDelete = () => {
         if (!post) return;
@@ -87,7 +89,8 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         } else {
             archivePostAction(post.id);
         }
-        window.location.reload();
+        removePost(post.id);
+        closeMenu();
     };
 
     return (

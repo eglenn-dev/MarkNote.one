@@ -149,6 +149,12 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
         );
     };
 
+    const removePost = (postId: string) => {
+        setSortedPosts((sortedPosts) =>
+            sortedPosts.filter((post) => post.id !== postId)
+        );
+    };
+
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             setTimeout(() => {
@@ -420,6 +426,7 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                         deletePost={handlePostDelete}
                         categoryChange={updatePostCategory}
                         pinPost={togglePinPost}
+                        removePost={removePost}
                     />
                 </div>
             )}
