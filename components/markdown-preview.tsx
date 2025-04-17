@@ -7,7 +7,7 @@ interface MarkdownPreviewProps {
 export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
     return (
         <ReactMarkdown
-            className="overflow-x-auto h-fit overflow-y-hidden leading-7 flex flex-col gap-1"
+            className="prose dark:prose-invert max-w-none overflow-x-auto h-fit leading-7"
             components={{
                 h1: ({ ...props }) => (
                     <h1
@@ -32,12 +32,12 @@ export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
                 ),
                 p: ({ ...props }) => <p className="my-2" {...props} />,
                 ul: ({ ...props }) => (
-                    <ul className="list-disc my-2" {...props} />
+                    <ul className="list-disc my-2 pl-5" {...props} />
                 ),
                 ol: ({ ...props }) => (
-                    <ol className="list-decimal my-2" {...props} />
+                    <ol className="list-decimal my-2 pl-5" {...props} />
                 ),
-                li: ({ ...props }) => <li className="ml-6" {...props} />,
+                li: ({ ...props }) => <li className="my-1" {...props} />,
                 a: ({ ...props }) => (
                     <a
                         className="text-blue-500 dark:text-blue-400 hover:underline"
@@ -50,21 +50,17 @@ export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
                         {...props}
                     />
                 ),
-                code: ({
-                    inline,
-                    ...props
-                }: React.HTMLAttributes<HTMLElement> & { inline?: boolean }) =>
-                    inline ? (
-                        <code
-                            className="bg-gray-100 dark:bg-gray-700 rounded px-1"
-                            {...props}
-                        />
-                    ) : (
-                        <code
-                            className="bg-gray-100 dark:bg-gray-700 rounded p-1 my-2 whitespace-pre-wrap"
-                            {...props}
-                        />
-                    ),
+                code: ({ ...props }) => (
+                    <code
+                        className="bg-gray-200 dark:bg-gray-900 rounded px-1 py-0.5"
+                        {...props}
+                    />
+                ),
+                pre: ({ children }) => (
+                    <pre className="overflow-x-auto text-gray-800 dark:text-gray-200 p-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 mb-4">
+                        {children}
+                    </pre>
+                ),
             }}
         >
             {content}
