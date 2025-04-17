@@ -21,7 +21,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { PlusCircle, Search, UploadCloud, Pin } from "lucide-react";
+import { PlusCircle, Search, UploadCloud, Pin, Archive } from "lucide-react";
 import { PlusIcon } from "@/components/icons";
 import NoteModal from "@/components/note-modal";
 import ContextMenu from "@/components/context-menu";
@@ -376,20 +376,28 @@ export default function PostList({ categories, initialPosts }: PostListProps) {
                             </svg>
                         </Button>
                     </div>
+                    <Link href="/home/archive" className="hidden md:block">
+                        <Button variant="outline">
+                            <LinkLoadingIndicator
+                                icon={<Archive className="h-4 w-4" />}
+                            />
+                            Archive
+                        </Button>
+                    </Link>
+                    <Link href="/upload" className="hidden md:block">
+                        <Button variant="outline">
+                            <LinkLoadingIndicator
+                                icon={<UploadCloud className="h-4 w-4" />}
+                            />
+                            Upload
+                        </Button>
+                    </Link>
                     <Link href="/new-note" className="hidden md:block">
                         <Button>
                             <LinkLoadingIndicator
                                 icon={<PlusCircle className="h-4 w-4" />}
                             />
                             New
-                        </Button>
-                    </Link>
-                    <Link href="/upload" className="hidden md:block">
-                        <Button>
-                            <LinkLoadingIndicator
-                                icon={<UploadCloud className="h-4 w-4" />}
-                            />
-                            Upload
                         </Button>
                     </Link>
                 </div>
