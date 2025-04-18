@@ -11,18 +11,18 @@ export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
             components={{
                 h1: ({ ...props }) => (
                     <h1
-                        className="text-3xl font-bold my-4 p-2 border-b"
+                        className="text-3xl font-bold my-4 mt-6 p-2 border-b"
                         {...props}
                     />
                 ),
                 h2: ({ ...props }) => (
-                    <h2 className="text-2xl font-bold my-3" {...props} />
+                    <h2 className="text-2xl font-bold my-3 mt-6" {...props} />
                 ),
                 h3: ({ ...props }) => (
-                    <h3 className="text-xl font-bold my-2" {...props} />
+                    <h3 className="text-xl font-bold my-2 mt-6" {...props} />
                 ),
                 h4: ({ ...props }) => (
-                    <h4 className="text-lg font-bold my-2" {...props} />
+                    <h4 className="text-lg font-bold my-2 mt-4" {...props} />
                 ),
                 h5: ({ ...props }) => (
                     <h5 className="text-base font-bold my-1" {...props} />
@@ -30,16 +30,18 @@ export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
                 h6: ({ ...props }) => (
                     <h6 className="text-sm font-bold my-1" {...props} />
                 ),
-                p: ({ ...props }) => <p className="my-2" {...props} />,
+                p: ({ ...props }) => <p className="my-2 mb-6" {...props} />,
                 ul: ({ ...props }) => (
                     <ul className="list-disc my-2 pl-5" {...props} />
                 ),
                 ol: ({ ...props }) => (
                     <ol className="list-decimal my-2 pl-5" {...props} />
                 ),
-                li: ({ ...props }) => <li className="my-1" {...props} />,
+                li: ({ ...props }) => <li className="my-1 mb-2" {...props} />,
                 a: ({ ...props }) => (
                     <a
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-500 dark:text-blue-400 hover:underline"
                         {...props}
                     />
@@ -57,7 +59,7 @@ export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
                     />
                 ),
                 pre: ({ children }) => (
-                    <pre className="overflow-x-auto text-gray-800 dark:text-gray-200 p-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 mb-4">
+                    <pre className="overflow-x-auto text-gray-800 dark:text-gray-200 p-4 my-5 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 mb-4">
                         {children}
                     </pre>
                 ),
