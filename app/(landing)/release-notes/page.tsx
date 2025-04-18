@@ -14,10 +14,11 @@ type Release = {
 const releases: Release[] = [
     {
         version: "1.8.6",
-        date: "2025-04-17",
+        date: "2025-04-18",
         changes: [
             "Minor bug fixes that were causing page reloads on home page.",
             "Added home screen button for accessing archived notes. ",
+            "Improvements to Markdown rendering engine.",
             "Accessibility improvements.",
         ],
     },
