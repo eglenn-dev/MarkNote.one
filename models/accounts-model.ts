@@ -28,6 +28,7 @@ interface User {
     joinDate: string;
     oauth: boolean;
     googleId?: string;
+    gitHubUsername?: string;
     username?: string;
     preferences: {
         mdPreview: boolean;
@@ -231,7 +232,27 @@ export async function addGoogleOauthToUser(username: string, googleId: string) {
     const userInfo = userData.val();
     if (!userInfo) return false;
     userInfo.googleId = googleId;
+    userInfo.oauth = true;
     await user.update(userInfo);
+    return true;
+}
+
+export async function addGithubOauthToUser(
+    gitHubUsername: string,
+    userEmail: string
+) {
+    const userKey = await getKeyByEmail(userEmail);
+    if (!userKey) return false;
+    const user = await getUserByKey(userKey);
+    if (!user) return false;
+    const userRef = await getUserRefByUsername(user.username);
+    if (!userRef) return false;
+    const userData = await userRef.once("value");
+    const userInfo = userData.val();
+    if (!userInfo) return false;
+    userInfo.oauth = true;
+    userInfo.gitHubUsername = gitHubUsername;
+    await userRef.update(userInfo);
     return true;
 }
 

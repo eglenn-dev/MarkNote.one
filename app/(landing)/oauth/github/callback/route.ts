@@ -3,6 +3,8 @@ import {
     createOauthUser,
     getKeyByUsername,
     getUserByKey,
+    getUserByEmail,
+    addGithubOauthToUser,
 } from "@/models/accounts-model";
 import { cookies } from "next/headers";
 import { encrypt } from "@/lib/session";
@@ -90,8 +92,14 @@ export async function GET(request: Request) {
             }) => item.primary
         ).email;
 
-        if (!(await checkOauthUser(githubUsername, primaryEmail)))
-            await createOauthUser(githubUsername, primaryEmail);
+        if (!(await checkOauthUser(githubUsername, primaryEmail))) {
+            const existingUser = await getUserByEmail(primaryEmail);
+            if (existingUser) {
+                await addGithubOauthToUser(githubUsername, primaryEmail);
+            } else {
+                await createOauthUser(githubUsername, primaryEmail);
+            }
+        }
 
         const key = await getKeyByUsername(githubUsername);
         if (!key) throw new Error("Failed to get key by username");
