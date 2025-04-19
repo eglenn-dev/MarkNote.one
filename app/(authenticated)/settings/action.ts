@@ -12,15 +12,18 @@ import {
     getUsernameByKey,
     updateUserUsername,
     updateUserPreferences,
+    getKeyByEmail,
 } from "@/models/accounts-model";
 
-export async function updateEmailAction(userId: string, email: string) {
+export async function updateEmailAction(userId: string, newEmail: string) {
     const session = await getSession();
     if (!session) return null;
     if (session.user.userId !== userId) return null;
     const dbEmail = await getEmailByKey(userId);
-    if (dbEmail === email) return null;
-    return await updateUserEmail(userId, email);
+    if (dbEmail === newEmail) return null;
+    const checkUserKey = await getKeyByEmail(newEmail);
+    if (checkUserKey !== userId) return "email already exists";
+    return await updateUserEmail(userId, newEmail);
 }
 
 export async function updatePasswordAction(

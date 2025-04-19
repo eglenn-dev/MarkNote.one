@@ -88,7 +88,7 @@ export default function Settings({ userAccount }: AccountManagementProps) {
         }, 1000);
     };
 
-    const handleUpdateEmail = (e: React.FormEvent) => {
+    const handleUpdateEmail = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         if (!email) {
@@ -96,7 +96,18 @@ export default function Settings({ userAccount }: AccountManagementProps) {
             setLoading(false);
             return;
         }
-        updateEmailAction(userAccount.userId, email);
+        const response = await updateEmailAction(userAccount.userId, email);
+        if (!response) {
+            setError("There was an error updating your email!");
+            setLoading(false);
+            return;
+        } else if (response === "email already exists") {
+            setError("Email is being used by another user.");
+            setEmail("");
+            setLoading(false);
+            return;
+        }
+        setError("");
         setTimeout(() => {
             window.location.reload();
         }, 1000);
@@ -355,6 +366,7 @@ export default function Settings({ userAccount }: AccountManagementProps) {
                                         onChange={(e) =>
                                             setEmail(e.target.value)
                                         }
+                                        value={email}
                                         className="mt-1"
                                     />
                                 </div>
