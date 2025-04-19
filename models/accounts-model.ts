@@ -27,6 +27,7 @@ interface User {
     role: string;
     joinDate: string;
     oauth: boolean;
+    googleId?: string;
     username?: string;
     preferences: {
         mdPreview: boolean;
@@ -171,15 +172,46 @@ export async function createUser(
     await createDemoPost(userId);
 }
 
-export async function createOauthUser(username: string, primaryEmail: string) {
+export async function createOauthUser(
+    username: string,
+    primaryEmail: string,
+    name?: string
+) {
     const user: User = {
         email: primaryEmail,
-        name: username,
+        name: name ? name : username,
         password: "",
         role: "user",
         joinDate: new Date().toISOString(),
         username: username,
         oauth: true,
+        preferences: {
+            mdPreview: true,
+            menuOpen: true,
+            categories: ["Home", "Work"],
+        },
+    };
+    await db.ref("users").push(user);
+    const userId = await getKeyByUsername(username);
+    if (!userId) return;
+    await createDemoPost(userId);
+}
+
+export async function createGoogleOauthUser(
+    username: string,
+    primaryEmail: string,
+    name: string,
+    googleId: string
+) {
+    const user: User = {
+        email: primaryEmail,
+        name: name,
+        password: "",
+        role: "user",
+        joinDate: new Date().toISOString(),
+        username: username,
+        oauth: true,
+        googleId: googleId,
         preferences: {
             mdPreview: true,
             menuOpen: true,
@@ -213,6 +245,21 @@ export async function getUserCategories(uid: string) {
     return user.preferences.categories || [];
 }
 
+export async function checkGoogleOauthUserById(googleId: string) {
+    try {
+        const userSnapshot = await db
+            .ref("users")
+            .orderByChild("googleId")
+            .equalTo(googleId)
+            .once("value");
+        const user = userSnapshot.val();
+        return user !== null;
+    } catch (e) {
+        console.error("Error checking oauth user: ", e);
+        return false;
+    }
+}
+
 export async function checkOauthUser(username: string, primaryEmail?: string) {
     try {
         const userSnapshot = await db
@@ -232,6 +279,19 @@ export async function checkOauthUser(username: string, primaryEmail?: string) {
     } catch (e) {
         console.error("Error checking oauth user: ", e);
         return false;
+    }
+}
+
+export async function getKeyByGoogleID(googleId: string) {
+    const userSnapshot = await db
+        .ref("users")
+        .orderByChild("googleId")
+        .equalTo(googleId)
+        .once("value");
+    const user = userSnapshot.val();
+    if (!user) return null;
+    for (const key in user) {
+        return key;
     }
 }
 

@@ -97,7 +97,7 @@ export async function GET(request: Request) {
         if (!key) throw new Error("Failed to get key by username");
 
         const dbUser = await getUserByKey(key);
-        if (!user) throw new Error("Failed to get user by key");
+        if (!dbUser) throw new Error("Failed to get user by key");
         const expires = new Date(Date.now() + 60 * 60 * 1000 * 168);
         const session = await encrypt({
             user: {
