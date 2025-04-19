@@ -4,6 +4,8 @@ import {
     createGoogleOauthUser,
     getKeyByGoogleID,
     getUserByKey,
+    getUserByEmail,
+    addGoogleOauthToUser,
 } from "@/models/accounts-model";
 import { encrypt } from "@/lib/session";
 import { cookies } from "next/headers";
@@ -42,10 +44,15 @@ export async function GET(request: Request) {
             });
         }
 
-        const username = email.split("@")[0];
-
-        if (!(await checkGoogleOauthUserById(id)))
-            await createGoogleOauthUser(username, email, name, id);
+        if (!(await checkGoogleOauthUserById(id))) {
+            const existingUser = await getUserByEmail(email);
+            if (existingUser) {
+                await addGoogleOauthToUser(existingUser.username, id);
+            } else {
+                const username = email.split("@")[0];
+                await createGoogleOauthUser(username, email, name, id);
+            }
+        }
 
         const key = await getKeyByGoogleID(id);
         if (!key) throw new Error("Failed to get key by username");

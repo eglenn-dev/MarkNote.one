@@ -224,6 +224,17 @@ export async function createGoogleOauthUser(
     await createDemoPost(userId);
 }
 
+export async function addGoogleOauthToUser(username: string, googleId: string) {
+    const user = await getUserRefByUsername(username);
+    if (!user) return false;
+    const userData = await user.once("value");
+    const userInfo = userData.val();
+    if (!userInfo) return false;
+    userInfo.googleId = googleId;
+    await user.update(userInfo);
+    return true;
+}
+
 export async function updateUserPreferences(
     uid: string,
     mdPreview: boolean,
