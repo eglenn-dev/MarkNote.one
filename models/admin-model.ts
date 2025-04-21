@@ -25,6 +25,8 @@ interface User {
     role: string;
     joinDate: string;
     oauth: boolean;
+    googleId?: string;
+    gitHubUsername?: string;
     username?: string;
     preferences: {
         mdPreview: boolean;
@@ -38,7 +40,7 @@ interface CleanUser {
     name: string;
     role: string;
     joinDate: string;
-    oauth: boolean;
+    oauth: string;
 }
 
 interface CleanNote {
@@ -57,7 +59,11 @@ export async function getCleanUsers() {
             name: user.name,
             role: user.role,
             joinDate: user.joinDate,
-            oauth: user.oauth,
+            oauth: user.googleId
+                ? "Google"
+                : user.gitHubUsername || user.oauth
+                ? "GitHub"
+                : "Email",
         };
     });
     return cleanUsers;

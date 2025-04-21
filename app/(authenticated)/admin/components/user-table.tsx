@@ -26,7 +26,7 @@ export interface User {
     name: string;
     role: string;
     joinDate: string;
-    oauth: boolean;
+    oauth: string;
 }
 
 interface UserTableProps {
@@ -128,12 +128,12 @@ export default function UserTable({ users }: UserTableProps) {
                                         <div className="flex items-center">
                                             <div
                                                 className={`h-2 w-2 rounded-full mr-2 ${
-                                                    user.oauth
-                                                        ? "bg-green-500"
-                                                        : "bg-gray-300"
+                                                    user.oauth === "Email"
+                                                        ? "bg-gray-300"
+                                                        : "bg-green-500"
                                                 }`}
                                             />
-                                            {user.oauth ? "GitHub" : "None"}
+                                            {user.oauth}
                                         </div>
                                     </TableCell>
                                 </TableRow>

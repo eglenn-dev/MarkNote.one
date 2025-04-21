@@ -15,7 +15,7 @@ interface CleanUser {
     name: string;
     role: string;
     joinDate: string;
-    oauth: boolean;
+    oauth: string;
 }
 
 interface CleanNote {
