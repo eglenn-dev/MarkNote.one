@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginAction } from "./action";
 import LandingHeader from "@/components/landing-header";
+import LandingFooter from "@/components/landing-footer";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -172,6 +173,7 @@ export default function Login() {
                     </p>
                 </div>
             </main>
+            <LandingFooter />
         </div>
     );
 }

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signup } from "./action";
 import LandingHeader from "@/components/landing-header";
+import LandingFooter from "@/components/landing-footer";
 
 export default function SignupPage() {
     const [email, setEmail] = useState("");
@@ -169,6 +170,7 @@ export default function SignupPage() {
                     </p>
                 </div>
             </main>
+            <LandingFooter />
         </div>
     );
 }

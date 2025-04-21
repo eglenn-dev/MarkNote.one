@@ -3,6 +3,7 @@ import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import HomeMdPreview from "@/components/home-md-preview";
 import LandingHeader from "@/components/landing-header";
+import LandingFooter from "@/components/landing-footer";
 
 export default async function LandingPage() {
     const session = await getSession();
@@ -53,10 +54,7 @@ export default async function LandingPage() {
                     </div>
                 </div>
             </main>
-            <footer className="p-4 text-center text-sm text-muted-foreground">
-                &copy; {new Date().getFullYear()} MarkNote.one. All rights
-                reserved.
-            </footer>
+            <LandingFooter />
         </div>
     );
 }

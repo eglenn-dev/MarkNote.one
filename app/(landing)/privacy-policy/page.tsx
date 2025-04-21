@@ -1,10 +1,15 @@
 import LandingHeader from "@/components/landing-header";
+import LandingFooter from "@/components/landing-footer";
+
+export const metadata = {
+    title: "Privacy Policy | MarkNote.one",
+};
 
 export default async function PrivacyPolicy() {
     return (
-        <div className="container mx-auto min-h-screen flex flex-col">
+        <div className="container mx-auto min-h-screen flex flex-col mb-10">
             <LandingHeader />
-            <div className="px-20 prose mx-auto p-6">
+            <div className="px-8 md:px-20 prose mx-auto p-6">
                 <h1 className="text-3xl font-bold">
                     Privacy Policy for Marknote
                 </h1>
@@ -121,6 +126,7 @@ export default async function PrivacyPolicy() {
                     .
                 </p>
             </div>
+            <LandingFooter />
         </div>
     );
 }

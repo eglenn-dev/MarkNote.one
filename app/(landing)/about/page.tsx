@@ -8,6 +8,7 @@ import {
 import { Mail } from "lucide-react";
 import { GithubIcon, GlobeIcon } from "@/components/icons";
 import LandingHeader from "@/components/landing-header";
+import LandingFooter from "@/components/landing-footer";
 
 export const metadata = {
     title: "About | MarkNote.one",
@@ -102,6 +103,7 @@ export default function AboutPage() {
                     </Card>
                 </div>
             </div>
+            <LandingFooter />
         </div>
     );
 }
