@@ -6,6 +6,11 @@ type Release = {
 
 export const releaseNotes: Release[] = [
     {
+        version: "1.8.8",
+        date: "2025-06-17",
+        changes: ["Added tracking for status reports and bug reports."],
+    },
+    {
         version: "1.8.7",
         date: "2025-04-19",
         changes: ["Added support for 'Sign in with Google' authentication."],
